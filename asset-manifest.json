@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/Statybu_projektu_pardavimo_sistema/static/css/main.69bebbd4.chunk.css",
+    "main.js": "/Statybu_projektu_pardavimo_sistema/static/js/main.e5d0cde2.chunk.js",
+    "main.js.map": "/Statybu_projektu_pardavimo_sistema/static/js/main.e5d0cde2.chunk.js.map",
+    "runtime-main.js": "/Statybu_projektu_pardavimo_sistema/static/js/runtime-main.3e3d8bfc.js",
+    "runtime-main.js.map": "/Statybu_projektu_pardavimo_sistema/static/js/runtime-main.3e3d8bfc.js.map",
+    "static/css/2.d47a0c14.chunk.css": "/Statybu_projektu_pardavimo_sistema/static/css/2.d47a0c14.chunk.css",
+    "static/js/2.c78f5b20.chunk.js": "/Statybu_projektu_pardavimo_sistema/static/js/2.c78f5b20.chunk.js",
+    "static/js/2.c78f5b20.chunk.js.map": "/Statybu_projektu_pardavimo_sistema/static/js/2.c78f5b20.chunk.js.map",
+    "static/js/3.e867c5f6.chunk.js": "/Statybu_projektu_pardavimo_sistema/static/js/3.e867c5f6.chunk.js",
+    "static/js/3.e867c5f6.chunk.js.map": "/Statybu_projektu_pardavimo_sistema/static/js/3.e867c5f6.chunk.js.map",
+    "index.html": "/Statybu_projektu_pardavimo_sistema/index.html",
+    "static/css/2.d47a0c14.chunk.css.map": "/Statybu_projektu_pardavimo_sistema/static/css/2.d47a0c14.chunk.css.map",
+    "static/css/main.69bebbd4.chunk.css.map": "/Statybu_projektu_pardavimo_sistema/static/css/main.69bebbd4.chunk.css.map",
+    "static/js/2.c78f5b20.chunk.js.LICENSE.txt": "/Statybu_projektu_pardavimo_sistema/static/js/2.c78f5b20.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3e3d8bfc.js",
+    "static/css/2.d47a0c14.chunk.css",
+    "static/js/2.c78f5b20.chunk.js",
+    "static/css/main.69bebbd4.chunk.css",
+    "static/js/main.e5d0cde2.chunk.js"
+  ]
+}
