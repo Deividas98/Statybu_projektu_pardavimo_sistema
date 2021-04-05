@@ -141,10 +141,10 @@ class App extends React.Component {
       <div className="container">
       <Navbar2 />
       <br/>
-      <Route path="/" exact component={ProductsList} />
+      <Route path="/" exact component={ProductsList} />{/*pakeisti kelius!!!*/}
       <Route path="/edit/:id" component={EditProduct} />
       <Route path="/create" component={CreateProduct} />
-      <Route path="/project" component={CreateProject} />
+      <Route path="/user" component={CreateProject} />
       </div>
     </Router>
 

@@ -2,74 +2,76 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-/*const Exercise = props => (
+//ne atskiram faile nes mazas komponentas
+const Product = props => (
   <tr>
-    <td>{props.exercise.username}</td>
-    <td>{props.exercise.description}</td>
-    <td>{props.exercise.duration}</td>
-    <td>{props.exercise.date.substring(0,10)}</td>
+    <td>{props.product.pavadinimas}</td>
+    <td>{props.product.aprasymas}</td>
+    <td>{props.product.projektas}</td>
+    <td>{props.product.suma}</td>
+    <td>{props.product.kiekis}</td>
+    <td>{props.product.kaina}</td>
+    {/*<td>{props.product.date.substring(0,10)}</td>*/}
     <td>
-      <Link to={"/edit/"+props.exercise._id}>edit</Link> | <a href="#" onClick={() => { props.deleteExercise(props.exercise._id) }}>delete</a>
+      <Link to={"/edit/"+props.product._id}>edit</Link> | <a href="#" onClick={() => { props.deleteProduct(props.product._id) }}>delete</a>
     </td>
   </tr>
-)*/
+)
 
 export default class ProductsList extends Component {
-  /*constructor(props) {
+  constructor(props) {
     super(props);
 
-    this.deleteExercise = this.deleteExercise.bind(this)
+    this.deleteProduct = this.deleteProduct.bind(this)
 
-    this.state = {exercises: []};
-  }*/
+    this.state = {products: []};
+  }
 
-  /*componentDidMount() {
-    axios.get('http://localhost:5000/exercises/')
+  componentDidMount() {
+    axios.get('http://localhost:5000/products/')
       .then(response => {
-        this.setState({ exercises: response.data })
+        this.setState({ products: response.data })
       })
       .catch((error) => {
         console.log(error);
       })
   }
 
-  deleteExercise(id) {
-    axios.delete('http://localhost:5000/exercises/'+id)
+  deleteProduct(id) {
+    axios.delete('http://localhost:5000/products/'+id)
       .then(response => { console.log(response.data)});
 
     this.setState({
-      exercises: this.state.exercises.filter(el => el._id !== id)
+        products: this.state.products.filter(el => el._id !== id)
     })
   }
 
-  exerciseList() {
-    return this.state.exercises.map(currentexercise => {
-      return <Exercise exercise={currentexercise} deleteExercise={this.deleteExercise} key={currentexercise._id}/>;
+  productList() {
+    return this.state.products.map(currentproduct => {
+      return <Product product={currentproduct} deleteProduct={this.deleteProduct} key={currentproduct._id}/>;
     })
-  }*/
+  }
 
   render() {
     return (
-        <div>
-            <p>tu esi produktu liste</p>
-        </div>
-      /*<div>
-        <h3>Logged Exercises</h3>
+      <div>
+        <h3>Logged Products</h3>
         <table className="table">
           <thead className="thead-light">
             <tr>
-              <th>Username</th>
-              <th>Description</th>
-              <th>Duration</th>
-              <th>Date</th>
-              <th>Actions</th>
+              <th>Pavadinimas</th>
+              <th>Aprasymas</th>
+              <th>Projektas</th>
+              <th>Suma</th>
+              <th>Kiekis</th>
+              <th>Kaina</th>
             </tr>
           </thead>
           <tbody>
-            { this.exerciseList() }
+            { this.productList() }
           </tbody>
         </table>
-      </div>*/
+      </div>
     )
   }
 }

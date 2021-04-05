@@ -1,34 +1,38 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-//import DatePicker from 'react-datepicker';
-//import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 export default class CreateProducts extends Component {
-  /*constructor(props) {
+  constructor(props) {
     super(props);
 
-    this.onChangeUsername = this.onChangeUsername.bind(this);
-    this.onChangeDescription = this.onChangeDescription.bind(this);
-    this.onChangeDuration = this.onChangeDuration.bind(this);
-    this.onChangeDate = this.onChangeDate.bind(this);
+    this.onChangeAprasymas = this.onChangeAprasymas.bind(this);
+    this.onChangePavadinimas = this.onChangePavadinimas.bind(this);
+    this.onChangeProjektas = this.onChangeProjektas.bind(this);
+    this.onChangeSuma = this.onChangeSuma.bind(this);
+    this.onChangeKiekis = this.onChangeKiekis.bind(this);
+    this.onChangeKaina = this.onChangeKaina.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      username: '',
-      description: '',
-      duration: 0,
-      date: new Date(),
-      users: []
+      aprasymas: '',
+      pavadinimas: '',
+      suma: 0,
+      kiekis: 0,
+      kaina: 0,
+      //date: new Date(),
+      projektai: []
     }
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/users/')
+    axios.get('http://localhost:5000/projects/')
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
-            users: response.data.map(user => user.username),
-            username: response.data[0].username
+            projektai: response.data.map(projektas => projektas.pavadinimas),
+            pavadinimas: response.data[0].pavadinimas
           })
         }
       })
@@ -38,92 +42,127 @@ export default class CreateProducts extends Component {
 
   }
 
-  onChangeUsername(e) {
+  onChangePavadinimas(e) {
     this.setState({
-      username: e.target.value
+      pavadinimas: e.target.value
     })
   }
 
-  onChangeDescription(e) {
+  onChangeAprasymas(e) {
     this.setState({
-      description: e.target.value
+      aprasymas: e.target.value
     })
   }
 
-  onChangeDuration(e) {
+  onChangeSuma(e) {
     this.setState({
-      duration: e.target.value
+      suma: e.target.value
     })
   }
 
-  onChangeDate(date) {
+  onChangeKiekis(e) {
+    this.setState({
+      kiekis: e.target.value
+    })
+  }
+
+  onChangeKaina(e) {
+    this.setState({
+      kaina: e.target.value
+    })
+  }
+
+  onChangeProjektas(e) {
+    this.setState({
+      projektas: e.target.value
+    })
+  }
+
+  /*onChangeDate(date) {
     this.setState({
       date: date
     })
-  }
+  }*/
 
-  onSubmit(e) {
+  onSubmit = (e) => {
     e.preventDefault();
 
-    const exercise = {
-      username: this.state.username,
-      description: this.state.description,
-      duration: this.state.duration,
-      date: this.state.date
+    const produktas = {
+      aprasymas: this.state.aprasymas,
+      pavadinimas: this.state.pavadinimas,
+      projektas: this.state.projektas,
+      suma: 100,//this.state.suma,
+      kiekis: this.state.kiekis,
+      kaina: this.state.kaina
     }
 
-    console.log(exercise);
+    console.log(produktas);
 
-    axios.post('http://localhost:5000/exercises/add', exercise)
+    axios.post('http://localhost:5000/products/add', produktas)
       .then(res => console.log(res.data));
 
     window.location = '/';
-  }*/
+  }
 
   render() {
     return (
-        <div>
-            <p>tu esi create produkts</p>
-        </div>
-    /*<div>
-      <h3>Create New Exercise Log</h3>
+    <div>
+      <h3>Create New Produktas Log</h3>
       <form onSubmit={this.onSubmit}>
+      <div className="form-group"> 
+          <label>Pavadinimas: </label>
+          <input  type="text"
+              required
+              className="form-control"
+              value={this.state.pavadinimas}
+              onChange={this.onChangePavadinimas}
+              />
+        </div>
         <div className="form-group"> 
-          <label>Username: </label>
+          <label>Aprasymas: </label>
+          <input  type="text"
+              required
+              className="form-control"
+              value={this.state.aprasymas}
+              onChange={this.onChangeAprasymas}
+              />
+        </div>
+        <div className="form-group"> 
+        <label>Projektas: </label>
           <select ref="userInput"
               required
               className="form-control"
-              value={this.state.username}
-              onChange={this.onChangeUsername}>
+              value={this.state.projektas}
+              onChange={this.onChangeProjektas}>
               {
-                this.state.users.map(function(user) {
+                this.state.projektai.map(function(projektas) {
                   return <option 
-                    key={user}
-                    value={user}>{user}
+                    key={projektas}
+                    value={projektas}>{projektas}
                     </option>;
                 })
               }
           </select>
         </div>
         <div className="form-group"> 
-          <label>Description: </label>
+          <label>Kaina: </label>
           <input  type="text"
               required
               className="form-control"
-              value={this.state.description}
-              onChange={this.onChangeDescription}
+              value={this.state.kaina}
+              onChange={this.onChangeKaina}
               />
         </div>
-        <div className="form-group">
-          <label>Duration (in minutes): </label>
-          <input 
-              type="text" 
+        <div className="form-group"> 
+          <label>Kiekis: </label>
+          <input  type="text"
+              required
               className="form-control"
-              value={this.state.duration}
-              onChange={this.onChangeDuration}
+              value={this.state.kiekis}
+              onChange={this.onChangeKiekis}
               />
         </div>
-        <div className="form-group">
+       {/*} <div className="form-group">
           <label>Date: </label>
           <div>
             <DatePicker
@@ -131,13 +170,13 @@ export default class CreateProducts extends Component {
               onChange={this.onChangeDate}
             />
           </div>
-        </div>
+        </div>*/}
 
         <div className="form-group">
-          <input type="submit" value="Create Exercise Log" className="btn btn-primary" />
+          <input type="submit" value="Create Produktas Log" className="btn btn-primary" />
         </div>
       </form>
-    </div>*/
+    </div>
     )
   }
 }
