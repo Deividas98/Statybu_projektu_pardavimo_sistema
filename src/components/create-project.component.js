@@ -138,7 +138,7 @@ export default class CreateProject extends Component {
                     </div>
                     <div className="form-group">
                         <label>Būsena: </label>
-                        <select ref="userInput"
+                        <select //ref="userInput"
                             required
                             className="form-control"
                             value={this.state.busena}

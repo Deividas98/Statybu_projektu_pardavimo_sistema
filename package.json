@@ -11,6 +11,7 @@
     "bootstrap": "^4.5.3",
     "bootstrap-steps": "^1.0.3",
     "firebase": "^8.2.0",
+    "http-proxy-middleware": "^0.19.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-bootstrap-table-next": "^4.0.3",
@@ -22,6 +23,7 @@
     "reactstrap": "^8.7.1",
     "web-vitals": "^0.2.4"
   },
+  "proxy": "http://localhost:5000",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

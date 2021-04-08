@@ -1,16 +1,67 @@
 const router = require('express').Router();
+const { Mongoose } = require('mongoose');
 let Product = require('../models/product.model');
 
 router.route('/').get((req, res) => {
   Product.find()
+ //Product.aggregate([
+   /*{ "$lookup": {
+    "from": "projects",
+    //"let": { "projektas": "$products.projektas" },
+    "pipeline": [
+      { "$match": {
+        "$expr": { "$in": ["$$projektas", "$projects._id"] }
+      }}//,
+      //{ "$unwind": "$projects._id" }
+    ],
+    "as": "projektas"
+  }}
+ ])*/
+    .then(products => res.json(products))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/getProjects').get((req, res) => {
+  Product.aggregate([
+    //{ $project : { projektas : 1, _id: 1 } }
+/*{
+    "from": "projects",
+           "let": { "prod_projektas": "$projektas" },
+           "pipeline": [
+              { "$match":
+                 
+                       
+                         { "$eq": [ "$_id", "$$prod_projektas" ] },
+                       
+               
+              },
+              { "$project": { "_id": 0 } }
+           ],
+           "as": "belekas"
+          }*/
+          {
+            "$lookup":
+              {
+                "from": "projects",
+                "localField": "projektas",
+                "foreignField": "_id",
+                "as": "projektas"
+              }
+              
+         },
+         {"$unwind":'$projektas'},
+         {"$project": { "pavadinimas": 1, "aprasymas": 1, "projektas": "$projektas.pavadinimas", "suma": 1, "kiekis": 1, "kaina": 1}}
+  ]  
+  )
     .then(products => res.json(products))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/add').post((req, res) => {
+  console.log(req.body);
   const aprasymas = req.body.aprasymas;
   const pavadinimas = req.body.pavadinimas;
-  const projektas = req.body.projektas;
+  const projektas = req.body.projektas;//req.body.projektas;//kai neparasyta id, reikia prideti id, kai nurodyta id reikia ideti pavadinima
   const suma = Number(req.body.suma);
   const kiekis = Number(req.body.kiekis);
   const kaina = Number(req.body.kaina);

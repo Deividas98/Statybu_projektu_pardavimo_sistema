@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
+//import DatePicker from 'react-datepicker';
+//import "react-datepicker/dist/react-datepicker.css";
 
 export default class CreateProducts extends Component {
   constructor(props) {
     super(props);
-
     this.onChangeAprasymas = this.onChangeAprasymas.bind(this);
     this.onChangePavadinimas = this.onChangePavadinimas.bind(this);
     this.onChangeProjektas = this.onChangeProjektas.bind(this);
@@ -22,7 +21,8 @@ export default class CreateProducts extends Component {
       kiekis: 0,
       kaina: 0,
       //date: new Date(),
-      projektai: []
+      projektai: [],
+      ProjectId: ''
     }
   }
 
@@ -31,9 +31,12 @@ export default class CreateProducts extends Component {
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
-            projektai: response.data.map(projektas => projektas.pavadinimas),
-            pavadinimas: response.data[0].pavadinimas
+            //projektai: response.data.map(projektas => projektas.pavadinimas),
+            projektai: response.data.map(projektas => [projektas._id, projektas.pavadinimas]),
+            pavadinimas: response.data[0].pavadinimas//,
+            //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
           })
+          console.log(this.state.projektai)
         }
       })
       .catch((error) => {
@@ -76,6 +79,7 @@ export default class CreateProducts extends Component {
     this.setState({
       projektas: e.target.value
     })
+    console.log(this.state.projektas)//paima tik is antro/ trecio karto kazkodel ir paima preajusi vizualiai bet iraso teisingai
   }
 
   /*onChangeDate(date) {
@@ -129,16 +133,16 @@ export default class CreateProducts extends Component {
         </div>
         <div className="form-group"> 
         <label>Projektas: </label>
-          <select ref="userInput"
+          <select //ref="userInput"
               required
               className="form-control"
-              value={this.state.projektas}
+                value={this.state.projektas}
               onChange={this.onChangeProjektas}>
               {
-                this.state.projektai.map(function(projektas) {
+                this.state.projektai.map(function([_id, pavadinimas]) {
                   return <option 
-                    key={projektas}
-                    value={projektas}>{projektas}
+                    key={_id}
+                    value={_id}>{pavadinimas}
                     </option>;
                 })
               }

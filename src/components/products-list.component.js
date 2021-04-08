@@ -10,13 +10,18 @@ const Product = props => (
     <td>{props.product.projektas}</td>
     <td>{props.product.suma}</td>
     <td>{props.product.kiekis}</td>
-    <td>{props.product.kaina}</td>
-    {/*<td>{props.product.date.substring(0,10)}</td>*/}
+<td>{props.product.kaina}</td>
+        {/*<td>{props.product.inventory_docs[0]}</td>
+    <td>{props.product.date.substring(0,10)}</td>*/}
     <td>
       <Link to={"/edit/"+props.product._id}>edit</Link> | <a href="#" onClick={() => { props.deleteProduct(props.product._id) }}>delete</a>
     </td>
   </tr>
 )
+
+/*const Projektai = Object.keys(products).map(key =>
+  <option value={key}>{products[key]}</option>
+)*/
 
 export default class ProductsList extends Component {
   constructor(props) {
@@ -28,13 +33,34 @@ export default class ProductsList extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/products/')
+    axios.get('http://localhost:5000/products/getProjects')
       .then(response => {
         this.setState({ products: response.data })
+        //console.log(this.state.products);
       })
       .catch((error) => {
         console.log(error);
       })
+      /*for(let i = 0, l = this.state.products.projektas.length; i < l; i++) {
+        var obj = this.state.products.projektas[i].pavadinimas;
+console.log( obj);
+      }*/
+      //nauja
+      //axios.get('http://localhost:5000/projects/')
+      //.then
+     /* Object.keys(products).forEach(function keys(keyParent) {
+        if (keyParent == 0) {
+          Object.keys(products[0]._source).forEach(function(key) {
+            if (key !== "location") {
+              headersVal.push({
+                title: key,
+                field: key
+              });
+            }
+          });
+        }
+        valueRowsVal.push(tableValue[keyParent]._source);
+      });*/
   }
 
   deleteProduct(id) {
@@ -47,6 +73,7 @@ export default class ProductsList extends Component {
   }
 
   productList() {
+    console.log(this.state.products.projektas);
     return this.state.products.map(currentproduct => {
       return <Product product={currentproduct} deleteProduct={this.deleteProduct} key={currentproduct._id}/>;
     })
@@ -71,6 +98,7 @@ export default class ProductsList extends Component {
             { this.productList() }
           </tbody>
         </table>
+        
       </div>
     )
   }
