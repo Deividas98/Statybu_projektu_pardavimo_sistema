@@ -41,26 +41,6 @@ export default class ProductsList extends Component {
       .catch((error) => {
         console.log(error);
       })
-      /*for(let i = 0, l = this.state.products.projektas.length; i < l; i++) {
-        var obj = this.state.products.projektas[i].pavadinimas;
-console.log( obj);
-      }*/
-      //nauja
-      //axios.get('http://localhost:5000/projects/')
-      //.then
-     /* Object.keys(products).forEach(function keys(keyParent) {
-        if (keyParent == 0) {
-          Object.keys(products[0]._source).forEach(function(key) {
-            if (key !== "location") {
-              headersVal.push({
-                title: key,
-                field: key
-              });
-            }
-          });
-        }
-        valueRowsVal.push(tableValue[keyParent]._source);
-      });*/
   }
 
   deleteProduct(id) {

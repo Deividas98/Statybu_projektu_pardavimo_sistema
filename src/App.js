@@ -137,30 +137,32 @@ class App extends React.Component {
 
       <div>
         {/*nurodzius kelia urkraus tam tikra komponenta pvz editproduct*/}
- <Router>
+ {/*<Router>
       <div className="container">
       <Navbar2 />
       <br/>
       <Route path="/" exact component={ProductsList} />{/*pakeisti kelius!!!*/}
-      <Route path="/edit/:id" component={EditProduct} />
+      {/*<Route path="/edit/:id" component={EditProduct} />
       <Route path="/create" component={CreateProduct} />
       <Route path="/user" component={CreateProject} />
       </div>
-    </Router>
+    </Router>*/}
 
 
-        {/*<Navbar fixed="top" variant="dark" bg="dark" expand="lg">
+        <Navbar fixed="top" variant="dark" bg="dark" expand="lg">
           <Navbar.Brand href="#home">Sales System</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link onClick={() => this.setState({ contactModalShow: true })} href="#link">Add Contact</Nav.Link>
-              <Nav.Link onClick={() => this.setState({ addModalShow: true })} href="#link">Create Project</Nav.Link>
-              <Nav.Link onClick={() => this.setState({ productModalShow: true })} href="#link">Add Product</Nav.Link>
+              <Nav.Link onClick={() => this.setState({ contactModalShow: true })} href="/">Add Contact</Nav.Link>
+              <Nav.Link onClick={() => this.setState({ addModalShow: true })} href="/edit/:id">Create Project</Nav.Link>
+              <Nav.Link onClick={() => this.setState({ productModalShow: true })} href="/create">Add Product</Nav.Link>
               <Nav.Link onClick={() => this.sort()} href="#link">Sort</Nav.Link>
+
+
               {/* palikti sita komentara <Nav.Link href="#link">Change Date/Currency format</Nav.Link>
               <Nav.Link href="#link">About</Nav.Link>*/}
-            {/*</Nav>
+            </Nav>
           </Navbar.Collapse>
         </Navbar>
 
@@ -172,11 +174,20 @@ class App extends React.Component {
             <Nav.Link href="/home">Active</Nav.Link>
             <Nav.Link eventKey="link-1" onClick={this.clickHandlerContact.bind(this)}>Contacts</Nav.Link>
             <Nav.Link eventKey="link-2" onClick={this.clickHandlerProject.bind(this)}>Projects</Nav.Link>
-            <Nav.Link eventKey="link-2" onClick={this.clickHandlerProduct.bind(this)}>Products</Nav.Link>
+            <Nav.Link href="/" onClick={this.clickHandlerProduct.bind(this)}>Products</Nav.Link>
             {/* palikti sita komentara <Nav.Link eventKey="link-2">Link</Nav.Link>*/}
-          {/*</Nav>
 
 
+            <Nav.Link to="/" className="navbar-brand">ExcerTracker</Nav.Link>
+ 
+          <Nav.Link to="/" className="nav-link">Exercises</Nav.Link>
+
+          <Nav.Link to="/create" className="nav-link">Create Exercise Log</Nav.Link>
+
+          <Nav.Link to="/user" className="nav-link" onClick={this.clickHandlerProduct.bind(this)}>Create User</Nav.Link>
+          </Nav>
+
+{/*<Navbar2/>*/}
           
 
         </div>
@@ -192,8 +203,18 @@ class App extends React.Component {
         {/* palikti sita komentara <EditContactForm/>  <BootstrapTable keyField='id' data={ products2 } columns={ columns2 }/>  */}
 
 
+        <Router>
+        <Navbar2/>
+      <br/>
+      <Route path="/" exact component={ProductsList} />{/*pakeisti kelius!!!*/}
+      <Route path="/edit/:id" component={EditProduct} />
+      <Route path="/create" component={CreateProduct} />
+      <Route path="/user" component={CreateProject} />
+      </Router>
+     
 
-       {/* {testcomponentas}
+
+        {testcomponentas}
             
 
           </div>
@@ -202,7 +223,7 @@ class App extends React.Component {
 
         <AddModal  show={this.state.addModalShow} onHide={addModalClose} />
         <ContactModal show={this.state.contactModalShow} onHide={contactModalClose} />
-        <ProductModal show={this.state.productModalShow} onHide={productModalClose} />*/}
+        <ProductModal show={this.state.productModalShow} onHide={productModalClose} />
       </div>
 
     );

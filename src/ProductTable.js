@@ -3,8 +3,29 @@ import React, { Component } from 'react'
 import firebase from './util/firebase';
 import BootstrapTable from "react-bootstrap-table-next";
 import { Modal, Button, Row, Col, Form, FormControl } from 'react-bootstrap';
+/*is componen product list js*/
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-const productColumns = [{
+//ne atskiram faile nes mazas komponentas
+const Product = props => (
+  <tr>
+    <td>{props.product.pavadinimas}</td>
+    <td>{props.product.aprasymas}</td>
+    <td>{props.product.projektas}</td>
+    <td>{props.product.suma}</td>
+    <td>{props.product.kiekis}</td>
+<td>{props.product.kaina}</td>
+        {/*<td>{props.product.inventory_docs[0]}</td>
+    <td>{props.product.date.substring(0,10)}</td>*/}
+    <td>
+      <Link to={"/edit/"+props.product._id}>edit</Link> | <a href="#" onClick={() => { props.deleteProduct(props.product._id) }}>delete</a>
+    </td>
+  </tr>
+)
+/*is componen product list js*/
+
+/*const productColumns = [{
   dataField: 'pavadinimas',
   text: 'Name'
 }, {
@@ -25,13 +46,18 @@ const productColumns = [{
 }, {
   dataField: 'sukurimodata',
   text: 'Created On'
-},];
+},];*/
 
 export class ProductTable extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.projectRef = React.createRef();
+    /*is componen product list js*/
+    this.deleteProduct = this.deleteProduct.bind(this)
+    this.state = {products: []};
+    /*is componen product list js*/
+
+   /* this.projectRef = React.createRef();
     this.state = {
       productList: [],
 
@@ -44,10 +70,10 @@ export class ProductTable extends Component {
       produktoId: '',
       projektas: '',
       deleteConfirm: false,
-    }
+    }*/
   }
 
-  showModal = e => {
+  /*showModal = e => {
     this.setState({ show: true });
   };
 
@@ -115,7 +141,7 @@ export class ProductTable extends Component {
     var counter = 0;
     this.setState({ productList: [] });
     firebase.database().ref("ProductsLists").on('value', (snapshot) => {
-      let productList = [];
+      let productList = [];//product list
       snapshot.forEach(snap => {
         counter++;
         console.log(snap.val());
@@ -126,10 +152,39 @@ export class ProductTable extends Component {
       this.setState({ productList: productList });
     });
     console.log(counter);
+  }*/
+
+  /*is componen product list js*/
+  componentDidMount() {
+    axios.get('http://localhost:5000/products/getProjects')
+      .then(response => {
+        this.setState({ products: response.data })
+        //console.log(this.state.products);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   }
 
+  deleteProduct(id) {
+    axios.delete('http://localhost:5000/products/'+id)
+      .then(response => { console.log(response.data)});
 
-  render() {
+    this.setState({
+        products: this.state.products.filter(el => el._id !== id)
+    })
+  }
+
+  productList() {
+    console.log(this.state.products.projektas);
+    return this.state.products.map(currentproduct => {
+      return <Product product={currentproduct} deleteProduct={this.deleteProduct} key={currentproduct._id}/>;
+    })
+  }
+  /*is componen product list js*/
+
+
+  /*render() {
 
     const { depsPrj } = this.state;
     //let projectModalClose = () => this.setState({ projectModalShow: false });
@@ -152,11 +207,12 @@ export class ProductTable extends Component {
         this.showModal();
         //e => {this.showModal();}
       },
-    };
+    };*/
 
+    render(){
     return (
       <div>
-
+{/*
         <Modal show={this.state.deleteConfirm} >
           <Modal.Header closeButton>
             <Modal.Title>Delete</Modal.Title>
@@ -201,10 +257,28 @@ export class ProductTable extends Component {
           </Modal.Footer>
         </Modal>
 
-        <BootstrapTable keyField='id' data={this.state.productList} columns={productColumns} rowEvents={rowEvents} />
+        <BootstrapTable keyField='id' data={this.state.productList} columns={productColumns} rowEvents={rowEvents} />/*}{/*surendinama lentele*/}
+        
+        <table className="table">
+          <thead className="thead-light">
+            <tr>
+              <th>Pavadinimas</th>
+              <th>Aprasymas</th>
+              <th>Projektas</th>
+              <th>Suma</th>
+              <th>Kiekis</th>
+              <th>Kaina</th>
+            </tr>
+          </thead>
+          <tbody>
+            { this.productList() }
+          </tbody>
+        </table>
+
 
       </div>
     )
+
   }
 }
 
