@@ -28,6 +28,8 @@ import ProductsList from "./components/products-list.component";
 import EditProduct from "./components/edit-products.component";
 import CreateProduct from "./components/create-product.component";
 import CreateProject from "./components/create-project.component";
+import Login from "./components/login";
+import Axios from "axios";
 
 /*function Example() {
   const [show, setShow] = useState(false);
@@ -38,6 +40,8 @@ import CreateProject from "./components/create-project.component";
 
 //render(<Example />);
 
+
+
 class App extends React.Component {
 
   constructor(props) {
@@ -47,7 +51,14 @@ class App extends React.Component {
       deps2: [], contactModalShow: false,
       deps3: [], productModalShow: false,
       table: 'projectTable',
-      sortAZ: true
+      sortAZ: true,
+      //logino
+      registerUsername: "",
+    registerPassword: "",
+    loginUsername: "",
+     loginPassword: "",
+     data: null,
+     role: "EmptyRole"
     }
     //const [show, setShow] = useState(false);
 
@@ -128,14 +139,93 @@ class App extends React.Component {
       testcomponentas = <ContactTable />
     }
 
+   /* this.state = {registerUsername: ""};
+    this.state = {registerPassword: ""};
+    this.state = {loginUsername: ""};
+    this.state = {loginPassword: ""};
+    this.state = {data: null};
+    const [registerUsername, setRegisterUsername] = this.state("");
+const [registerPassword, setRegisterPassword] = this.state("");
+const [loginUsername, setLoginUsername] = this.state("");
+const [loginPassword, setLoginPassword] = this.state("");
+const [data, setData] = this.state(null);*/
+const register = () => {
+  Axios({
+    method: "POST",
+    data: {
+      username: this.state.registerUsername,//registerUsername,
+      password: this.state.registerPassword,//registerPassword,
+      role: "EmptyRole"
+    },
+    withCredentials: true,
+    url: "http://localhost:5000/register",
+  }).then((res) => console.log(res))
+  .catch(error => console.log(error));
+};
+const login = () => {
+  Axios({
+    method: "POST",
+    data: {
+      username: this.state.loginUsername,
+      password: this.state.loginPassword,
+      role: "EmptyRole"
+    },
+    withCredentials: true,
+    url: "http://localhost:5000/login",
+  }).then((res) => console.log(res))
+  .catch(error => console.log(error));
+};
+const getUser = () => {
+  Axios({
+    method: "GET",
+    withCredentials: true,
+    url: "http://localhost:5000/user",
+  }).then((res) => {
+    this.setState({data: res.data});
+    console.log(res.data);
+  });
+};
+
     return (
-      
-
-     
-
-     
 
       <div>
+
+        {/*logino forma*/}
+        <div>
+        <h1>Register</h1>
+        <input
+          placeholder="username"
+          onChange={(e) => this.setState({registerUsername: e.target.value})}
+        />
+        <input
+          placeholder="password"
+          onChange={(e) => this.setState({registerPassword: e.target.value})}
+        />
+        <button onClick={register}>Submit</button>
+      </div>
+
+      <div>
+        <h1>Login</h1>
+        <input
+          placeholder="username"
+          onChange={(e) => this.setState({loginUsername: e.target.value})}
+        />
+        <input
+          placeholder="password"
+          onChange={(e) => this.setState({loginPassword: e.target.value})}
+        />
+        <button onClick={login}>Submit</button>
+      </div>
+
+      <div>
+        <h1>Get User</h1>
+        <button onClick={getUser}>Submit</button>
+        {this.state.data ? <h1>Welcome Back {this.state.data.username}</h1> : null}
+      </div>
+{/*logino forma*/}
+
+
+        
         {/*nurodzius kelia urkraus tam tikra komponenta pvz editproduct*/}
  {/*<Router>
       <div className="container">
@@ -196,7 +286,7 @@ class App extends React.Component {
         
 
         <div className="splitright">
-
+        <Login/>
           <div style={{ margin: "20px 20px 20px 20px" }}>
  {/* palikti sita komentararender(<Example />);*/}
 
