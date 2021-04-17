@@ -1,7 +1,6 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
 import { render } from "react-dom";
-//import {Table, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Table, Button, Modal } from 'reactstrap';
 //import Table from './Table';
@@ -21,25 +20,18 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 
 import AddProject from './AddProjectModal';
 
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import {BrowserRouter as Router, Route, Redirect, Switch} from "react-router-dom";
 
 import Navbar2 from "./components/navbar.component"
 import ProductsList from "./components/products-list.component";
 import EditProduct from "./components/edit-products.component";
 import CreateProduct from "./components/create-product.component";
 import CreateProject from "./components/create-project.component";
-import Login from "./components/login";
+//import Login from "./components/login";
 import Axios from "axios";
-
-/*function Example() {
-  const [show, setShow] = useState(false);
-
-    </>
-  );
-}*/
-
-//render(<Example />);
-
+import MainMenu from "./components/main-menu.component";
+import { useHistory } from "react-router-dom";
+import Login from "./components/login.component";
 
 
 class App extends React.Component {
@@ -47,23 +39,36 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      deps: [], addModalShow: false,
+      /*deps: [], addModalShow: false,
       deps2: [], contactModalShow: false,
       deps3: [], productModalShow: false,
-      table: 'projectTable',
-      sortAZ: true,
-      //logino
-      registerUsername: "",
+      table: 'projectTable',*/
+      //logino komponentai
+     /* registerUsername: "",
     registerPassword: "",
     loginUsername: "",
      loginPassword: "",
      data: null,
-     role: "EmptyRole"
-    }
+     role: "EmptyRole",*/
+     userRole: 'tuscias',
+    showMainMenu: false,
+    hideLogin: false
+    };
+    
     //const [show, setShow] = useState(false);
 
     //const handleClose = () => setShow(false);
     //const handleShow = () => setShow(true);
+    this.handleClickLogin = this.handleClickLogin.bind(this);
+  }
+
+  getUserRole = (data) =>{
+    this.setState({ userRole: data})
+  }
+
+  handleClickLogin() { 
+    this.setState({hideLogin: true} /*state => ({hideLogin: !state.hideLogin })*/); 
+    console.log("hide login funkcijoje: "+this.state.hideLogin); 
   }
 
   clickHandlerContact() {
@@ -84,18 +89,25 @@ class App extends React.Component {
     })
   }
 
-  sort(){
-    /*bugs =*/ this.setState(prevState => ({
-      sortAZ: !prevState.sortAZ
-    }));
-    //window.location.reload(false);
-  }
-  
+  renderMainMenu(){
+    if(this.state.showMainMenu == true){
+      //this.setState({hideLogin: true})
+      return  <MainMenu/>
+    }
+}
 
+
+ /*HomeButton() {
+  const history = useHistory();
+
+  function navigateToMainMenu() {
+    history.push("/main");
+  }
+}*/
 
 
   render() {
-    const { deps } = this.state;
+   /* const { deps } = this.state;
     const { deps2 } = this.state;
     const { deps3 } = this.state;
     let addModalClose = () => this.setState({ addModalShow: false });
@@ -103,53 +115,18 @@ class App extends React.Component {
     let productModalClose = () => this.setState({ productModalShow: false });
     let testcomponentas;
 
-    console.log("Sort AZ? - " + this.state.sortAZ);
-    //====
-    /*const products2 = [
-      {
-        "id": "10",
-        "name": "minivan",
-        "price": 333
-        
-      },
-      {
-        "id": "10",
-        "name": "station wagon",
-        "price": 100
-      }
-     ];
-    const columns2 = [{
-      dataField: 'id',
-      text: 'Product ID'
-    }, {
-      dataField: 'name',
-      text: 'Product Name'
-    }, {
-      dataField: 'price',
-      text: 'Product Price'
-    }];*/
-    //======
 
 
     if (this.state.table == 'projectTable') {
-      testcomponentas = <ProjectTable data3={this.state.sortAZ}/>
+      testcomponentas = <ProjectTable/>
     } else if (this.state.table == 'productTable') {
       testcomponentas = <ProductTable />
     } else {
       testcomponentas = <ContactTable />
-    }
+    }*/
 
-   /* this.state = {registerUsername: ""};
-    this.state = {registerPassword: ""};
-    this.state = {loginUsername: ""};
-    this.state = {loginPassword: ""};
-    this.state = {data: null};
-    const [registerUsername, setRegisterUsername] = this.state("");
-const [registerPassword, setRegisterPassword] = this.state("");
-const [loginUsername, setLoginUsername] = this.state("");
-const [loginPassword, setLoginPassword] = this.state("");
-const [data, setData] = this.state(null);*/
-const register = () => {
+
+/*const register = () => {
   Axios({
     method: "POST",
     data: {
@@ -184,13 +161,57 @@ const getUser = () => {
     this.setState({data: res.data});
     console.log(res.data);
   });
-};
+};*/
+console.log("prisijunge: " + this.props.userRole);
+
+const hard = "hard";
+
+const LoginContainer = () => (
+  <div /*className="container"*/ >
+    {/*<Route exact path="/" render={() => <Redirect to="/login" />} />*/}
+    <Route  exact path="/" component={Login} />
+  </div>
+)
+
+
+ const DefaultContainer = () => (
+    <div>
+   
+    <div /*className="container"*/>
+      <Navbar />
+      <Route path="/main" component={MainMenu}/>
+      <Route path="/list" component={ProductsList} />
+      <Route path="/edit/:id" component={EditProduct} />
+      <Route path="/create" component={CreateProduct} />
+ 
+    
+    </div>
+    </div>
+ )
 
     return (
+    <div>
+      <Router>
+  <Switch>
+  <div className="App">
+    <Route exact path="/" component={LoginContainer}/>
+    <Route component =/*{() => <DefaultContainer userRole={this.props.userRole}/>}*/ {DefaultContainer}/>
 
-      <div>
+  </div>
+  </Switch>
+</Router>
+</div>
 
-        {/*logino forma*/}
+    );
+  }
+}
+export default App;
+
+    /*  <div>
+
+        {/*logino forma*/{/* -------V2-------}
+      {/* -------V2-------  {this.state.hideLogin ? <>{console.log("hide login: "+this.state.hideLogin)}</> : (
+         <div /*hidden={this.state.hideLogin}*/ {/* -------V2------->
         <div>
         <h1>Register</h1>
         <input
@@ -214,18 +235,29 @@ const getUser = () => {
           placeholder="password"
           onChange={(e) => this.setState({loginPassword: e.target.value})}
         />
-        <button onClick={login}>Submit</button>
+        <button onClick={login/*, this.props.history.push("/main")*/{/* -------V2-------, this.handleClickLogin, () => this.setState({hideLogin: true}),
+        (e) => { 
+          e.preventDefault();
+          window.location.href='http://localhost:3000/main'}
+        /*,() => this.setState({hideLogin: true})*/{/* -------V2-------}>Submit</button>
       </div>
 
       <div>
         <h1>Get User</h1>
         <button onClick={getUser}>Submit</button>
         {this.state.data ? <h1>Welcome Back {this.state.data.username}</h1> : null}
+      </div> 
       </div>
-{/*logino forma*/}
+      )}
+      
+{/*logino forma*/{/* -------V2-------}
 
+{/*this.renderMainMenu()*/{/* -------V2-------}
+<Router>
+{/*<Route exact path="/" component={App} />*/{/* -------V2-------}
+<Route exact path="/main" component={MainMenu} />
+</Router>
 
-        
         {/*nurodzius kelia urkraus tam tikra komponenta pvz editproduct*/}
  {/*<Router>
       <div className="container">
@@ -239,7 +271,7 @@ const getUser = () => {
     </Router>*/}
 
 
-        <Navbar fixed="top" variant="dark" bg="dark" expand="lg">
+      {/*  <Navbar fixed="top" variant="dark" bg="dark" expand="lg">
           <Navbar.Brand href="#home">Sales System</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -252,23 +284,23 @@ const getUser = () => {
 
               {/* palikti sita komentara <Nav.Link href="#link">Change Date/Currency format</Nav.Link>
               <Nav.Link href="#link">About</Nav.Link>*/}
-            </Nav>
+           {/*  </Nav>
           </Navbar.Collapse>
-        </Navbar>
+            </Navbar>*/}
 
 
-        <div className="splitleft">
+       {/*} <div className="splitleft">
 
-          <Nav defaultActiveKey="/home" className="navbar">
+          <Nav defaultActiveKey="/" className="navbar">
 
-            <Nav.Link href="/home">Active</Nav.Link>
-            <Nav.Link eventKey="link-1" onClick={this.clickHandlerContact.bind(this)}>Contacts</Nav.Link>
+           {/* <Nav.Link href="/home">Active</Nav.Link>*/}
+            {/*<Nav.Link eventKey="link-1" onClick={this.clickHandlerContact.bind(this)}>Contacts</Nav.Link>
             <Nav.Link eventKey="link-2" onClick={this.clickHandlerProject.bind(this)}>Projects</Nav.Link>
-            <Nav.Link href="/" onClick={this.clickHandlerProduct.bind(this)}>Products</Nav.Link>
+            <Nav.Link href="/" onClick={this.clickHandlerProduct.bind(this)}>Products</Nav.Link>*/}
             {/* palikti sita komentara <Nav.Link eventKey="link-2">Link</Nav.Link>*/}
 
 
-            <Nav.Link to="/" className="navbar-brand">ExcerTracker</Nav.Link>
+          {/*  <Nav.Link to="/" className="nav-link">ExcerTracker</Nav.Link>
  
           <Nav.Link to="/" className="nav-link">Exercises</Nav.Link>
 
@@ -280,24 +312,24 @@ const getUser = () => {
 {/*<Navbar2/>*/}
           
 
-        </div>
+      {/*  </div>*/}
 
 
         
 
-        <div className="splitright">
-        <Login/>
-          <div style={{ margin: "20px 20px 20px 20px" }}>
+      {/*  <div className="splitright">
+       {/* <Login/>*/}
+        {/*  <div style={{ margin: "20px 20px 20px 20px" }}>
  {/* palikti sita komentararender(<Example />);*/}
 
-        {/* palikti sita komentara <EditContactForm/>  <BootstrapTable keyField='id' data={ products2 } columns={ columns2 }/>  */}
+  
 
 
-        <Router>
+     {/*   <Router>
         <Navbar2/>
       <br/>
       <Route path="/" exact component={ProductsList} />{/*pakeisti kelius!!!*/}
-      <Route path="/edit/:id" component={EditProduct} />
+     {/* <Route path="/edit/:id" component={EditProduct} />
       <Route path="/create" component={CreateProduct} />
       <Route path="/user" component={CreateProject} />
       </Router>
@@ -313,12 +345,13 @@ const getUser = () => {
 
         <AddModal  show={this.state.addModalShow} onHide={addModalClose} />
         <ContactModal show={this.state.contactModalShow} onHide={contactModalClose} />
-        <ProductModal show={this.state.productModalShow} onHide={productModalClose} />
-      </div>
+        <ProductModal show={this.state.productModalShow} onHide={productModalClose} />*/}
+    {/* -------V2-------  </div>
 
-    );
+    );*/{/* -------V2-------}
   }
 
 }
 
-export default App;
+
+export default App;*/}}}}}}}}

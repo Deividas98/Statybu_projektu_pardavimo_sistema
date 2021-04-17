@@ -55,7 +55,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: false//buvo tru dabar pakeitus logine galiu gauti userio info!!!!!
 }));
 app.use(cookieParser(process.env.SESSIOIN_SECRET));
 app.use(passport.initialize());
@@ -78,6 +78,7 @@ app.post('/login', (req, res, next) => {
 });
 app.get('/user', (req, res) => {
   res.send(req.user); // The req.user stores the entire user that has been authenticated inside of it.
+  //console.log(req.user);
 })
 app.post('/register', (req, res) => {
   User.findOne({ username: req.body.username }, async (err, doc) => {
@@ -96,6 +97,14 @@ app.post('/register', (req, res) => {
     }
   });
 })
+
+app.get('/users/me', (req, res) => {
+  if (req.user) {
+    res.json(req.user);
+  } else {
+    res.sendStatus(204);
+  }
+});
 
 // 2021-04-10
 //const flash = require('express-flash')

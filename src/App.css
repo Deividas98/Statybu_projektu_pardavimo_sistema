@@ -105,3 +105,24 @@
   background-color: #333;
 }
 
+.loginForm{
+  background-image: url("./officebuilding.jpg");
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+ /* display: block;
+  margin: 50px auto;
+  overflow: hidden;
+  position: absolute;*/
+  
+}
+
+.loginForm2v{
+  margin: 50px;
+  /*display: inline-block;*/
+  border: 15px solid green;
+  padding: 50px;
+  margin: 20px;
+  float: left;
+}
