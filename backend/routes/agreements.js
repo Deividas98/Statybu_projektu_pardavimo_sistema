@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const { Mongoose } = require('mongoose');
-let Product = require('../models/product.model');
+let Agreement = require('../models/agreement.model');
 
 router.route('/').get((req, res) => {
-  Product.find()
+  Agreement.find()
  //Product.aggregate([
    /*{ "$lookup": {
     "from": "projects",
@@ -17,11 +17,11 @@ router.route('/').get((req, res) => {
     "as": "projektas"
   }}
  ])*/
-    .then(products => res.json(products))
+    .then(agreements => res.json(agreements))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/getProjects').get((req, res) => {
+/*router.route('/getProjects').get((req, res) => {
   Product.aggregate([
           {
             "$lookup":
@@ -38,55 +38,49 @@ router.route('/getProjects').get((req, res) => {
   )
     .then(products => res.json(products))
     .catch(err => res.status(400).json('Error: ' + err));
-});
+});*/
 
-router.route('/add').post((req, res) => {
+router.route('/addagr').post((req, res) => {
   console.log(req.body);
-  const aprasymas = req.body.aprasymas;
   const pavadinimas = req.body.pavadinimas;
-  const projektas = req.body.projektas;//req.body.projektas;//kai neparasyta id, reikia prideti id, kai nurodyta id reikia ideti pavadinima
-  const suma = Number(req.body.suma);
-  const kiekis = Number(req.body.kiekis);
-  const kaina = Number(req.body.kaina);
+  const imone = req.body.imone;
+  const sutartiesNumeris = req.body.sutartiesNumeris;//req.body.projektas;//kai neparasyta id, reikia prideti id, kai nurodyta id reikia ideti pavadinima
+  const tipas = req.body.tipas;
 
-  const newProduct = new Product({
-    aprasymas,
+  const newAgreement = new Agreement({
     pavadinimas,
-    projektas,
-    suma,
-    kiekis,
-    kaina
+    imone,
+    sutartiesNumeris,
+    tipas
   });
 
-  newProduct.save()
-  .then(() => res.json('Product added!'))
+  newAgreement.save()
+  .then(() => res.json('Agreement added!'))
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').get((req, res) => {
-    Product.findById(req.params.id)
-    .then(product => res.json(product))
+router.route('/agr/:id').get((req, res) => {
+    Agreement.findById(req.params.id)
+    .then(agreement => res.json(agreement))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/:id').delete((req, res) => {
-    Product.findByIdAndDelete(req.params.id)
-    .then(() => res.json('Product deleted.'))
+router.route('/agr/:id').delete((req, res) => {
+    Agreement.findByIdAndDelete(req.params.id)
+    .then(() => res.json('Agreement deleted.'))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/update/:id').post((req, res) => {
-    Product.findById(req.params.id)
-    .then(product => {
-        product.aprasymas = req.body.aprasymas;
-        product.pavadinimas = req.body.pavadinimas;
-        product.projektas = req.body.projektas;
-        product.suma = Number(req.body.suma);
-        product.kiekis = Number(req.body.kiekis);
-        product.kaina = Number(req.body.kaina);
+router.route('/updateagr/:id').post((req, res) => {
+    Agreement.findById(req.params.id)
+    .then(agreement => {
+        agreement.pavadinimas = req.body.pavadinimas;
+        agreement.imone = req.body.imone;
+        agreement.sutartiesNumeris = req.body.sutartiesNumeris;
+        agreement.tipas = req.body.tipas;
 
-        product.save()
-        .then(() => res.json('Product updated!'))
+        agreement.save()
+        .then(() => res.json('Agreement updated!'))
         .catch(err => res.status(400).json('Error: ' + err));
     })
     .catch(err => res.status(400).json('Error: ' + err));

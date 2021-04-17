@@ -109,42 +109,6 @@ export default class Login extends Component {
               {this.state.data ? <h1>Welcome Back {this.state.data.username}</h1> : null}
             </Form.Group>
           </Form>
-
-          {/*} <div>
-            <h1>Register</h1>
-            <input
-              placeholder="username"
-              onChange={(e) => this.setState({registerUsername: e.target.value})}
-            />
-            <input
-              placeholder="password"
-              onChange={(e) => this.setState({registerPassword: e.target.value})}
-            />
-            <button onClick={register}>Submit</button>
-          </div>
-    
-          <div>
-            <h1>Login</h1>
-            <input
-              placeholder="username"
-              onChange={(e) => this.setState({loginUsername: e.target.value})}
-            />
-            <input
-              placeholder="password"
-              onChange={(e) => this.setState({loginPassword: e.target.value})}
-            />
-            <button onClick={login,
-            (e) => { 
-              e.preventDefault();
-              window.location.href='http://localhost:3000/main'}
-            }>Submit</button>
-          </div>
-    
-          <div>
-            <h1>Get User</h1>
-            <button onClick={getUser}>Submit</button>
-            {this.state.data ? <h1>Welcome Back {this.state.data.username}</h1> : null}
-          </div> */}
         </span>
       </div>
 

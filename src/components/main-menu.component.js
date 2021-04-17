@@ -133,9 +133,8 @@ export default class MainMenu extends Component {
           </Navbar.Collapse>
         </Navbar>
 
-        <div className="splitleft">
-
-          <Nav defaultActiveKey="/" className="navbar">
+       {/* <div className="splitleft">
+         {/* <Nav defaultActiveKey="/" className="navbar">
 
            {/* <Nav.Link href="/home">Active</Nav.Link>*/}
             {/*<Nav.Link eventKey="link-1" onClick={this.clickHandlerContact.bind(this)}>Contacts</Nav.Link>
@@ -143,25 +142,18 @@ export default class MainMenu extends Component {
             <Nav.Link href="/" onClick={this.clickHandlerProduct.bind(this)}>Products</Nav.Link>*/}
             {/* palikti sita komentara <Nav.Link eventKey="link-2">Link</Nav.Link>*/}
 
+         {/*}   <Nav.Link to="/list" className="nav-link">ExcerTracker</Nav.Link>{/*buvo link to / */}
+         {/* <Nav.Link to="/list" className="nav-link">Exercises</Nav.Link>{/*buvo link to / */}
+         {/* <Nav.Link to="/create" className="nav-link">Create Exercise Log</Nav.Link>
+          <Nav.Link to="/user" className="nav-link" onClick={this.clickHandlerProduct.bind(this)}>Create User</Nav.Link>*/}
+         {/* </Nav>*/}
 
-            <Nav.Link to="/list" className="nav-link">ExcerTracker</Nav.Link>{/*buvo link to / */}
- 
-          <Nav.Link to="/list" className="nav-link">Exercises</Nav.Link>{/*buvo link to / */}
-
-          <Nav.Link to="/create" className="nav-link">Create Exercise Log</Nav.Link>
-
-          <Nav.Link to="/user" className="nav-link" onClick={this.clickHandlerProduct.bind(this)}>Create User</Nav.Link>
-          </Nav>
-
-{/*<Navbar2/>*/}
-          
-
-        </div>
+       {/* </div>*/}
 
         <div className="splitright">
        {/* <Login/>*/}
-       <button onClick={getUser}>getuser</button>
-       <h1>from login: {/*this.props.hardcode*/ this.props.hardcode}</h1>
+       <button onClick={getUser}>getuser</button>{/*baltas kairys kampas yra del situ komponentu*/}
+       <h1>from login: { this.props.hardcode}</h1>
           <div style={{ margin: "20px 20px 20px 20px" }}>
  {/* palikti sita komentararender(<Example />);*/}
 
