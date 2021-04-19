@@ -177,7 +177,7 @@ export default class CreateProducts extends Component {
         </div>*/}
 
         <div className="form-group">
-          <input type="submit" value="Create Produktas Log" className="btn btn-primary" />
+          <input type="submit" value="Create Produktas" className="btn btn-primary" />
         </div>
       </form>
     </div>

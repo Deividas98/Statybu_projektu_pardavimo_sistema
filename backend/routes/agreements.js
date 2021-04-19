@@ -40,6 +40,25 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });*/
 
+router.route('/agrwlookup').get((req, res) => {
+  Agreement.aggregate([
+          {
+            "$lookup":
+              {
+                "from": "accounts",
+                "localField": "imone",
+                "foreignField": "_id",
+                "as": "imone"
+              }  
+         },
+         {"$unwind":'$imone'},
+         {"$project": { "subjektas": 1, "pradziosData": 1, "skirta": "$imone.pavadinimas", "pabaigosData": 1, "komentaras": 1}}
+  ]  
+  )
+    .then(agreements => res.json(agreements))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('/addagr').post((req, res) => {
   console.log(req.body);
   const pavadinimas = req.body.pavadinimas;

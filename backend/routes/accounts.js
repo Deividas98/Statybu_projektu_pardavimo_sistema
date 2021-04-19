@@ -21,25 +21,6 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-/*router.route('/getProjects').get((req, res) => {
-  Product.aggregate([
-          {
-            "$lookup":
-              {
-                "from": "projects",
-                "localField": "projektas",
-                "foreignField": "_id",
-                "as": "projektas"
-              }  
-         },
-         {"$unwind":'$projektas'},
-         {"$project": { "pavadinimas": 1, "aprasymas": 1, "projektas": "$projektas.pavadinimas", "suma": 1, "kiekis": 1, "kaina": 1}}
-  ]  
-  )
-    .then(products => res.json(products))
-    .catch(err => res.status(400).json('Error: ' + err));
-});*/
-
 router.route('/addacc').post((req, res) => {
   console.log(req.body);
   const pavadinimas = req.body.pavadinimas;

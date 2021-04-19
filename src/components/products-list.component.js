@@ -11,8 +11,6 @@ const Product = props => (
     <td>{props.product.suma}</td>
     <td>{props.product.kiekis}</td>
 <td>{props.product.kaina}</td>
-        {/*<td>{props.product.inventory_docs[0]}</td>
-    <td>{props.product.date.substring(0,10)}</td>*/}
     <td>
       <Link to={"/edit/"+props.product._id}>edit</Link> | <a href="#" onClick={() => { props.deleteProduct(props.product._id) }}>delete</a>
     </td>

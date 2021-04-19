@@ -4,49 +4,36 @@ let Task = require('../models/task.model');
 
 router.route('/').get((req, res) => {
   Task.find()
- //Product.aggregate([
-   /*{ "$lookup": {
-    "from": "projects",
-    //"let": { "projektas": "$products.projektas" },
-    "pipeline": [
-      { "$match": {
-        "$expr": { "$in": ["$$projektas", "$projects._id"] }
-      }}//,
-      //{ "$unwind": "$projects._id" }
-    ],
-    "as": "projektas"
-  }}
- ])*/
     .then(tasks => res.json(tasks))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-/*router.route('/getProjects').get((req, res) => {
-  Product.aggregate([
+router.route('/alltaskslookup').get((req, res) => {
+  Task.aggregate([
           {
             "$lookup":
               {
                 "from": "projects",
-                "localField": "projektas",
+                "localField": "skirta",
                 "foreignField": "_id",
                 "as": "projektas"
               }  
          },
          {"$unwind":'$projektas'},
-         {"$project": { "pavadinimas": 1, "aprasymas": 1, "projektas": "$projektas.pavadinimas", "suma": 1, "kiekis": 1, "kaina": 1}}
+         {"$project": { "subjektas": 1, "pradziosData": 1, "skirta": "$projektas.pavadinimas", "pabaigosData": 1, "komentaras": 1}}
   ]  
   )
-    .then(products => res.json(products))
+    .then(tasks => res.json(tasks))
     .catch(err => res.status(400).json('Error: ' + err));
-});*/
+});
 
 router.route('/addtask').post((req, res) => {
   console.log(req.body);
   const subjektas = req.body.subjektas;
-  const pradziosData = Date(req.body.pradziosData);
+  const pradziosData = Date.parse(req.body.pradziosData);
   const skirta = req.body.skirta;//req.body.projektas;//kai neparasyta id, reikia prideti id, kai nurodyta id reikia ideti pavadinima
   const atlieka = req.body.atlieka;
-  const pabaigosData = Date(req.body.pabaigosData);
+  const pabaigosData = Date.parse(req.body.pabaigosData);
   const komentaras = req.body.komentaras;
   const komentaruSarasas = req.body.komentaruSarasas;
 

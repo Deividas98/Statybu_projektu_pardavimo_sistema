@@ -16,18 +16,18 @@ export default class EditProduct extends Component {
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-        aprasymas: '',
-        pavadinimas: '',
-        suma: 0,
-        kiekis: 0,
-        kaina: 0,
-        //date: new Date(),
-        projektai: []
+      aprasymas: '',
+      pavadinimas: '',
+      suma: 0,
+      kiekis: 0,
+      kaina: 0,
+      //date: new Date(),
+      projektai: []
     }
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/products/'+this.props.match.params.id)
+    axios.get('http://localhost:5000/products/' + this.props.match.params.id)
       .then(response => {
         this.setState({
           pavadinimas: response.data.pavadinimas,
@@ -37,7 +37,7 @@ export default class EditProduct extends Component {
           kaina: response.data.kaina,
           projektas: response.data.projektas
           //date: new Date(response.data.date)
-        })   
+        })
       })
       .catch(function (error) {
         console.log(error);
@@ -97,12 +97,12 @@ export default class EditProduct extends Component {
     e.preventDefault();
 
     const produktas = {
-        aprasymas: this.state.aprasymas,
-        pavadinimas: this.state.pavadinimas,
-        projektas: this.state.projektas,
-        suma: 100,//this.state.suma,
-        kiekis: this.state.kiekis,
-        kaina: this.state.kaina
+      aprasymas: this.state.aprasymas,
+      pavadinimas: this.state.pavadinimas,
+      projektas: this.state.projektas,
+      suma: 100,//this.state.suma,
+      kiekis: this.state.kiekis,
+      kaina: this.state.kaina
     }
 
     console.log(produktas);
@@ -115,63 +115,63 @@ export default class EditProduct extends Component {
 
   render() {
     return (
-    <div>
-      <h3>Edit Exercise Log</h3>
-      <form onSubmit={this.onSubmit}>
-      <div className="form-group"> 
-          <label>Pavadinimas: </label>
-          <input  type="text"
+      <div>
+        <h3>Edit Exercise Log</h3>
+        <form onSubmit={this.onSubmit}>
+          <div className="form-group">
+            <label>Pavadinimas: </label>
+            <input type="text"
               required
               className="form-control"
               value={this.state.pavadinimas}
               onChange={this.onChangePavadinimas}
-              />
-        </div>
-        <div className="form-group"> 
-          <label>Aprasymas: </label>
-          <input  type="text"
+            />
+          </div>
+          <div className="form-group">
+            <label>Aprasymas: </label>
+            <input type="text"
               required
               className="form-control"
               value={this.state.aprasymas}
               onChange={this.onChangeAprasymas}
-              />
-        </div>
-        <div className="form-group"> 
-        <label>Projektas: </label>
-          <select ref="userInput"
+            />
+          </div>
+          <div className="form-group">
+            <label>Projektas: </label>
+            <select ref="userInput"
               required
               className="form-control"
               value={this.state.projektas}
               onChange={this.onChangeProjektas}>
               {
-                this.state.projektai.map(function(projektas) {
-                  return <option 
+                this.state.projektai.map(function (projektas) {
+                  return <option
                     key={projektas}
                     value={projektas}>{projektas}
-                    </option>;
+                  </option>;
                 })
               }
-          </select>
-        </div>
-        <div className="form-group"> 
-          <label>Kaina: </label>
-          <input  type="text"
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Kaina: </label>
+            <input type="text"
               required
               className="form-control"
               value={this.state.kaina}
               onChange={this.onChangeKaina}
-              />
-        </div>
-        <div className="form-group"> 
-          <label>Kiekis: </label>
-          <input  type="text"
+            />
+          </div>
+          <div className="form-group">
+            <label>Kiekis: </label>
+            <input type="text"
               required
               className="form-control"
               value={this.state.kiekis}
               onChange={this.onChangeKiekis}
-              />
-        </div>
-       {/*} <div className="form-group">
+            />
+          </div>
+          {/*} <div className="form-group">
           <label>Date: </label>
           <div>
             <DatePicker
@@ -181,11 +181,11 @@ export default class EditProduct extends Component {
           </div>
         </div>*/}
 
-        <div className="form-group">
-          <input type="submit" value="Edit Produktas Log" className="btn btn-primary" />
-        </div>
-      </form>
-    </div>
+          <div className="form-group">
+            <input type="submit" value="Edit Produktas Log" className="btn btn-primary" />
+          </div>
+        </form>
+      </div>
     )
   }
 }

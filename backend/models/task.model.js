@@ -11,11 +11,7 @@ const taskSchema = new Schema({
     minlength: 3
   },
   pradziosData: {
-    type: String,
-    required: true,
-    unique: false,
-    trim: true,
-    minlength: 3
+    type: Date
   },
   skirta: {//pakeisti!!!
     type: mongoose.Schema.Types.ObjectId,//String,  naudojant id neprisideda irasas is ui
@@ -23,27 +19,26 @@ const taskSchema = new Schema({
     //unique: false//,
     ref: 'Project'
   },
-  atlieka: {//pakeisti!!!
+  /*atlieka: {//pakeisti!!!
     type: mongoose.Schema.Types.ObjectId,//String,  naudojant id neprisideda irasas is ui
-    //required: false,
-    //unique: false//,
+    required: false,
     ref: 'User'
-  },
+  },*/
   pabaigosData: {
     type: Date,
     required: true
   },
   komentaras: {
-    type: String,
-    required: false,
-    unique: false//,
+    type: String//,
+    //required: false,
+    //unique: false//,
     //trim: true,
     //minlength: 3
   },
   komentaruSarasas: {
-    type: String,
-    required: false,
-    unique: false//,
+    type: String//,
+    //required: false,
+    //unique: false//,
     //trim: true,
     //minlength: 3
   },

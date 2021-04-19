@@ -2,36 +2,26 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import '../App.css';
-//import React, { useEffect, useState } from 'react';
 import { render } from "react-dom";
 //import {Table, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Table, Button, Modal } from 'reactstrap';
-//import Table from './Table';
-//import 'bootstrap/dist/css/bootstrap.min.css';
-import { AddModal } from "../AddModal";
 import { Navbar, Nav, NavDropdown, InputGroup, FormControl } from 'react-bootstrap';
 import ContactTable from '../ContactTable';
 import ProjectTable from '../ProjectTable';
 import ProductTable from '../ProductTable';
-//import { ReactComponent } from '*.svg';
-import { ContactModal } from '../ContactModal.js';
-import { ProductModal } from '../ProductModal.js';
-import EditContactForm from '../EditContactForm.js';
-//import firebase from './util/firebase';
-import BootstrapTable from "react-bootstrap-table-next";
-import paginationFactory from 'react-bootstrap-table2-paginator';
-
-import AddProject from '../AddProjectModal';
 
 import {BrowserRouter as Router, Route} from "react-router-dom";
-
 import Navbar2 from "./navbar.component"
 import ProductsList from "./products-list.component";
 import EditProduct from "./edit-products.component";
 import CreateProduct from "./create-product.component";
 import CreateProject from "./create-project.component";
-import Login from "./login.component";
+import CreateTask from "./create-task.component";
+import CreateAccount from "./create-account.component";
+import CreateAgreement from "./create-agreement.component";
+import TasksList from "./list-task.component";
+import AccountsList from "./list-account.component";
+import AgreementsList from "./list-agreement.component";
 import Axios from "axios";
 
 export default class MainMenu extends Component {
@@ -39,9 +29,12 @@ export default class MainMenu extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          deps: [], addModalShow: false,
-          deps2: [], contactModalShow: false,
-          deps3: [], productModalShow: false,
+          productModalShow: false,
+          taskShow: false,
+           accountShow: false,
+           agreementShow: false,
+           productShow: false,
+           projectShow: false,
           table: 'projectTable',
           data: null,//,
           //logino komponentai
@@ -52,10 +45,6 @@ export default class MainMenu extends Component {
          data: null,
          role: "EmptyRole"*/
         }
-        //const [show, setShow] = useState(false);
-    
-        //const handleClose = () => setShow(false);
-        //const handleShow = () => setShow(true);
       }
     
       clickHandlerContact() {
@@ -76,15 +65,19 @@ export default class MainMenu extends Component {
         })
       }
 
-    
+      /*taskModalClose(){
+        this.setState( prevState => (
+          {show: !prevState.taskShow}))  
+      } */
+      
 
     render() {
-        const { deps } = this.state;
-        const { deps2 } = this.state;
-        const { deps3 } = this.state;
-        let addModalClose = () => this.setState({ addModalShow: false });
-        let contactModalClose = () => this.setState({ contactModalShow: false });
-        let productModalClose = () => this.setState({ productModalShow: false });
+        let taskModalClose = () => {this.setState({ taskShow: false })};
+        let accountModalClose = () => {this.setState({ accountShow: false })};
+        let agreementModalClose = () => {this.setState({ agreementShow: false })};
+        let projectModalClose = () => {this.setState({ projectShow: false })};
+        let productModalClose = () => {this.setState({ productShow: false })};
+
         let testcomponentas;
     
     
@@ -117,11 +110,16 @@ export default class MainMenu extends Component {
             <div>
                 
                    <Navbar fixed="top" variant="dark" bg="dark" expand="lg">
-          <Navbar.Brand href="#home">Sales System</Navbar.Brand>
+          <Navbar.Brand href="/main">SPS</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link onClick={() => this.setState({ contactModalShow: true })} href="/">Add Contact</Nav.Link>
+            <Nav.Link onClick={() => this.setState({ taskShow: true })} >Pridėti užduotį</Nav.Link>
+            <Nav.Link onClick={() => this.setState({ accountShow: true })} >Pridėti įmonę</Nav.Link>
+            <Nav.Link onClick={() => this.setState({ productShow: true })} >Pridėti produktą</Nav.Link>
+            <Nav.Link onClick={() => this.setState({ projectShow: true })} >Pridėti projektą</Nav.Link>
+            <Nav.Link onClick={() => this.setState({ agreementShow: true })} >Pridėti sutartį</Nav.Link>
+              <Nav.Link onClick={() => this.setState({ contactModalShow: true })} /*href="/"*/>Add Contact</Nav.Link>
               <Nav.Link onClick={() => this.setState({ addModalShow: true })} href="/edit/:id">Create Project</Nav.Link>
               <Nav.Link onClick={() => this.setState({ productModalShow: true })} href="/create">Add Product</Nav.Link>
               <Nav.Link onClick={() => this.sort()} href="#link">Sort</Nav.Link>
@@ -144,25 +142,23 @@ export default class MainMenu extends Component {
 
          {/*}   <Nav.Link to="/list" className="nav-link">ExcerTracker</Nav.Link>{/*buvo link to / */}
          {/* <Nav.Link to="/list" className="nav-link">Exercises</Nav.Link>{/*buvo link to / */}
-         {/* <Nav.Link to="/create" className="nav-link">Create Exercise Log</Nav.Link>
-          <Nav.Link to="/user" className="nav-link" onClick={this.clickHandlerProduct.bind(this)}>Create User</Nav.Link>*/}
+         {/* <Nav.Link to="/user" className="nav-link" onClick={this.clickHandlerProduct.bind(this)}>Create User</Nav.Link>*/}
          {/* </Nav>*/}
 
        {/* </div>*/}
 
         <div className="splitright">
-       {/* <Login/>*/}
+       
        <button onClick={getUser}>getuser</button>{/*baltas kairys kampas yra del situ komponentu*/}
-       <h1>from login: { this.props.hardcode}</h1>
-          <div style={{ margin: "20px 20px 20px 20px" }}>
- {/* palikti sita komentararender(<Example />);*/}
-
-  
+          <div style={{ margin: "20px 20px 20px 20px" }}> 
 
 
         <Router>
         <Navbar2/>
       <br/>
+      <Route path="/uzduotys" exact component={TasksList} />
+      <Route path="/imones" exact component={AccountsList} />
+      <Route path="/sutartis" exact component={AgreementsList} />
       <Route path="/list" exact component={ProductsList} />{/*pakeisti kelius!!!*/}{/*buvo link to / */}
       <Route path="/edit/:id" component={EditProduct} />
       <Route path="/create" component={CreateProduct} />
@@ -171,16 +167,13 @@ export default class MainMenu extends Component {
      
 
 
-        {testcomponentas}
-            
-
+        {/*testcomponentas*/}
           </div>
         </div>
 
-
-        <AddModal  show={this.state.addModalShow} onHide={addModalClose} />
-        <ContactModal show={this.state.contactModalShow} onHide={contactModalClose} />
-        <ProductModal show={this.state.productModalShow} onHide={productModalClose} />
+        <CreateTask show={this.state.taskShow} onHide={taskModalClose} />
+        <CreateAccount show={this.state.accountShow} onHide={accountModalClose} />
+        <CreateAgreement show={this.state.agreementShow} onHide={agreementModalClose} />
             </div>
         )}
 }

@@ -9,11 +9,7 @@ const passport = require('passport');
 const passportLocal = require('passport-local').Strategy;
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');//bcrypt
-const bodyParser = require('body-parser');
-
-//Authentication naudojamos dalys
-//const jwt = require('jsonwebtoken');
-//Authentication naudojamos dalys
+//const bodyParser = require('body-parser');
 
 //aplinkos kintamieji DMV faile
 const dotenv = require('dotenv').config()
@@ -41,14 +37,15 @@ const projectssRouter = require('./routes/projects');
 const productsRouter = require('./routes/products');
 const accountRouter = require('./routes/accounts');
 const agreementRouter = require('./routes/agreements');
-const taskRouter = require('./routes/tasks');
+const tasksRouter = require('./routes/tasks');
 
 //uzkraus viska is sio saito (sub nuorodos pvz /projects)
 app.use('/projects', projectssRouter);
 app.use('/products', productsRouter);
-app.use('./accounts', accountRouter);
-app.use('./agreements', agreementRouter);
-app.use('./tasks', taskRouter);
+app.use('/accounts', accountRouter);
+app.use('/agreements', agreementRouter);
+app.use('/tasks', tasksRouter);
+
 
 //suveikia, kai pasileidzia serveris
 app.listen(port, () => {
