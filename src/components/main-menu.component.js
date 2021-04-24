@@ -22,6 +22,11 @@ import CreateAgreement from "./create-agreement.component";
 import TasksList from "./list-task.component";
 import AccountsList from "./list-account.component";
 import AgreementsList from "./list-agreement.component";
+import ProjectsList from "./list-project.component";
+import EditTask from "./edit-task.component";
+import EditAccount from "./edit-account.component";
+import EditAgreement from "./edit-agreement.component";
+import EditProject from "./edit-project.component";
 import Axios from "axios";
 
 export default class MainMenu extends Component {
@@ -159,8 +164,13 @@ export default class MainMenu extends Component {
       <Route path="/uzduotys" exact component={TasksList} />
       <Route path="/imones" exact component={AccountsList} />
       <Route path="/sutartis" exact component={AgreementsList} />
+      <Route path="/projektai" exact component={ProjectsList} />
       <Route path="/list" exact component={ProductsList} />{/*pakeisti kelius!!!*/}{/*buvo link to / */}
+      <Route path="/edittask/:id" component={EditTask} />
+      <Route path="/editacc/:id" component={EditAccount} />
+      <Route path="/editagr/:id" component={EditAgreement} />
       <Route path="/edit/:id" component={EditProduct} />
+      <Route path="/editprj/:id" component={EditProject} />
       <Route path="/create" component={CreateProduct} />
       <Route path="/user"  component={CreateProject} />
       </Router>
@@ -174,6 +184,8 @@ export default class MainMenu extends Component {
         <CreateTask show={this.state.taskShow} onHide={taskModalClose} />
         <CreateAccount show={this.state.accountShow} onHide={accountModalClose} />
         <CreateAgreement show={this.state.agreementShow} onHide={agreementModalClose} />
+        <CreateProject show={this.state.projectShow} onHide={projectModalClose} />
+        <CreateProduct show={this.state.productShow} onHide={productModalClose} />
             </div>
         )}
 }

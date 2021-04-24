@@ -32,7 +32,7 @@ const projectSchema = new Schema({
     //minlength: 3
   },
   nuolaida: {
-    type: mongoose.Types.Decimal128,//Number,
+    type: String,//mongoose.Types.Decimal128,//Number,
     required: false,
     unique: false//,
     //trim: true,

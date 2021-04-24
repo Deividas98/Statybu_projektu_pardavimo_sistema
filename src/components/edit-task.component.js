@@ -65,7 +65,7 @@ export default class EditTask extends Component {
                 console.log(error);
             })
 
-        axios.get('http://localhost:5000/users/')//neranda tokio
+       /* axios.get('http://localhost:5000/users/')//neranda tokio
             .then(response => {
                 if (response.data.length > 0) {
                     this.setState({
@@ -79,7 +79,7 @@ export default class EditTask extends Component {
             })
             .catch((error) => {
                 console.log(error);
-            })
+            })*/
     }
 
     onChangeSubjektas(e) {
@@ -142,7 +142,7 @@ export default class EditTask extends Component {
         axios.post('http://localhost:5000/tasks/updatetask/' + this.props.match.params.id, uzduotis)
             .then(res => console.log(res.data));
 
-        window.location = '/';
+        window.location = '/main';//!!!
     }
 
     render() {
@@ -194,7 +194,7 @@ export default class EditTask extends Component {
                             }
                         </select>
                     </div>
-                    <div className="form-group">
+                   {/*} <div className="form-group">
                         <label>Atlieka: </label>
                         <select //ref="userInput"
                             required
@@ -210,7 +210,7 @@ export default class EditTask extends Component {
                                 })
                             }
                         </select>
-                    </div>
+                    </div>*/}
                     <div className="form-group">
                         <label>Komentaras: </label>
                         <input type="text"

@@ -221,8 +221,8 @@ export default class CreateTasks extends Component {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={this.props.onHide}>Atsaukti</Button>
-                    <Button variant="primary" onClick={this.onSubmit}>Save</Button>
+                    <Button variant="secondary" onClick={this.props.onHide}>Atšaukti</Button>
+                    <Button variant="primary" onClick={this.onSubmit}>Išsaugoti</Button>
                 </Modal.Footer>
             </Modal>
 

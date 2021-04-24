@@ -10,7 +10,7 @@ const Agreement = props => (
     <td>{props.agreement.sutartiesNumeris}</td>
     <td>{props.agreement.tipas}</td>
     <td>
-      <Link to={"/edit/"+props.agreement._id}>Redaguoti</Link> | <a href="#" onClick={() => { props.deleteAgreement(props.agreement._id) }}>Ištrinti</a>
+      <Link to={"/editagr/"+props.agreement._id}>Redaguoti</Link> | <a href="#" onClick={() => { props.deleteAgreement(props.agreement._id) }}>Ištrinti</a>
     </td>
   </tr>
 )

@@ -12,7 +12,7 @@ export default class EditAccount extends Component {
         this.onChangeTelefonoNr = this.onChangeTelefonoNr.bind(this);
         this.onChangeElPastas = this.onChangeElPastas.bind(this);
         this.onChangeKontaktinisAsmuo = this.onChangeKontaktinisAsmuo.bind(this);
-        this.onChangeSvetaine = this.onChangeKomentaruSvetaine.bind(this);
+        this.onChangeSvetaine = this.onChangeSvetaine.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {

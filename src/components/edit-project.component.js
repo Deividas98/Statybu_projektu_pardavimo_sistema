@@ -1,33 +1,82 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Modal, Button } from 'react-bootstrap';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
-export default class CreateProject extends Component {
+export default class EditProject extends Component {
     constructor(props) {
         super(props);
-
-        this.onSubmit = this.onSubmit.bind(this);
-        this.onChangeAprasymas = this.onChangeAprasymas.bind(this);
         this.onChangePavadinimas = this.onChangePavadinimas.bind(this);
-        this.onChangeKontaktas = this.onChangeKontaktas.bind(this);
+        this.onChangeAprasymas = this.onChangeAprasymas.bind(this);
+        this.onChangeImone = this.onChangeImone.bind(this);
         this.onChangeProjektoSuma = this.onChangeProjektoSuma.bind(this);
         this.onChangeNuolaida = this.onChangeNuolaida.bind(this);
         this.onChangeBusena = this.onChangeBusena.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            aprasymas: '',
             pavadinimas: '',
-            kontaktas: '',
-            projektoSuma: 0,
-            nuolaida: 0,
-            busena: 'Pradėtas'
+            aprasymas: '',
+            imone: '',
+            projektoSuma: '',
+            nuolaida: '',
+            busena: '',
+            //date: new Date(), pataisyti
+            projektai: [],
+            ProjectId: ''
         }
     }
 
-    onChangeAprasymas(e) {
+    //su kitais objektais ta padaryti
+    componentDidMount() {
+        axios.get('http://localhost:5000/projects/' + this.props.match.params.id)
+      .then(response => {
         this.setState({
-            aprasymas: e.target.value
+          pavadinimas: response.data.pavadinimas,
+          aprasymas: response.data.aprasymas,
+          imone: response.data.imone,
+          projektoSuma: response.data.projektoSuma,
+          nuolaida: new Date(response.data.nuolaida),
+          busena: response.data.busena,
+          //date: new Date(response.data.date)
         })
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+
+
+        /*axios.get('http://localhost:5000/projects/')
+            .then(response => {
+                if (response.data.length > 0) {
+                    this.setState({
+                        //projektai: response.data.map(projektas => projektas.pavadinimas),
+                        projektai: response.data.map(projektas => [projektas._id, projektas.pavadinimas]),
+                        pavadinimas: response.data[0].pavadinimas//,
+                        //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
+                    })
+                    console.log(this.state.projektai)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })*/
+
+       /* axios.get('http://localhost:5000/users/')//neranda tokio
+            .then(response => {
+                if (response.data.length > 0) {
+                    this.setState({
+                        //projektai: response.data.map(projektas => projektas.pavadinimas),
+                        naudotojai: response.data.map(naudotojas => [naudotojas._id, naudotojas.username]),
+                        username: response.data[0].username//,
+                        //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
+                    })
+                    console.log(this.state.naudotojai)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })*/
     }
 
     onChangePavadinimas(e) {
@@ -36,15 +85,21 @@ export default class CreateProject extends Component {
         })
     }
 
-    onChangeKontaktas(e) {
+    onChangeAprasymas(e) {
         this.setState({
-            kontaktas: e.target.value
+            aprasymas: e.target.value
+        })
+    }
+
+    onChangeImone(e) {
+        this.setState({
+            imone: e.target.value
         })
     }
 
     onChangeProjektoSuma(e) {
         this.setState({
-            projektoSuma: e.target.value
+            suma: e.target.value
         })
     }
 
@@ -60,13 +115,13 @@ export default class CreateProject extends Component {
         })
     }
 
-    onSubmit(e) {
+    onSubmit = (e) => {
         e.preventDefault();
 
         const projektas = {
-            aprasymas: this.state.aprasymas,
             pavadinimas: this.state.pavadinimas,
-            kontaktas: this.state.kontaktas,
+            aprasymas: this.state.aprasymas,
+            imone: this.state.imone,
             projektoSuma: this.state.projektoSuma,
             nuolaida: this.state.nuolaida,
             busena: this.state.busena
@@ -74,27 +129,18 @@ export default class CreateProject extends Component {
 
         console.log(projektas);
 
-        axios.post('http://localhost:5000/projects/add', projektas)
+        axios.post('http://localhost:5000/projects/updateprj/' + this.props.match.params.id, projektas)
             .then(res => console.log(res.data));
 
-        this.setState({
-            aprasymas: '',
-            pavadinimas: '',
-            kontaktas: '',
-            projektoSuma: 0,
-            nuolaida: 0,
-            busena: 'Pradėtas'
-        })
+        window.location = '/main';//!!!
     }
 
     render() {
         return (
-            <Modal {...this.props}>
-            <Modal.Header closeButton onClick={this.props.onHide}>
-                <Modal.Title>Sukurti projektą</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                    <div className="form-group">
+            <div>
+                <h3>Atnaujinti projektą</h3>
+                <form onSubmit={this.onSubmit}>
+                <div className="form-group">
                         <label>Pavadinimas: </label>
                         <input type="text"
                             required
@@ -151,12 +197,11 @@ export default class CreateProject extends Component {
                                 <option value="Pabaigtas">Pabaigtas</option>
                             </select>
                     </div>
-                    </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={this.props.onHide}>Atšaukti</Button>
-                    <Button variant="primary" onClick={this.onSubmit}>Išsaugoti</Button>
-                </Modal.Footer>
-            </Modal>
+                    <div className="form-group">
+                        <input type="submit" value="Redaguojama užduotis" className="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
         )
     }
 }

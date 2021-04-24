@@ -12,7 +12,7 @@ const Task = props => (
     <td>{props.task.komentaras}</td>
 
     <td>
-      <Link to={"/edit/"+props.task._id}>Redaguoti</Link> | <a href="#" onClick={() => { props.deleteTask(props.task._id) }}>Ištrinti</a>
+      <Link to={"/edittask/"+props.task._id}>Redaguoti</Link> | <a href="#" onClick={() => { props.deleteTask(props.task._id) }}>Ištrinti</a>
     </td>
   </tr>
 )

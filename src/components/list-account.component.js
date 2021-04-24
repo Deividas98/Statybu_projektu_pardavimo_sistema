@@ -14,7 +14,7 @@ const Account = props => (
     <td>{props.account.svetaine}</td>
 
     <td>
-      <Link to={"/edit/"+props.account._id}>Redaguoti</Link> | <a href="#" onClick={() => { props.deleteAccount(props.account._id) }}>Ištrinti</a>
+      <Link to={"/editacc/"+props.account._id}>Redaguoti</Link> | <a href="#" onClick={() => { props.deleteAccount(props.account._id) }}>Ištrinti</a>
     </td>
   </tr>
 )
