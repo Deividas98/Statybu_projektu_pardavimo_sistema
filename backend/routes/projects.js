@@ -25,6 +25,13 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });*/
 
+//gauti projektus pagal susijusia imone
+router.route('/projagr/:id').get((req, res) => {
+  Project.find({"imone" : req.params.id/*"60856a05a142774d008c3e7c"*/})
+      .then(projects => res.json(projects))
+      .catch(err => res.status(400).json('Error: ' + err));
+  });
+
 //post create project
 router.route('/add').post((req, res) => {
   const aprasymas = req.body.aprasymas;

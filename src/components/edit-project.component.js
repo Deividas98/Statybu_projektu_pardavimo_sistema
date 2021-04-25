@@ -2,6 +2,46 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import {Button} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
+const Product = props => (
+    <tr>
+      <td>{props.product.pavadinimas}</td>
+      <td>{props.product.aprasymas}</td>
+      <td>{props.product.suma}</td>
+      <td>{props.product.kiekis}</td>
+  <td>{props.product.kaina}</td>
+      <td>
+        <Link to={"/edit/"+props.product._id}>edit</Link> | <Button onClick={() => { props.deleteProduct(props.product._id) }}>delete</Button> 
+        {/* <a href="#" onClick={() => { props.deleteProduct(props.product._id) }}>delete</a> */}
+      </td>
+    </tr>
+  )
+
+  const Task = props => (
+    <tr>
+      <td>{props.task.subjektas}</td>
+      <td>{props.task.pradziosData}</td>
+      <td>{props.task.skirta}</td>
+      <td>{props.task.pabaigosData}</td>
+      <td>{props.task.komentaras}</td>
+  
+      <td>
+        <Link to={"/edittask/"+props.task._id}>Redaguoti</Link> | <Button onClick={() => { props.deleteTask(props.task._id) }}>Ištrinti</Button> 
+        {/* <a href="#" onClick={() => { props.deleteTask(props.task._id) }}>Ištrinti</a> */}
+  
+      </td>
+    </tr>
+  )
+
+  const Forecast= props => (
+    <tr>
+      <td>{props.task.periodoPradzia}</td>
+      <td>{props.task.periodoPabaiga}</td>
+      <td>{props.task.isdalintaSuma}</td>
+    </tr>
+  )
 
 export default class EditProject extends Component {
     constructor(props) {
@@ -23,7 +63,10 @@ export default class EditProject extends Component {
             busena: '',
             //date: new Date(), pataisyti
             projektai: [],
-            ProjectId: ''
+            ProjectId: '',
+            tasks: [],
+            products: [],
+            forecasts: []
         }
     }
 
@@ -45,23 +88,6 @@ export default class EditProject extends Component {
         console.log(error);
       })
 
-
-        /*axios.get('http://localhost:5000/projects/')
-            .then(response => {
-                if (response.data.length > 0) {
-                    this.setState({
-                        //projektai: response.data.map(projektas => projektas.pavadinimas),
-                        projektai: response.data.map(projektas => [projektas._id, projektas.pavadinimas]),
-                        pavadinimas: response.data[0].pavadinimas//,
-                        //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
-                    })
-                    console.log(this.state.projektai)
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })*/
-
        /* axios.get('http://localhost:5000/users/')//neranda tokio
             .then(response => {
                 if (response.data.length > 0) {
@@ -77,6 +103,33 @@ export default class EditProject extends Component {
             .catch((error) => {
                 console.log(error);
             })*/
+
+            axios.get('http://localhost:5000/products/projprod/' + this.props.match.params.id)
+      .then(response => {
+        this.setState({ products: response.data })
+        //console.log(this.state.products);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+      axios.get('http://localhost:5000/tasks/projtask/' + this.props.match.params.id)
+      .then(response => {
+        this.setState({ tasks: response.data })
+        //console.log(this.state.products);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+
+      axios.get('http://localhost:5000/forecasts/projfore/' + this.props.match.params.id)
+      .then(response => {
+        this.setState({ forecasts: response.data })
+        //console.log(this.state.products);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
     }
 
     onChangePavadinimas(e) {
@@ -134,6 +187,27 @@ export default class EditProject extends Component {
 
         window.location = '/main';//!!!
     }
+
+    //nauja
+    productList() {
+        console.log(this.state.products.projektas);
+        return this.state.products.map(currentproduct => {
+          return <Product product={currentproduct} deleteProduct={this.deleteProduct} key={currentproduct._id}/>;
+        })
+      }
+
+      taskList() {
+        console.log(this.state.tasks.projektas);
+        return this.state.tasks.map(currenttask => {
+          return <Task task={currenttask} deleteTask={this.deleteTask} key={currenttask._id}/>;
+        })
+      }
+
+      forecastList() {
+        return this.state.forecasts.map(currentforecast => {
+          return <Forecast forecast={currentforecast} key={currentforecast._id}/>;
+        })
+      }
 
     render() {
         return (
@@ -201,6 +275,56 @@ export default class EditProject extends Component {
                         <input type="submit" value="Redaguojama užduotis" className="btn btn-primary" />
                     </div>
                 </form>
+                <p></p>
+                <p></p>
+                <h3>Susiję produktai</h3>
+        <table className="table">
+          <thead className="thead-light">
+            <tr>
+              <th>Pavadinimas</th>
+              <th>Aprasymas</th>
+              <th>Suma</th>
+              <th>Kiekis</th>
+              <th>Kaina</th>
+            </tr>
+          </thead>
+          <tbody>
+            { this.productList() }
+          </tbody>
+        </table>
+        <p></p>
+                <p></p>
+                <h3>Susijusios užduotys</h3>
+        <table className="table">
+          <thead className="thead-light">
+            <tr>
+              <th>Subjektas</th>
+              <th>Pradžios Data</th>
+              <th>Skirta</th>
+              <th>Pabaigos Data</th>
+              <th>Komentaras</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            { this.taskList() }
+          </tbody>
+        </table>
+                <p></p>
+                <p></p>
+                <h3>Susijusios prognozės</h3>
+        <table className="table">
+          <thead className="thead-light">
+            <tr>
+              <th>Periodo pradžia</th>
+              <th>Periodo pabaiga</th>
+              <th>Išdalinta suma</th>
+            </tr>
+          </thead>
+          <tbody>
+            { this.forecastList() }
+          </tbody>
+        </table>
             </div>
         )
     }

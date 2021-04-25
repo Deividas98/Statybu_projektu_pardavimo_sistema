@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-//import DatePicker from 'react-datepicker';
-//import "react-datepicker/dist/react-datepicker.css";
+import { Modal, Button } from 'react-bootstrap';
 
 export default class CreateProducts extends Component {
   constructor(props) {
@@ -110,9 +109,11 @@ export default class CreateProducts extends Component {
 
   render() {
     return (
-    <div>
-      <h3>Create New Produktas Log</h3>
-      <form onSubmit={this.onSubmit}>
+      <Modal {...this.props}>
+            <Modal.Header closeButton onClick={this.props.onHide}>
+                <Modal.Title>Sukurti produktą</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
       <div className="form-group"> 
           <label>Pavadinimas: </label>
           <input  type="text"
@@ -176,11 +177,13 @@ export default class CreateProducts extends Component {
           </div>
         </div>*/}
 
-        <div className="form-group">
-          <input type="submit" value="Create Produktas" className="btn btn-primary" />
-        </div>
-      </form>
-    </div>
+      
+        </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={this.props.onHide}>Atšaukti</Button>
+                    <Button variant="primary" onClick={this.onSubmit}>Išsaugoti</Button>
+                </Modal.Footer>
+            </Modal>
     )
   }
 }

@@ -40,6 +40,13 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });*/
 
+//gauti sutartis pagal susijusias imones
+router.route('/accagr/:id').get((req, res) => {
+Agreement.find({"imone" : req.params.id/*"60856a05a142774d008c3e7c"*/})
+    .then(agreements => res.json(agreements))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('/agrwlookup').get((req, res) => {
   Agreement.aggregate([
           {

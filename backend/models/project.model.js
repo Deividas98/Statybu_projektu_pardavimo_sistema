@@ -17,12 +17,9 @@ const projectSchema = new Schema({
     trim: true,
     minlength: 3
   },
-  kontaktas: {
-    type: String,
-    required: true,
-    unique: false,
-    trim: true,
-    minlength: 3
+  imone: {
+    type: mongoose.Schema.Types.ObjectId,//String,  naudojant id neprisideda irasas is ui
+    ref: 'Account'
   },
   projektoSuma: {
     type: Number,

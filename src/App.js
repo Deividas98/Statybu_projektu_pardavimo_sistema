@@ -9,10 +9,6 @@ import ProjectTable from './ProjectTable';
 import ProductTable from './ProductTable';
 //import { ReactComponent } from '*.svg';
 import EditContactForm from './EditContactForm.js';
-import firebase from './util/firebase';
-import BootstrapTable from "react-bootstrap-table-next";
-import paginationFactory from 'react-bootstrap-table2-paginator';
-
 import AddProject from './AddProjectModal';*/
 
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";

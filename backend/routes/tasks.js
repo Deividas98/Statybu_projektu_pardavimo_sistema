@@ -27,6 +27,13 @@ router.route('/alltaskslookup').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+//gauti sutartis pagal susijusias imones
+router.route('/projtask/:id').get((req, res) => {
+  Task.find({"projektas" : req.params.id/*"60856a05a142774d008c3e7c"*/})
+      .then(tasks => res.json(tasks))
+      .catch(err => res.status(400).json('Error: ' + err));
+  });
+
 router.route('/addtask').post((req, res) => {
   console.log(req.body);
   const subjektas = req.body.subjektas;

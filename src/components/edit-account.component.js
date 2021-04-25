@@ -1,7 +1,36 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import {Button} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 //import DatePicker from 'react-datepicker';
 //import "react-datepicker/dist/react-datepicker.css";
+
+const Agreement = props => (
+    <tr>
+      <td>{props.agreement.pavadinimas}</td>
+      <td>{props.agreement.sutartiesNumeris}</td>
+      <td>{props.agreement.tipas}</td>
+      <td>
+        <Link to={"/editagr/"+props.agreement._id}>Redaguoti</Link> | <Button onClick={() => { props.deleteAgreement(props.agreement._id) }}>Ištrinti</Button>
+        {/* <a href="#" onClick={() => { props.deleteAgreement(props.agreement._id) }}>Ištrinti</a> */}
+      </td>
+    </tr>
+  )
+
+  const Project = props => (
+    <tr>
+      <td>{props.project.pavadinimas}</td>
+      <td>{props.project.aprasymas}</td>
+      <td>{props.project.projektoSuma}</td>
+      <td>{props.project.nuolaida}</td>
+      <td>{props.project.busena}</td>
+  
+      <td>
+        <Link to={"/editprj/"+props.project._id}>Redaguoti</Link> | <Button onClick={() => { props.deleteProject(props.project._id) }}>Ištrinti</Button>
+        {/* <a href="#" onClick={() => { props.deleteProject(props.project._id) }}>Ištrinti</a> */}
+      </td>
+    </tr>
+  )
 
 export default class EditAccount extends Component {
     constructor(props) {
@@ -25,7 +54,9 @@ export default class EditAccount extends Component {
             svetaine: '',
             //date: new Date(), pataisyti
             projektai: [],
-            ProjectId: ''
+            ProjectId: '',
+            agreements: [],
+            projects: []
         }
     }
 
@@ -80,6 +111,25 @@ export default class EditAccount extends Component {
             .catch((error) => {
                 console.log(error);
             })
+
+            //nauja
+            axios.get('http://localhost:5000/agreements/accagr/' + this.props.match.params.id)
+            .then(response => {
+              this.setState({ agreements: response.data })
+              //console.log(this.state.products);
+            })
+            .catch((error) => {
+              console.log(error);
+            })
+
+            axios.get('http://localhost:5000/projects/projagr/' + this.props.match.params.id)
+      .then(response => {
+        this.setState({ projects: response.data })
+        //console.log(this.state.products);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
     }
 
     onChangePavadinimas(e) {
@@ -144,6 +194,20 @@ export default class EditAccount extends Component {
 
         window.location = '/';
     }
+
+    agreementList() {
+        //console.log(this.state.agreements.projektas);//projektas???
+        return this.state.agreements.map(currentagreement => {
+          return <Agreement agreement={currentagreement} deleteAgreement={this.deleteAgreement} key={currentagreement._id}/>;
+        })
+      }
+
+      projectList() {
+        //console.log(this.state.projects.projektas);
+        return this.state.projects.map(currentproject => {
+          return <Project project={currentproject} deleteProject={this.deleteProject} key={currentproject._id}/>;
+        })
+      }
 
     render() {
         return (
@@ -253,6 +317,38 @@ export default class EditAccount extends Component {
                         <input type="submit" value="Atnaujinta įmonė" className="btn btn-primary" />
                     </div>
                 </form>
+                <p></p>
+                <p></p>
+                <h3>Susijusios sutartys</h3>
+        <table className="table">
+          <thead className="thead-light">
+            <tr>
+              <th>Pavadinimas</th>
+              <th>Sutarties numeris</th>
+              <th>Tipas</th>
+            </tr>
+          </thead>
+          <tbody>
+            { this.agreementList() }
+          </tbody>
+        </table>
+        <p></p>
+        <p></p>
+        <h3>Susiję projektai</h3>
+        <table className="table">
+          <thead className="thead-light">
+            <tr>
+              <th>Pavadinimas</th>
+              <th>Aprašymas</th>
+              <th>Projekto suma</th>
+              <th>Nuolaida</th>
+              <th>Būsena</th>
+            </tr>
+          </thead>
+          <tbody>
+            { this.projectList() }
+          </tbody>
+        </table>
             </div>
         )
     }

@@ -9,7 +9,7 @@ export default class CreateProject extends Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.onChangeAprasymas = this.onChangeAprasymas.bind(this);
         this.onChangePavadinimas = this.onChangePavadinimas.bind(this);
-        this.onChangeKontaktas = this.onChangeKontaktas.bind(this);
+        this.onChangeImone = this.onChangeImone.bind(this);
         this.onChangeProjektoSuma = this.onChangeProjektoSuma.bind(this);
         this.onChangeNuolaida = this.onChangeNuolaida.bind(this);
         this.onChangeBusena = this.onChangeBusena.bind(this);
@@ -17,11 +17,30 @@ export default class CreateProject extends Component {
         this.state = {
             aprasymas: '',
             pavadinimas: '',
-            kontaktas: '',
+            imone: '',
             projektoSuma: 0,
             nuolaida: 0,
-            busena: 'Pradėtas'
+            busena: 'Pradėtas',
+            imones: []
         }
+    }
+
+    componentDidMount(){
+        axios.get('http://localhost:5000/accounts/')
+        .then(response => {
+          if (response.data.length > 0) {
+            this.setState({
+              //projektai: response.data.map(projektas => projektas.pavadinimas),
+              imones: response.data.map(imone => [imone._id, imone.pavadinimas]),
+              pavadinimas: response.data[0].pavadinimas//,
+              //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
+            })
+            console.log(this.state.imones)
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
     }
 
     onChangeAprasymas(e) {
@@ -36,9 +55,9 @@ export default class CreateProject extends Component {
         })
     }
 
-    onChangeKontaktas(e) {
+    onChangeImone(e) {
         this.setState({
-            kontaktas: e.target.value
+            imone: e.target.value
         })
     }
 
@@ -66,7 +85,7 @@ export default class CreateProject extends Component {
         const projektas = {
             aprasymas: this.state.aprasymas,
             pavadinimas: this.state.pavadinimas,
-            kontaktas: this.state.kontaktas,
+            imone: this.state.imone,
             projektoSuma: this.state.projektoSuma,
             nuolaida: this.state.nuolaida,
             busena: this.state.busena
@@ -80,7 +99,7 @@ export default class CreateProject extends Component {
         this.setState({
             aprasymas: '',
             pavadinimas: '',
-            kontaktas: '',
+            imone: '',
             projektoSuma: 0,
             nuolaida: 0,
             busena: 'Pradėtas'
@@ -112,15 +131,23 @@ export default class CreateProject extends Component {
                             onChange={this.onChangeAprasymas}
                         />
                     </div>
-                    <div className="form-group">
-                        <label>Kontaktas: </label>
-                        <input type="text"
-                            required
-                            className="form-control"
-                            value={this.state.kontaktas}
-                            onChange={this.onChangeKontaktas}
-                        />
-                    </div>
+                    <div className="form-group"> 
+        <label>Įmonė: </label>
+          <select //ref="userInput"
+              required
+              className="form-control"
+                value={this.state.imone}
+              onChange={this.onChangeImone}>
+              {
+                this.state.imones.map(function([_id, pavadinimas]) {
+                  return <option 
+                    key={_id}
+                    value={_id}>{pavadinimas}
+                    </option>;
+                })
+              }
+          </select>
+        </div>
                     <div className="form-group">
                         <label>Projekto suma: </label>
                         <input type="text"

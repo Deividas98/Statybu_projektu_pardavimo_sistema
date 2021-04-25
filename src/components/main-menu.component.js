@@ -80,9 +80,7 @@ export default class MainMenu extends Component {
         let projectModalClose = () => {this.setState({ projectShow: false })};
         let productModalClose = () => {this.setState({ productShow: false })};
 
-        let testcomponentas;
-    
-    
+    /*    let testcomponentas;
     
         if (this.state.table == 'projectTable') {
           testcomponentas = <ProjectTable/>
@@ -90,7 +88,7 @@ export default class MainMenu extends Component {
           testcomponentas = <ProductTable />
         } else {
           testcomponentas = <ContactTable />
-        }
+        }*/
 
         const getUser = /*async*/ () => {
         console.log("apsk");
@@ -121,9 +119,9 @@ export default class MainMenu extends Component {
             <Nav.Link onClick={() => this.setState({ productShow: true })} >Pridėti produktą</Nav.Link>
             <Nav.Link onClick={() => this.setState({ projectShow: true })} >Pridėti projektą</Nav.Link>
             <Nav.Link onClick={() => this.setState({ agreementShow: true })} >Pridėti sutartį</Nav.Link>
-              <Nav.Link onClick={() => this.setState({ contactModalShow: true })} /*href="/"*/>Add Contact</Nav.Link>
-              <Nav.Link onClick={() => this.setState({ addModalShow: true })} href="/edit/:id">Create Project</Nav.Link>
-              <Nav.Link onClick={() => this.setState({ productModalShow: true })} href="/create">Add Product</Nav.Link>
+              {/* <Nav.Link onClick={() => this.setState({ contactModalShow: true })} href="/">Add Contact</Nav.Link> */}
+              {/* <Nav.Link onClick={() => this.setState({ addModalShow: true })} href="/edit/:id">Create Project</Nav.Link> */}
+              {/* <Nav.Link onClick={() => this.setState({ productModalShow: true })} href="/create">Add Product</Nav.Link> */}
               <Nav.Link onClick={() => this.sort()} href="#link">Sort</Nav.Link>
 
 
@@ -168,7 +166,6 @@ export default class MainMenu extends Component {
       <Route path="/editagr/:id" component={EditAgreement} />
       <Route path="/edit/:id" component={EditProduct} />
       <Route path="/editprj/:id" component={EditProject} />
-      <Route path="/create" component={CreateProduct} />
       <Route path="/user"  component={CreateProject} />
       </Router>
      

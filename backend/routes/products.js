@@ -40,6 +40,13 @@ router.route('/getProjects').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+//gauti sutartis pagal susijusias imones
+router.route('/projprod/:id').get((req, res) => {
+  Peoduct.find({"projektas" : req.params.id/*"60856a05a142774d008c3e7c"*/})
+      .then(products => res.json(products))
+      .catch(err => res.status(400).json('Error: ' + err));
+  });
+
 router.route('/add').post((req, res) => {
   console.log(req.body);
   const aprasymas = req.body.aprasymas;
