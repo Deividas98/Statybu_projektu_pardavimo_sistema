@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 //import { Table, Button, Modal } from 'reactstrap';
 import firebase from './util/firebase';
 import BootstrapTable from "react-bootstrap-table-next";
-import { Modal, Button, Row, Col, Form, FormControl } from 'react-bootstrap';
+import { Modal, Button, FormControl } from 'react-bootstrap';
 /*is componen product list js*/
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+//import { Link } from 'react-router-dom';
+//import axios from 'axios';
 
 //ne atskiram faile nes mazas komponentas
-const Product = props => (
+/*const Product = props => (
   <tr>
     <td>{props.product.pavadinimas}</td>
     <td>{props.product.aprasymas}</td>
@@ -16,16 +16,16 @@ const Product = props => (
     <td>{props.product.suma}</td>
     <td>{props.product.kiekis}</td>
 <td>{props.product.kaina}</td>
-        {/*<td>{props.product.inventory_docs[0]}</td>
-    <td>{props.product.date.substring(0,10)}</td>*/}
+        
     <td>
       <Link to={"/edit/"+props.product._id}>edit</Link> | <a href="#" onClick={() => { props.deleteProduct(props.product._id) }}>delete</a>
     </td>
   </tr>
-)
+)*/
+
 /*is componen product list js*/
 
-/*const productColumns = [{
+const productColumns = [{
   dataField: 'pavadinimas',
   text: 'Name'
 }, {
@@ -46,18 +46,18 @@ const Product = props => (
 }, {
   dataField: 'sukurimodata',
   text: 'Created On'
-},];*/
+},];
 
 export class ProductTable extends Component {
   constructor(props) {
     super(props);
 
     /*is componen product list js*/
-    this.deleteProduct = this.deleteProduct.bind(this)
-    this.state = {products: []};
+    //this.deleteProduct = this.deleteProduct.bind(this)
+    //this.state = {products: []};
     /*is componen product list js*/
 
-   /* this.projectRef = React.createRef();
+    this.projectRef = React.createRef();
     this.state = {
       productList: [],
 
@@ -70,10 +70,10 @@ export class ProductTable extends Component {
       produktoId: '',
       projektas: '',
       deleteConfirm: false,
-    }*/
+    }
   }
 
-  /*showModal = e => {
+  showModal = e => {
     this.setState({ show: true });
   };
 
@@ -152,10 +152,10 @@ export class ProductTable extends Component {
       this.setState({ productList: productList });
     });
     console.log(counter);
-  }*/
+  }
 
   /*is componen product list js*/
-  componentDidMount() {
+  /*componentDidMount() {
     axios.get('http://localhost:5000/products/getProjects')
       .then(response => {
         this.setState({ products: response.data })
@@ -180,13 +180,12 @@ export class ProductTable extends Component {
     return this.state.products.map(currentproduct => {
       return <Product product={currentproduct} deleteProduct={this.deleteProduct} key={currentproduct._id}/>;
     })
-  }
+  }*/
   /*is componen product list js*/
 
 
-  /*render() {
+  render() {
 
-    const { depsPrj } = this.state;
     //let projectModalClose = () => this.setState({ projectModalShow: false });
 
     const rowEvents = {
@@ -207,12 +206,12 @@ export class ProductTable extends Component {
         this.showModal();
         //e => {this.showModal();}
       },
-    };*/
+    };
 
-    render(){
+    //render(){
     return (
       <div>
-{/*
+
         <Modal show={this.state.deleteConfirm} >
           <Modal.Header closeButton>
             <Modal.Title>Delete</Modal.Title>
@@ -257,9 +256,9 @@ export class ProductTable extends Component {
           </Modal.Footer>
         </Modal>
 
-        <BootstrapTable keyField='id' data={this.state.productList} columns={productColumns} rowEvents={rowEvents} />/*}{/*surendinama lentele*/}
+        <BootstrapTable keyField='id' data={this.state.productList} columns={productColumns} rowEvents={rowEvents} />{/*surendinama lentele*/}
         
-        <table className="table">
+      {/*}  <table className="table">
           <thead className="thead-light">
             <tr>
               <th>Pavadinimas</th>
@@ -273,7 +272,7 @@ export class ProductTable extends Component {
           <tbody>
             { this.productList() }
           </tbody>
-        </table>
+        </table>*/}
 
 
       </div>

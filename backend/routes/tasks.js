@@ -58,7 +58,7 @@ router.route('/task/:id').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/task/:id').delete((req, res) => {
+router.route('/:id').delete((req, res) => {
     Task.findByIdAndDelete(req.params.id)
     .then(() => res.json('Task deleted.'))
     .catch(err => res.status(400).json('Error: ' + err));

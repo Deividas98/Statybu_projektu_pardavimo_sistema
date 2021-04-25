@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+//import firebase from 'firebase';
 /*const firebaseConfig = {
     apiKey: "AIzaSyAKQAA0EKa0EX55CVSCtp0CG3dL79qXuT4",
     authDomain: "kompleksinis1.firebaseapp.com",
@@ -12,7 +12,7 @@ import firebase from 'firebase';
   };
   firebase/*.default*///.initializeApp(firebaseConfig);*/
 
-  const firebaseConfig = {
+  /*const firebaseConfig = {
     apiKey: "AIzaSyC_Yxgc5mVES-y9xWz4ODhmnqT5DLEf7PM",
     authDomain: "kompleksinis3.firebaseapp.com",
     projectId: "kompleksinis3",
@@ -26,4 +26,4 @@ import firebase from 'firebase';
   firebase.analytics();
 
 
-export default firebase;
+export default firebase;*/

@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 import '../App.css';
-import { render } from "react-dom";
-//import {Table, Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Navbar, Nav, NavDropdown, InputGroup, FormControl } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 import ContactTable from '../ContactTable';
 import ProjectTable from '../ProjectTable';
 import ProductTable from '../ProductTable';

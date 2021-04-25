@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import firebase from './util/firebase';
-import { Modal, Button, Row, Col, Form, FormControl, Dropdown } from 'react-bootstrap';
+import { Modal, Button, FormControl, Dropdown } from 'react-bootstrap';
 
 export default function AddProject() {
-  const [pavadinimas, setPavadinimas, aprasymas, setAprasymas, kontaktas, setKontaktas, nuolaida, setNuolaida, busena, setBusena] = useState('');
+const [pavadinimas, setPavadinimas, aprasymas, setAprasymas, kontaktas, /*setKontaktas,*/ nuolaida, /*setNuolaida,*/ busena/*, setBusena*/] = useState('');
 
   /*const handleOnChange = (e) => {
       setTitle(e.target.value);

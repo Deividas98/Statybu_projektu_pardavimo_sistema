@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import {Button} from 'react-bootstrap';
 
 //ne atskiram faile nes mazas komponentas
 const Task = props => (
@@ -12,7 +13,9 @@ const Task = props => (
     <td>{props.task.komentaras}</td>
 
     <td>
-      <Link to={"/edittask/"+props.task._id}>Redaguoti</Link> | <a href="#" onClick={() => { props.deleteTask(props.task._id) }}>Ištrinti</a>
+      <Link to={"/edittask/"+props.task._id}>Redaguoti</Link> | <Button onClick={() => { props.deleteTask(props.task._id) }}>Ištrinti</Button> 
+      {/* <a href="#" onClick={() => { props.deleteTask(props.task._id) }}>Ištrinti</a> */}
+
     </td>
   </tr>
 )

@@ -52,7 +52,7 @@ router.route('/acc/:id').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/acc/:id').delete((req, res) => {
+router.route('/:id').delete((req, res) => {
     Account.findByIdAndDelete(req.params.id)
     .then(() => res.json('Account deleted.'))
     .catch(err => res.status(400).json('Error: ' + err));

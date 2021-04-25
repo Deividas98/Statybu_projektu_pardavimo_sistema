@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import {Button} from 'react-bootstrap';
 
 //ne atskiram faile nes mazas komponentas
 const Account = props => (
@@ -14,7 +15,8 @@ const Account = props => (
     <td>{props.account.svetaine}</td>
 
     <td>
-      <Link to={"/editacc/"+props.account._id}>Redaguoti</Link> | <a href="#" onClick={() => { props.deleteAccount(props.account._id) }}>Ištrinti</a>
+      <Link to={"/editacc/"+props.account._id}>Redaguoti</Link> | {/*<a href="#" onClick={() => { props.deleteAccount(props.account._id) }}>Ištrinti</a>*/}
+      <Button onClick={() => { props.deleteAccount(props.account._id) }}>Ištrinti</Button>
     </td>
   </tr>
 )

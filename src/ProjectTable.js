@@ -2,16 +2,7 @@ import React, { Component } from 'react'
 //import { Table, Button, Modal } from 'reactstrap';
 import firebase from './util/firebase';
 import BootstrapTable from "react-bootstrap-table-next";
-import { Modal, Button, Row, Col, Form, FormControl, ProgressBar } from 'react-bootstrap';
-
-//const projectList = [
-  /*{
-     "id": "10",
-     "name": "minivan",
-     "price": 333
-     
-   }*/
-//];
+import { Modal, Button, FormControl, ProgressBar } from 'react-bootstrap';
 
 
 const projectColumns = [/*{
@@ -143,7 +134,7 @@ export class ProjectTable extends Component {
 
     //console.log("prewprops::: " + prevProps);
     var counter = 0;
-    let optionSet = [];
+   // let optionSet = [];
     this.setState({ projectList: [] });
     firebase.database().ref("TESTINIS-ProjectsList").orderByChild("pavadinimas").on('value', (snapshot) => {
       //let ProjectList = [];
@@ -185,15 +176,14 @@ export class ProjectTable extends Component {
     //const newBugs = this.props.data3;
     
     //console.log("another comp " + /*this.props.data3*/newBugs);
-    const sortas = this.props.sortAZ;
+  
     let progress = 0;
 
-    if (this.state.busena == "Pradėtas") { progress = 33; } 
-    else if (this.state.busena == "Vykdomas") { progress = 67; } 
-    else if (this.state.busena == "Pabaigtas") { progress = 100; }
+    if (this.state.busena === "Pradėtas") { progress = 33; } 
+    else if (this.state.busena === "Vykdomas") { progress = 67; } 
+    else if (this.state.busena === "Pabaigtas") { progress = 100; }
     else progress = 0;
 
-    const { depsPrj } = this.state;
     //let projectModalClose = () => this.setState({ projectModalShow: false });
 
     const rowEvents = {
@@ -248,9 +238,9 @@ export class ProjectTable extends Component {
             disabled={this.state.busena == "Pabaigtas" ? true : false} />
 
             <FormControl onChange={evt => this.updateDescriptionValue(evt)} value={this.state.aprasymas}  as="textarea"
-            disabled={this.state.busena == "Pabaigtas" ? true : false}/>
+            disabled={this.state.busena === "Pabaigtas" ? true : false}/>
 
-            <FormControl as="select" custom ref={this.myRef} disabled={this.state.busena == "Pabaigtas" ? true : false}>
+            <FormControl as="select" custom ref={this.myRef} disabled={this.state.busena === "Pabaigtas" ? true : false}>
               <option value={this.state.kontaktas}>{this.state.kontaktas}</option>
               <option value="petras petraitis">Petras Petraitis</option>
               <option value="purple p">Paba</option>
@@ -258,9 +248,9 @@ export class ProjectTable extends Component {
             </FormControl>
 
             <FormControl onChange={evt => this.updateNuolaidaValue(evt)} value={this.state.nuolaida} 
-            disabled={this.state.busena == "Pabaigtas" ? true : false}/>
+            disabled={this.state.busena === "Pabaigtas" ? true : false}/>
 
-            <FormControl as="select" custom ref={this.BusenaRef} disabled={this.state.busena == "Pabaigtas" ? true : false}>
+            <FormControl as="select" custom ref={this.BusenaRef} disabled={this.state.busena === "Pabaigtas" ? true : false}>
               <option value={this.state.busena}>{this.state.busena}</option>
               <option value="Pradėtas">Pradėtas</option>
               <option value="Vykdomas">Vykdomas</option>

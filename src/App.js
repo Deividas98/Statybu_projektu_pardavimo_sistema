@@ -3,8 +3,8 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 //import Table from './Table';
 //import 'bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Nav, NavDropdown, InputGroup, FormControl } from 'react-bootstrap';
-import ContactTable from './ContactTable';
+import { Navbar } from 'react-bootstrap';
+/*import ContactTable from './ContactTable';
 import ProjectTable from './ProjectTable';
 import ProductTable from './ProductTable';
 //import { ReactComponent } from '*.svg';
@@ -13,21 +13,20 @@ import firebase from './util/firebase';
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from 'react-bootstrap-table2-paginator';
 
-import AddProject from './AddProjectModal';
+import AddProject from './AddProjectModal';*/
 
 import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
 
 import Navbar2 from "./components/navbar.component"
-import ProductsList from "./components/products-list.component";
+/*import ProductsList from "./components/products-list.component";
 import EditProduct from "./components/edit-products.component";
 import CreateProduct from "./components/create-product.component";
 import CreateProject from "./components/create-project.component";
 import TasksList from "./components/list-task.component";
-import AccountsList from "./components/list-account.component";
+import AccountsList from "./components/list-account.component";*/
 //import Login from "./components/login";
-import Axios from "axios";
+//import Axios from "axios";
 import MainMenu from "./components/main-menu.component";
-import { useHistory } from "react-router-dom";
 import Login from "./components/login.component";
 
 
@@ -160,45 +159,4 @@ class App extends React.Component {
 }
 export default App;
 
-    /*  <div>
-
-{/*this.renderMainMenu()*/{/* -------V2-------}
-
-         
-{/*  </Nav>
-          </Navbar.Collapse>
-            </Navbar>*/}
-
-
-{/*} <div className="splitleft">
-
-          <Nav defaultActiveKey="/" className="navbar">
-
-           {/* <Nav.Link href="/home">Active</Nav.Link>*/}
-{/*<Nav.Link eventKey="link-1" onClick={this.clickHandlerContact.bind(this)}>Contacts</Nav.Link>
-            <Nav.Link eventKey="link-2" onClick={this.clickHandlerProject.bind(this)}>Projects</Nav.Link>
-            <Nav.Link href="/" onClick={this.clickHandlerProduct.bind(this)}>Products</Nav.Link>*/}
-{/* palikti sita komentara <Nav.Link eventKey="link-2">Link</Nav.Link>*/ }
-
- 
-      {/*  </div>*/}
-
-
-{/*  <div className="splitright">
-        <div style={{ margin: "20px 20px 20px 20px" }}>
-
-  {testcomponentas}
-            
-
-          </div>
-        </div>
-*/}
-{/*  </div>
-
-    );*/{/* }
-  }
-
-}
-
-export default App;*/}
-}
+//}

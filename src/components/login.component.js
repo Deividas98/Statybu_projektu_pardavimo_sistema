@@ -19,7 +19,6 @@ export default class Login extends Component {
   }
 
   render() {
-    const hardcode = 'hardcoded';
     const register = () => {
       Axios({
         method: "POST",

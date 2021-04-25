@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 //import { Table, Button, Modal, Alert } from 'reactstrap';
 import firebase from './util/firebase';
 import BootstrapTable from "react-bootstrap-table-next";
-import { Modal, Button, Row, Col, Form, FormControl, ProgressBar } from 'react-bootstrap';
+import { Modal, Button, FormControl } from 'react-bootstrap';
 
 const contactColumns = [{
   dataField: 'vardas',
@@ -131,7 +131,6 @@ export class ContactTable extends Component {
   }
 
   render() {
-    const { depsPrj } = this.state;
 
     const rowEvents = {
       onClick: (e, row) => {
