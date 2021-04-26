@@ -12,8 +12,14 @@ const Product = props => (
     <td>{props.product.suma}</td>
     <td>{props.product.kiekis}</td>
 <td>{props.product.kaina}</td>
+<td>{props.product.plotasm2}</td>
+<td>{props.product.pajamos}</td>
+<td>{props.product.ebitda}</td>
+<td>{props.product.m2kaina}</td>
+<td>{props.product.ebitdaProc}</td>
+<td>{props.product.statusas}</td>
     <td>
-      <Link to={"/edit/"+props.product._id}>edit</Link> | <Button onClick={() => { props.deleteProduct(props.product._id) }}>delete</Button> 
+      <Link to={"/edit/"+props.product._id}>Redaguoti</Link> | <Button onClick={() => { props.deleteProduct(props.product._id) }}>Ištrinti</Button> 
       {/* <a href="#" onClick={() => { props.deleteProduct(props.product._id) }}>delete</a> */}
     </td>
   </tr>
@@ -62,7 +68,7 @@ export default class ProductsList extends Component {
   render() {
     return (
       <div>
-        <h3>Logged Products</h3>
+        <h3>Produktų sąrašas</h3>
         <table className="table">
           <thead className="thead-light">
             <tr>
@@ -72,13 +78,18 @@ export default class ProductsList extends Component {
               <th>Suma</th>
               <th>Kiekis</th>
               <th>Kaina</th>
+              <th>Plotas m2</th>
+              <th>Pajamos</th>
+              <th>EBITDA</th>
+              <th>m2 kaina</th>
+              <th>EBITDA, %</th>
+              <th>Statusas</th>
             </tr>
           </thead>
           <tbody>
             { this.productList() }
           </tbody>
-        </table>
-        
+        </table>  
       </div>
     )
   }

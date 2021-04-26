@@ -140,11 +140,6 @@ export default class MainMenu extends Component {
             <Nav.Link href="/" onClick={this.clickHandlerProduct.bind(this)}>Products</Nav.Link>*/}
             {/* palikti sita komentara <Nav.Link eventKey="link-2">Link</Nav.Link>*/}
 
-         {/*}   <Nav.Link to="/list" className="nav-link">ExcerTracker</Nav.Link>{/*buvo link to / */}
-         {/* <Nav.Link to="/list" className="nav-link">Exercises</Nav.Link>{/*buvo link to / */}
-         {/* <Nav.Link to="/user" className="nav-link" onClick={this.clickHandlerProduct.bind(this)}>Create User</Nav.Link>*/}
-         {/* </Nav>*/}
-
        {/* </div>*/}
 
         <div className="splitright">

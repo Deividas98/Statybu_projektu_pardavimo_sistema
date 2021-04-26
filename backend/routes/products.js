@@ -4,19 +4,6 @@ let Product = require('../models/product.model');
 
 router.route('/').get((req, res) => {
   Product.find()
- //Product.aggregate([
-   /*{ "$lookup": {
-    "from": "projects",
-    //"let": { "projektas": "$products.projektas" },
-    "pipeline": [
-      { "$match": {
-        "$expr": { "$in": ["$$projektas", "$projects._id"] }
-      }}//,
-      //{ "$unwind": "$projects._id" }
-    ],
-    "as": "projektas"
-  }}
- ])*/
     .then(products => res.json(products))
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -33,7 +20,8 @@ router.route('/getProjects').get((req, res) => {
               }  
          },
          {"$unwind":'$projektas'},
-         {"$project": { "pavadinimas": 1, "aprasymas": 1, "projektas": "$projektas.pavadinimas", "suma": 1, "kiekis": 1, "kaina": 1}}
+         {"$project": { "pavadinimas": 1, "aprasymas": 1, "projektas": "$projektas.pavadinimas",
+         "plotasm2":1, "suma": 1, "kiekis": 1, "ebitdaProc":1, "ebitda":1, "pajamos":1, "m2kaina":1, "kaina": 1}}
   ]  
   )
     .then(products => res.json(products))
@@ -55,6 +43,16 @@ router.route('/add').post((req, res) => {
   const suma = Number(req.body.suma);
   const kiekis = Number(req.body.kiekis);
   const kaina = Number(req.body.kaina);
+  //nauja
+  const plotasm2 = Number(req.body.plotasm2);
+  const pajamos = Number(req.body.pajamos);
+  const statusas = req.body.statusas;
+  //const ebitdaProc = Number(req.body.ebitdaProc);
+  /*const ebitda = Number(req.body.ebitda);
+  const ebitdaProc = Number(req.body.ebitdaProc);
+  const m2kaina = Number(req.body.m2kaina);*/
+
+
 
   const newProduct = new Product({
     aprasymas,
@@ -62,7 +60,14 @@ router.route('/add').post((req, res) => {
     projektas,
     suma,
     kiekis,
-    kaina
+    kaina,
+    plotasm2,
+    pajamos,
+    statusas/*,
+    ebitdaProc,
+    ebitda,
+    ebitdaProc, 
+    m2kaina*/
   });
 
   newProduct.save()
@@ -91,6 +96,14 @@ router.route('/update/:id').post((req, res) => {
         product.suma = Number(req.body.suma);
         product.kiekis = Number(req.body.kiekis);
         product.kaina = Number(req.body.kaina);
+        //nauja
+        product.plotasm2 = Number(req.body.plotasm2);
+        product.pajamos = Number(req.body.pajamos);
+        product.statusas = req.body.statusas;
+
+        product.ebitda = Number(req.body.pajamos) - Number(req.body.suma);
+        product.ebitdaProc = ((Number(req.body.pajamos) - Number(req.body.suma)) / Number(req.body.pajamos) * 100);
+        product.m2kaina = Number(req.body.plotasm2) * Number(req.body.kiekis);
 
         product.save()
         .then(() => res.json('Product updated!'))

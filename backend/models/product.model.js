@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
   aprasymas: {
-    type:  /*mongoose.Types.Decimal128,*/String,
+    type: String,
     required: false,
     unique: false,
     trim: true,
@@ -18,13 +18,11 @@ const productSchema = new Schema({
     trim: true,
     minlength: 3
   },
-  projektas: {//pakeisti!!!
+  projektas: {
     type: mongoose.Schema.Types.ObjectId,//String,  naudojant id neprisideda irasas is ui
-    //required: false,
-    //unique: false//,
     ref: 'Project'
   },
-  suma: {
+  suma: {//cia product cogs
     type: Number,
     required: false,
     unique: false//,
@@ -34,16 +32,51 @@ const productSchema = new Schema({
   kiekis: {
     type: Number,
     required: false,
-    unique: false//,
-    //trim: true,
-    //minlength: 3
+    unique: false
   },
   kaina: {
     type: Number,
     required: false,
-    unique: false//,
-    //trim: true,
-    //minlength: 3
+    unique: false
+  },
+  plotasm2: {
+    type: Number,
+    required: false,
+    unique: false
+  },
+  pajamos: {//revenue
+    type: Number,
+    required: false,
+    unique: false
+  },
+  ebitda: {
+    type: Number,
+    required: false,
+    unique: false,
+    default: function() {
+      return this.pajamos - this.suma
+    }
+  },
+  m2kaina: {
+    type: Number,
+    required: false,
+    unique: false,
+    default: function() {
+      return this.plotasm2 / this.kiekis
+    }
+  },
+  ebitdaProc: {
+    type: Number,
+    required: false,
+    unique: false,
+    default: function() {
+      return ((this.pajamos - this.suma) / this.pajamos * 100)
+    }
+  },
+  statusas: {
+    type: String,
+    required: true,
+    unique: false
   },
 }, {
   timestamps: true,

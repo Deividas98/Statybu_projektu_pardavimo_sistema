@@ -11,6 +11,10 @@ export default class CreateProducts extends Component {
     this.onChangeSuma = this.onChangeSuma.bind(this);
     this.onChangeKiekis = this.onChangeKiekis.bind(this);
     this.onChangeKaina = this.onChangeKaina.bind(this);
+    this.onChangePlotasm2 = this.onChangePlotasm2.bind(this);
+    this.onChangePajamos = this.onChangePajamos.bind(this);
+    this.onChangeStatusas = this.onChangeStatusas.bind(this);
+
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
@@ -20,6 +24,14 @@ export default class CreateProducts extends Component {
       kiekis: 0,
       kaina: 0,
       //date: new Date(),
+      plotasm2: 0,
+      pajamos: 0,
+      statusas: '',
+      //---calc
+      ebitda: 0,
+      ebbitdaProc: 0,
+      m2kaina: 0,
+      //---calc
       projektai: [],
       ProjectId: ''
     }
@@ -81,11 +93,24 @@ export default class CreateProducts extends Component {
     console.log(this.state.projektas)//paima tik is antro/ trecio karto kazkodel ir paima preajusi vizualiai bet iraso teisingai
   }
 
-  /*onChangeDate(date) {
+  onChangePlotasm2(e) {
     this.setState({
-      date: date
+      plotasm2: e.target.value,
+      m2kaina: this.state.plotasm2 / this.state.kiekis
     })
-  }*/
+  }
+
+  onChangePajamos(e) {
+    this.setState({
+      pajamos: e.target.value
+    })
+  }
+
+  onChangeStatusas(e) {
+    this.setState({
+      statusas: e.target.value
+    })
+  }
 
   onSubmit = (e) => {
     e.preventDefault();
@@ -94,9 +119,12 @@ export default class CreateProducts extends Component {
       aprasymas: this.state.aprasymas,
       pavadinimas: this.state.pavadinimas,
       projektas: this.state.projektas,
-      suma: 100,//this.state.suma,
+      suma: this.state.suma,
       kiekis: this.state.kiekis,
-      kaina: this.state.kaina
+      kaina: this.state.kaina,
+      plotasm2: this.state.plotasm2,
+      pajamos: this.state.pajamos,
+      statusas: this.state.statusas
     }
 
     console.log(produktas);
@@ -104,7 +132,7 @@ export default class CreateProducts extends Component {
     axios.post('http://localhost:5000/products/add', produktas)
       .then(res => console.log(res.data));
 
-    window.location = '/';
+   // window.location = '/main'; atkomentuoti
   }
 
   render() {
@@ -159,6 +187,51 @@ export default class CreateProducts extends Component {
               />
         </div>
         <div className="form-group"> 
+          <label>Suma: </label>
+          <input  type="text"
+              required
+              className="form-control"
+              value={this.state.suma}
+              onChange={this.onChangeSuma}
+              />
+        </div>
+        <div className="form-group"> 
+          <label>Plotas m2: </label>
+          <input  type="text"
+              required
+              className="form-control"
+              value={this.state.plotasm2}
+              onChange={this.onChangePlotasm2}
+              />
+        </div>
+        <div className="form-group"> 
+          <label>Pajamos: </label>
+          <input  type="text"
+              required
+              className="form-control"
+              value={this.state.pajamos}
+              onChange={this.onChangePajamos}
+              />
+        </div>
+        <div className="form-group"> 
+          <label>EBITDA: </label>
+          <input  type="text"
+              required
+              className="form-control"
+              value={this.state.pajamos - this.state.suma}
+              disabled = {true}
+              />
+        </div>
+        <div className="form-group"> 
+          <label>EBTIDA %: </label>
+          <input  type="text"
+              required
+              className="form-control"
+              value={((this.state.pajamos - this.state.suma) / this.state.pajamos * 100)}
+              disabled = {true}
+              />
+        </div>
+        <div className="form-group"> 
           <label>Kiekis: </label>
           <input  type="text"
               required
@@ -167,17 +240,29 @@ export default class CreateProducts extends Component {
               onChange={this.onChangeKiekis}
               />
         </div>
-       {/*} <div className="form-group">
-          <label>Date: </label>
-          <div>
-            <DatePicker
-              selected={this.state.date}
-              onChange={this.onChangeDate}
-            />
-          </div>
-        </div>*/}
-
-      
+        <div className="form-group"> 
+          <label>m2 kaina: </label>
+          <input  type="text"
+              required
+              className="form-control"
+            value={this.state.plotasm2 / this.state.kiekis}
+              disabled = {true}
+              />
+        </div>
+        <div className="form-group"> 
+        <label>Statusas: </label>
+          <select //ref="userInput"
+              required
+              className="form-control"
+                value={this.state.statusas}
+              onChange={this.onChangeStatusas}>
+              <option value="Juodraštis">Juodraštis</option>
+              <option value="Pateiktas">Pateiktas</option>
+              <option value="Laimėtas">Laimėtas</option>
+              <option value="Pralaimėtas">Pralaimėtas</option>
+              <option value="Atšauktas">Atšauktas</option>                   
+          </select>
+        </div>      
         </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={this.props.onHide}>Atšaukti</Button>
