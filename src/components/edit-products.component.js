@@ -3,6 +3,15 @@ import axios from 'axios';
 //import DatePicker from 'react-datepicker';
 //import "react-datepicker/dist/react-datepicker.css";
 
+// const projektas = {
+//   psumSuma: "",
+//   psumPlotasm2: "",
+//   psumPajamos: "",
+//   psumEbitda: "",
+//   psumBendrasKiekis: "",
+//   psumEbitdaProc: ""
+// }
+
 export default class EditProduct extends Component {
   constructor(props) {
     super(props);
@@ -32,7 +41,11 @@ export default class EditProduct extends Component {
       ebitda: 0,
       ebbitdaProc: 0,
       m2kaina: 0,
-      projektai: []
+      projektai: [],
+      //test
+      products: [],
+      toProject: []
+
     }
   }
 
@@ -45,8 +58,9 @@ export default class EditProduct extends Component {
           suma: response.data.suma,
           kiekis: response.data.kiekis,
           kaina: response.data.kaina,
-          projektas: response.data.projektas
+          projektas: response.data.projektas,
           //date: new Date(response.data.date)
+          statusas: response.data.statusas
         })
       })
       .catch(function (error) {
@@ -57,13 +71,66 @@ export default class EditProduct extends Component {
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
-            projektai: response.data.map(projektas => projektas.pavadinimas),//projekto pavadinimas
+            //projektai: response.data.map(projektas => projektas.pavadinimas),//projekto pavadinimas
+            projektai: response.data.map(projektas => [projektas._id, projektas.pavadinimas]),
+            pavadinimas: response.data[0].pavadinimas
           })
         }
       })
       .catch((error) => {
         console.log(error);
       })
+
+      // axios.get('http://localhost:5000/products/sumProducts/' + this.props.match.params.projektas/*state.projektas*/ + '/' + this.state.statusas)
+      //     .then(response => {
+      //       if (response.data.length > 0) {
+      //         console.log(response.data._id);
+      //         this.setState({
+      //           toProject: response.data
+      //         })
+      //         //console.log(this.state.toProject[0]._id + "  " + this.state.toProject[0].esamaslaukas)//!!!!pratesti ir pravalyti
+
+      //          projektas = {
+      //           psumSuma: this.state.atoProject[0].sumSuma,
+      //           psumPlotasm2: this.state.toProject[0].sumBendrasPlotasm2,
+      //           psumPajamos: this.state.toProject[0].sumPajamos,
+      //           psumEbitda: this.state.toProject[0].sumEbitda,
+      //           psumBendrasKiekis: this.state.toProject[0].sumBendrasKiekis,
+      //           psumEbitdaProc: this.state.toProject[0].sumEbitdaProc
+      //         }
+      //         console.log("Projektas su sumuotais duomenim: " + projektas);
+
+      //         // switch(this.state.statusas){
+      //         //   case "Pateiktas":
+      //         //     axios.post('http://localhost:5000/projects/updateest/' + this.state.projektas/*this.props.match.params.id*/, projektas)
+      //         //   .then(res => console.log(res.data));
+      //         //     break;
+      //         //   case "Laimėtas":
+      //         //     axios.post('http://localhost:5000/projects/updatewon/' + this.state.projektas/*this.props.match.params.id*/, projektas)
+      //         //   .then(res => console.log(res.data));
+      //         //     break;
+      //         //   case "Pralaimėtas":
+      //         //     axios.post('http://localhost:5000/projects/updatelost/' + this.state.projektas/*this.props.match.params.id*/, projektas)
+      //         //   .then(res => console.log(res.data));
+      //         // }
+      //       }
+      //      //kviesti projekta ir updatinti this.state.toProject[0].esamaslaukas
+      //     })
+      //     .catch((error) => {
+      //       console.log(error);
+      //     })
+
+      //test
+       /* axios.get('http://localhost:5000/products/')
+          .then(response => {
+            this.setState({ products: response.data })
+            //console.log(this.state.products); gauna visus produktus
+          })
+          .catch((error) => {
+            console.log(error);
+          })*/
+
+   
 
   }
 
@@ -129,7 +196,7 @@ export default class EditProduct extends Component {
       aprasymas: this.state.aprasymas,
       pavadinimas: this.state.pavadinimas,
       projektas: this.state.projektas,
-      suma: 100,//this.state.suma,
+      suma: this.state.suma,
       kiekis: this.state.kiekis,
       kaina: this.state.kaina,
       plotasm2: this.state.plotasm2,
@@ -139,10 +206,97 @@ export default class EditProduct extends Component {
 
     console.log(produktas);
 
-    axios.post('http://localhost:5000/products/update/' + this.props.match.params.id, produktas)
-      .then(res => console.log(res.data));
+    //vyksta keli pranesimai is eiles, todel vyksta asinchroniskai!!!
+     axios.post('http://localhost:5000/products/update/' + this.props.match.params.id, produktas)
+       .then(res => {console.log(res.data); //);
 
-    window.location = '/';
+     return axios.get('http://localhost:5000/products/sumProducts/' + this.state.projektas /*+ '/' + this.state.statusas*/)
+          .then(response => {
+            if (response.data.length > 0) {
+              //console.log(response.data._id);
+              this.setState({
+                toProject: response.data
+              })
+              
+              const projektasApsk = {
+                      apskSuma: this.state.toProject[0].Pateikta[0].sumSuma,
+                      apskBendrasPlotasm2: this.state.toProject[0].Pateikta[0].sumBendrasPlotasm2,
+                      apskPajamos: this.state.toProject[0].Pateikta[0].sumPajamos,
+                      apskEbitda: this.state.toProject[0].Pateikta[0].sumEbitda,
+                      apskBendrasKiekis: this.state.toProject[0].Pateikta[0].sumBendrasKiekis,
+                      apskEbitdaProc: this.state.toProject[0].Pateikta[0].sumEbitdaProc,
+
+                      laimetaSuma: this.state.toProject[0].Laimeta[0].sumSuma,
+                      laimetaBendrasPlotasm2: this.state.toProject[0].Laimeta[0].sumBendrasPlotasm2,
+                      laimetaPajamos: this.state.toProject[0].Laimeta[0].sumPajamos,
+                      laimetaEbitda: this.state.toProject[0].Laimeta[0].sumEbitda,
+                      laimetaBendrasKiekis: this.state.toProject[0].Laimeta[0].sumBendrasKiekis,
+                      laimetaEbitdaProc: this.state.toProject[0].Laimeta[0].sumEbitdaProc,
+
+                      pralaimetaSuma: this.state.toProject[0].Pralaimeta[0].sumSuma,
+                      pralaimetaBendrasPlotasm2: this.state.toProject[0].Pralaimeta[0].sumBendrasPlotasm2,
+                      pralaimetaPajamos: this.state.toProject[0].Pralaimeta[0].sumPajamos,
+                      pralaimetaEbitda: this.state.toProject[0].Pralaimeta[0].sumEbitda,
+                      pralaimetaBendrasKiekis: this.state.toProject[0].Pralaimeta[0].sumBendrasKiekis,
+                      pralaimetaEbitdaProc: this.state.toProject[0].Pralaimeta[0].sumEbitdaProc
+                    }
+                    console.log(projektasApsk);//gauna gerai
+                     axios.post('http://localhost:5000/projects/updateest/' + this.state.projektas/*this.props.match.params.id*/, projektasApsk)
+                   .then(res => console.log(res.data));
+
+
+              //console.log(this.state.toProject[0].Pralaimeta[0].sumSuma)//gerai gauna
+
+              // switch(this.state.statusas){
+              //   case "Pateiktas":
+              //     const projektasApsk = {
+              //       apskSuma: this.state.toProject[0].sumSuma,
+              //       apskBendrasPlotasm2: this.state.toProject[0].sumBendrasPlotasm2,
+              //       apskPajamos: this.state.toProject[0].sumPajamos,
+              //       apskEbitda: this.state.toProject[0].sumEbitda,
+              //       apskBendrasKiekis: this.state.toProject[0].sumBendrasKiekis,
+              //       apskEbitdaProc: this.state.toProject[0].sumEbitdaProc
+              //     }
+              //     console.log(projektasApsk);//gauna gerai
+              //     axios.post('http://localhost:5000/projects/updateest/' + this.state.projektas/*this.props.match.params.id*/, projektasApsk)
+              //   .then(res => console.log(res.data));
+              //     break;
+              //   case "Laimėtas":
+              //     const projektasWon = {
+              //       laimetaSuma: this.state.toProject[0].sumSuma,
+              //       laimetaBendrasPlotasm2: this.state.toProject[0].sumBendrasPlotasm2,
+              //       laimetaPajamos: this.state.toProject[0].sumPajamos,
+              //       laimetaEbitda: this.state.toProject[0].sumEbitda,
+              //       laimetaBendrasKiekis: this.state.toProject[0].sumBendrasKiekis,
+              //       laimetaEbitdaProc: this.state.toProject[0].sumEbitdaProc
+              //     }
+              //     console.log(projektasWon);//gauna gerai
+              //     axios.post('http://localhost:5000/projects/updatewon/' + this.state.projektas/*this.props.match.params.id*/, projektasWon)
+              //   .then(res => console.log(res.data));
+              //     break;
+              //   case "Pralaimėtas":
+              //     const projektasLost = {
+              //       pralaimetaSuma: this.state.toProject[0].sumSuma,
+              //       pralaimetaBendrasPlotasm2: this.state.toProject[0].sumBendrasPlotasm2,
+              //       pralaimetaPajamos: this.state.toProject[0].sumPajamos,
+              //       pralaimetaEbitda: this.state.toProject[0].sumEbitda,
+              //       pralaimetaBendrasKiekis: this.state.toProject[0].sumBendrasKiekis,
+              //       pralaimetaEbitdaProc: this.state.toProject[0].sumEbitdaProc
+              //     }
+              //     console.log(projektasLost);//gauna gerai
+              //     axios.post('http://localhost:5000/projects/updatelost/' + this.state.projektas/*this.props.match.params.id*/, projektasLost)
+              //   .then(res => console.log(res.data));
+              // }
+
+
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+        });
+
+   // window.location = '/main';
   }
 
   render() {
@@ -176,10 +330,10 @@ export default class EditProduct extends Component {
               value={this.state.projektas}
               onChange={this.onChangeProjektas}>
               {
-                this.state.projektai.map(function (projektas) {
+                this.state.projektai.map(function ([_id, projektas]) {
                   return <option
-                    key={projektas}
-                    value={projektas}>{projektas}
+                    key={_id}
+                    value={_id}>{projektas}
                   </option>;
                 })
               }

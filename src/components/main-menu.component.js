@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Navbar, Nav } from 'react-bootstrap';
-import ContactTable from '../ContactTable';
+/*import ContactTable from '../ContactTable';
 import ProjectTable from '../ProjectTable';
-import ProductTable from '../ProductTable';
+import ProductTable from '../ProductTable';*/
 
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import Navbar2 from "./navbar.component"

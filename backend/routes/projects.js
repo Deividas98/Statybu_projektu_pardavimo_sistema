@@ -78,4 +78,70 @@ router.route('/updateprj/:id').post((req, res) => {
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
+//naujinti iš produkto
+router.route('/updateest/:id').post((req, res) => {
+  Project.findById(req.params.id)
+  .then(project => {
+    project.apskSuma = Number(req.body.apskSuma);
+    project.apskBendrasPlotasm2 = Number(req.body.apskBendrasPlotasm2);
+    project.apskPajamos = Number(req.body.apskPajamos);
+    project.apskEbitda = Number(req.body.apskEbitda);
+    project.apskBendrasKiekis = Number(req.body.apskBendrasKiekis);
+    project.apskEbitdaProc = Number(req.body.apskEbitdaProc);
+
+    project.laimetaSuma = Number(req.body.laimetaSuma);
+    project.laimetaBendrasPlotasm2 = Number(req.body.laimetaBendrasPlotasm2);
+    project.laimetaPajamos = Number(req.body.laimetaPajamos);
+    project.laimetaEbitda = Number(req.body.laimetaEbitda);
+    project.laimetaBendrasKiekis = Number(req.body.laimetaBendrasKiekis);
+    project.laimetaEbitdaProc = Number(req.body.laimetaEbitdaProc);
+
+    project.pralaimetaSuma = Number(req.body.pralaimetaSuma);
+    project.pralaimetaBendrasPlotasm2 = Number(req.body.pralaimetaBendrasPlotasm2);
+    project.pralaimetaPajamos = Number(req.body.pralaimetaPajamos);
+    project.pralaimetaEbitda = Number(req.body.pralaimetaEbitda);
+    project.pralaimetaBendrasKiekis = Number(req.body.pralaimetaBendrasKiekis);
+    project.pralaimetaEbitdaProc = Number(req.body.pralaimetaEbitdaProc);
+
+    project.save()
+      .then(() => res.json('Project estimated updated!'))
+      .catch(err => res.status(400).json('Error: ' + err));
+  })
+  .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/updatelost/:id').post((req, res) => {
+  Project.findById(req.params.id)
+  .then(project => {
+    project.pralaimetaSuma = Number(req.body.pralaimetaSuma);
+    project.pralaimetaBendrasPlotasm2 = Number(req.body.pralaimetaBendrasPlotasm2);
+    project.pralaimetaPajamos = Number(req.body.pralaimetaPajamos);
+    project.pralaimetaEbitda = Number(req.body.pralaimetaEbitda);
+    project.pralaimetaBendrasKiekis = Number(req.body.pralaimetaBendrasKiekis);
+    project.pralaimetaEbitdaProc = Number(req.body.pralaimetaEbitdaProc);
+
+    project.save()
+      .then(() => res.json('Project lost updated!'))
+      .catch(err => res.status(400).json('Error: ' + err));
+  })
+  .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/updatewon/:id').post((req, res) => {
+  Project.findById(req.params.id)
+  .then(project => {
+    project.laimetaSuma = Number(req.body.laimetaSuma);
+    project.laimetaBendrasPlotasm2 = Number(req.body.laimetaBendrasPlotasm2);
+    project.laimetaPajamos = Number(req.body.laimetaPajamos);
+    project.laimetaEbitda = Number(req.body.laimetaEbitda);
+    project.laimetaBendrasKiekis = Number(req.body.laimetaBendrasKiekis);
+    project.laimetaEbitdaProc = Number(req.body.laimetaEbitdaProc);
+
+    project.save()
+      .then(() => res.json('Project won updated!'))
+      .catch(err => res.status(400).json('Error: ' + err));
+  })
+  .catch(err => res.status(400).json('Error: ' + err));
+});
+
 module.exports = router;

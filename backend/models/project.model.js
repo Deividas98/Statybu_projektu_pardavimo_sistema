@@ -42,6 +42,104 @@ const projectSchema = new Schema({
     //trim: true,
     //minlength: 3
   },
+  kaina: {
+    type: Number,
+    required: false,
+    unique: false
+  },
+
+  apskSuma: {//cia product cogs
+    type: Number,
+    required: false,
+    unique: false//,
+  },
+  apskBendrasPlotasm2: {
+    type: Number,
+    required: false,
+    unique: false
+  },
+  apskPajamos: {//revenue
+    type: Number,
+    required: false,
+    unique: false
+  },
+  apskEbitda: {
+    type: Number,
+    required: false,
+    unique: false
+  },
+  apskBendrasKiekis: {
+    type: Number,
+    required: false,
+    unique: false
+  },
+  apskEbitdaProc: {
+    type: Number,
+    required: false,
+    unique: false,
+  },
+
+  laimetaSuma: {//cia product cogs
+    type: Number,
+    required: false,
+    unique: false//,
+  },
+  laimetaBendrasPlotasm2: {
+    type: Number,
+    required: false,
+    unique: false
+  },
+  laimetaPajamos: {//revenue
+    type: Number,
+    required: false,
+    unique: false
+  },
+  laimetaEbitda: {
+    type: Number,
+    required: false,
+    unique: false
+  },
+  laimetaBendrasKiekis: {
+    type: Number,
+    required: false,
+    unique: false
+  },
+  laimetaEbitdaProc: {
+    type: Number,
+    required: false,
+    unique: false,
+  },
+
+  pralaimetaSuma: {//cia product cogs
+    type: Number,
+    required: false,
+    unique: false//,
+  },
+  pralaimetaBendrasPlotasm2: {
+    type: Number,
+    required: false,
+    unique: false
+  },
+  pralaimetaPajamos: {//revenue
+    type: Number,
+    required: false,
+    unique: false
+  },
+  pralaimetaEbitda: {
+    type: Number,
+    required: false,
+    unique: false
+  },
+  pralaimetaBendrasKiekis: {
+    type: Number,
+    required: false,
+    unique: false
+  },
+  pralaimetaEbitdaProc: {
+    type: Number,
+    required: false,
+    unique: false,
+  }
 }, {
   timestamps: true,
 });
