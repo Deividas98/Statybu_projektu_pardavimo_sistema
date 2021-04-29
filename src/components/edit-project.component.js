@@ -61,12 +61,19 @@ export default class EditProject extends Component {
             projektoSuma: '',
             nuolaida: '',
             busena: '',
+            grynasisPelnasSuNuolaida: 0,
+            lojalumas: '',
             //date: new Date(), pataisyti
             projektai: [],
             ProjectId: '',
             tasks: [],
             products: [],
-            forecasts: []
+            forecasts: [],
+            imones: [],
+
+            laimetaEbitda: 0,
+            mokesciai: 0,
+            laimetaPajamos: 0
         }
     }
 
@@ -82,11 +89,30 @@ export default class EditProject extends Component {
           nuolaida: new Date(response.data.nuolaida),
           busena: response.data.busena,
           //date: new Date(response.data.date)
+          laimetaEbitda: response.data.laimetaEbitda,
+          mokesciai: response.data.mokesciai,
+          laimetaPajamos: response.data.laimetaPajamos
         })
       })
       .catch(function (error) {
         console.log(error);
       })
+
+        axios.get('http://localhost:5000/accounts/')//neranda tokio
+            .then(response => {
+                if (response.data.length > 0) {
+                    this.setState({
+                        //projektai: response.data.map(projektas => projektas.pavadinimas),
+                        imones: response.data.map(imone => [imone._id, imone.pavadinimas]),
+                        pavadinimas: response.data[0].pavadinimas//,
+                        //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
+                    })
+                    console.log(this.state.imones)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
        /* axios.get('http://localhost:5000/users/')//neranda tokio
             .then(response => {
@@ -171,6 +197,26 @@ export default class EditProject extends Component {
     onSubmit = (e) => {
         e.preventDefault();
 
+        let nuolaidaNum = 0;
+        axios.get('http://localhost:5000/accounts/accLoyalty/' + this.state.imone)
+        .then(response => {
+            if(response.data.lojalumas === 'Bronza'){nuolaidaNum = 0.01}
+            else if(response.data.lojalumas === 'Sidabras'){nuolaidaNum = 0.02}
+            else if(response.data.lojalumas === 'Auksas'){nuolaidaNum = 0.03}
+            this.setState({
+                lojalumas: response.data.lojalumas,
+                grynasisPelnasSuNuolaida: (this.state.laimetaEbitda - this.state.mokesciai - (this.state.laimetaPajamos * nuolaidaNum))
+            })
+            //let grynasisPelnasSuNuolaida = 0;
+            //grynasisPelnasSuNuolaida = (this.state.laimetaEbitda - this.state.mokesciai /*- (this.state.laimetaPajamos * nuolaidaNum)*/)
+            
+            //console.log(response.data.lojalumas + " " + this.state.grynasisPelnasSuNuolaida)  //gauna
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+
+
         const projektas = {
             pavadinimas: this.state.pavadinimas,
             aprasymas: this.state.aprasymas,
@@ -185,10 +231,9 @@ export default class EditProject extends Component {
         axios.post('http://localhost:5000/projects/updateprj/' + this.props.match.params.id, projektas)
             .then(res => console.log(res.data));
 
-        window.location = '/main';//!!!
+       // window.location = '/main';//!!!
     }
 
-    //nauja
     productList() {
         console.log(this.state.products.projektas);
         return this.state.products.map(currentproduct => {
@@ -233,6 +278,23 @@ export default class EditProject extends Component {
                         />
                     </div>
                     <div className="form-group">
+            <label>Įmonė: </label>
+            <select ref="userInput"
+              required
+              className="form-control"
+              value={this.state.imone}
+              onChange={this.onChangeImone}>
+              {
+                this.state.imones.map(function ([_id, imone]) {
+                  return <option
+                    key={_id}
+                    value={_id}>{imone}
+                  </option>;
+                })
+              }
+            </select>
+          </div>
+                    <div className="form-group">
                         <label>Kontaktas: </label>
                         <input type="text"
                             required
@@ -272,7 +334,16 @@ export default class EditProject extends Component {
                             </select>
                     </div>
                     <div className="form-group">
-                        <input type="submit" value="Redaguojama užduotis" className="btn btn-primary" />
+                        <label>Gryn pelnas: </label>
+                        <input type="text"
+                            required
+                            className="form-control"
+                            value={this.state.grynasisPelnasSuNuolaida}
+                            // onChange={this.onChangeProjektoSuma}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input type="submit" value="Išsaugoti" className="btn btn-primary" />
                     </div>
                 </form>
                 <p></p>

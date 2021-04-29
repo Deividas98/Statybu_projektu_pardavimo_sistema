@@ -71,6 +71,11 @@ router.route('/updateprj/:id').post((req, res) => {
     project.nuolaida = parseFloat(req.body.nuolaida);
     project.busena = req.body.busena;
 
+    project.grynasisPelnasSuNuolaida = Number(req.body.grynasisPelnasSuNuolaida);
+    project.laimetaEbitda = Number(req.body.laimetaEbitda);
+    project.mokesciai = Number(req.body.mokesciai);
+    project.laimetaPajamos = Number(req.body.laimetaPajamos);
+
     project.save()
       .then(() => res.json('Project updated!'))
       .catch(err => res.status(400).json('Error: ' + err));
@@ -144,4 +149,9 @@ router.route('/updatewon/:id').post((req, res) => {
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/:id').get((req, res) => {
+  Project.findById(req.params.id)
+  .then(project => res.json(project))
+  .catch(err => res.status(400).json('Error: ' + err));
+});
 module.exports = router;

@@ -44,7 +44,7 @@ export default class Login extends Component {
         url: "http://localhost:5000/login",
       }).then(function (response) {
         console.log(response);
-        if (response.data == 'Successfully Authenticated' /*res.status == 200*/) {//AR SAUGU TAIP NEPRALEISTI??????? papildyti lyginima pagal statusa
+        if (response.data === 'Successfully Authenticated' /*res.status == 200*/) {//AR SAUGU TAIP NEPRALEISTI??????? papildyti lyginima pagal statusa
           //console.log("perjungti i kita langa");
           window.location = "/main"
         }

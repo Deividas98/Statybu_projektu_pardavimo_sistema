@@ -12,6 +12,7 @@ export default class CreateAccounts extends Component {
         this.onChangeElPastas = this.onChangeElPastas.bind(this);
         this.onChangeKontaktinisAsmuo = this.onChangeKontaktinisAsmuo.bind(this);
         this.onChangeSvetaine = this.onChangeSvetaine.bind(this);
+        this.onChangeLojalumas = this.onChangeLojalumas.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
@@ -22,30 +23,14 @@ export default class CreateAccounts extends Component {
             elPastas: '',
             kontaktinisAsmuo: '',
             svetaine: '',
+            lojalumas: 'Pasirinkti',
             //date: new Date(), pataisyti
             projektai: [],
             ProjectId: ''
         }
     }
 
-    //su kitais objektais ta padaryti
     componentDidMount() {
-        /*axios.get('http://localhost:5000/projects/')
-            .then(response => {
-                if (response.data.length > 0) {
-                    this.setState({
-                        //projektai: response.data.map(projektas => projektas.pavadinimas),
-                        projektai: response.data.map(projektas => [projektas._id, projektas.pavadinimas]),
-                        pavadinimas: response.data[0].pavadinimas//,
-                        //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
-                    })
-                    console.log(this.state.projektai)
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })*/
-
        /* axios.get('http://localhost:5000/users/')//neranda tokio
             .then(response => {
                 if (response.data.length > 0) {
@@ -105,6 +90,12 @@ export default class CreateAccounts extends Component {
         })
     }
 
+    onChangeLojalumas(e) {
+        this.setState({
+            lojalumas: e.target.value
+        })
+    }
+
     onSubmit = (e) => {
         e.preventDefault();
 
@@ -115,7 +106,8 @@ export default class CreateAccounts extends Component {
             telefonoNr: this.state.telefonoNr,
             elPastas: this.state.elPastas,
             kontaktinisAsmuo: this.state.kontaktinisAsmuo,
-            svetaine: this.state.svetaine
+            svetaine: this.state.svetaine,
+            lojalumas: this.state.lojalumas
         }
 
         console.log(imone);
@@ -196,24 +188,21 @@ export default class CreateAccounts extends Component {
                             onChange={this.onChangeSvetaine}
                         />
                     </div>
-
-                    {/*} <div className="form-group">
-                        <label>Skirta: </label>
+                    <div className="form-group">
+                        <label>Lojalumas: </label>
                         <select //ref="userInput"
                             required
                             className="form-control"
-                            value={this.state.projektas}
-                            onChange={this.onChangeSkirta}>
-                            {
-                                this.state.projektai.map(function ([_id, pavadinimas]) {
-                                    return <option
-                                        key={_id}
-                                        value={_id}>{pavadinimas}
-                                    </option>;
-                                })
-                            }
+                            value={this.state.lojalumas}
+                            onChange={this.onChangeLojalumas}>
+                            <option value="Pasirinkti">Pasirinkti</option>
+                            <option value="Bronza">Bronza</option>
+                            <option value="Sidabras">Sidabras</option>
+                            <option value="Auksas">Auksas</option>
                         </select>
                     </div>
+
+                    {/*}
                     <div className="form-group">
                         <label>Atlieka: </label>
                         <select //ref="userInput"

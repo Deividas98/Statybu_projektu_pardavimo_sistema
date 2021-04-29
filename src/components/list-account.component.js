@@ -13,6 +13,7 @@ const Account = props => (
     <td>{props.account.elPastas}</td>
     <td>{props.account.kontaktinisAsmuo}</td>
     <td>{props.account.svetaine}</td>
+    <td>{props.account.lojalumas}</td>
 
     <td>
       <Link to={"/editacc/"+props.account._id}>Redaguoti</Link> | {/*<a href="#" onClick={() => { props.deleteAccount(props.account._id) }}>Ištrinti</a>*/}
@@ -75,6 +76,7 @@ export default class AccountsList extends Component {
               <th>Elektroninis paštas</th>
               <th>Kontaktinis asmuo</th>
               <th>Svetainė</th>
+              <th>Lojalumas</th>
             </tr>
           </thead>
           <tbody>

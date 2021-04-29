@@ -78,6 +78,14 @@ const productSchema = new Schema({
     required: true,
     unique: false
   },
+  pajamosSuNuolaida: {//gal ir nereikia, o uzteks tai suskaiciuoti i pajamas
+    type: Number,
+    required: false,
+    unique: false,
+    default: function() {
+      return (this.pajamos - (this.pajamos * 0,05))
+    }
+  }
 }, {
   timestamps: true,
 });

@@ -22,7 +22,7 @@ router.route('/getProjects').get((req, res) => {
          },
          {"$unwind":'$projektas'},
          {"$project": { "pavadinimas": 1, "aprasymas": 1, "projektas": "$projektas.pavadinimas",
-         "plotasm2":1, "suma": 1, "kiekis": 1, "ebitdaProc":1, "ebitda":1, "pajamos":1, "m2kaina":1, "kaina": 1, "statusas": 1}}
+         "plotasm2":1, "suma": 1, "kiekis": 1, "ebitdaProc":1, "ebitda":1, "pajamos":1, "m2kaina":1, "kaina": 1, "statusas": 1, "custom": "$projektas._id"}}
   ]  
   )
     .then(products => res.json(products))
@@ -54,10 +54,7 @@ router.route('/sumProducts/:projektas'/*/:statusas'*/).get((req, res) => {
     ],
     "Laimeta": [
       {"$match":
-      {"statusas": "Laimėtas"/*,
-       'DOB':
-        { $gte: 19400801,
-        $lte: 20131231 }*/ } },
+      {"statusas": "Laimėtas"} },
     {"$group":
        {"_id": req.params.projektas,//"$projektas",
        "sumBendrasPlotasm2":{ "$sum": "$plotasm2"},
@@ -71,10 +68,7 @@ router.route('/sumProducts/:projektas'/*/:statusas'*/).get((req, res) => {
     ],
     "Pralaimeta":[
       {"$match":
-      {"statusas": "Pralaimėtas"/*,
-       'DOB':
-        { $gte: 19400801,
-        $lte: 20131231 }*/ } },
+      {"statusas": "Pralaimėtas" } },
     {"$group":
        {"_id": req.params.projektas,//"$projektas",
        "sumBendrasPlotasm2":{ "$sum": "$plotasm2"},
@@ -88,8 +82,6 @@ router.route('/sumProducts/:projektas'/*/:statusas'*/).get((req, res) => {
     ]
     }
 
-    
-    
   }
     
   ])
@@ -98,7 +90,6 @@ router.route('/sumProducts/:projektas'/*/:statusas'*/).get((req, res) => {
     , console.log(projektoPajamos)))
     .catch(err => res.status(400).json('Error: ' + err));
 });
-
 
 function printTheDocToFile(doc) {
   //fs.writeFile(`/Users/Deividas/Desktop/doc_${doc._id}.txt`, doc, 'utf8');
@@ -152,6 +143,10 @@ router.route('/add').post((req, res) => {
   const ebitdaProc = Number(req.body.ebitdaProc);
   const m2kaina = Number(req.body.m2kaina);*/
 
+  const ebitda = Number(req.body.pajamos) - Number(req.body.suma);
+  const ebitdaProc = ((Number(req.body.pajamos) - Number(req.body.suma)) / Number(req.body.pajamos) * 100);
+  const m2kaina = Number(req.body.plotasm2) * Number(req.body.kiekis);
+
 
 
   const newProduct = new Product({
@@ -163,11 +158,10 @@ router.route('/add').post((req, res) => {
     kaina,
     plotasm2,
     pajamos,
-    statusas/*,
+    statusas,
+    ebitda, 
     ebitdaProc,
-    ebitda,
-    ebitdaProc, 
-    m2kaina*/
+    m2kaina
   });
 
   newProduct.save()

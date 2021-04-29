@@ -19,7 +19,7 @@ const Product = props => (
 <td>{props.product.ebitdaProc}</td>
 <td>{props.product.statusas}</td>
     <td>
-      <Link to={"/edit/"+props.product._id}>Redaguoti</Link> | <Button onClick={() => { props.deleteProduct(props.product._id) }}>Ištrinti</Button> 
+      <Link to={"/edit/"+props.product._id}>Redaguoti</Link> | <Button onClick={() => { props.deleteProduct(props.product._id, props.product.custom) }}>Ištrinti</Button> 
       {/* <a href="#" onClick={() => { props.deleteProduct(props.product._id) }}>delete</a> */}
     </td>
   </tr>
@@ -35,7 +35,7 @@ export default class ProductsList extends Component {
 
     this.deleteProduct = this.deleteProduct.bind(this)
 
-    this.state = {products: []};
+    this.state = {products: [], toProject: []};
   }
 
   componentDidMount() {
@@ -49,9 +49,47 @@ export default class ProductsList extends Component {
       })
   }
 
-  deleteProduct(id) {
+  deleteProduct(id,prj) {
+console.log( prj);
+
     axios.delete('http://localhost:5000/products/'+id)
-      .then(response => { console.log(response.data)});
+      .then(async response => { console.log(response.data);
+        try {
+          const response = await axios.get('http://localhost:5000/products/sumProducts/' + prj);
+          if (response.data.length > 0) {
+            //console.log(response.data._id);
+            this.setState({ toProject: response.data});
+            const projektasApsk = {
+//patikrinti ar netuscia kategorija!!!
+              apskSuma: ((this.state.toProject[0].Pateikta[0] === undefined) ? 0 : this.state.toProject[0].Pateikta[0].sumSuma),
+              apskBendrasPlotasm2: ((this.state.toProject[0].Pateikta[0] === undefined) ? 0 : this.state.toProject[0].Pateikta[0].sumBendrasPlotasm2),
+              apskPajamos: ((this.state.toProject[0].Pateikta[0] === undefined) ? 0 : this.state.toProject[0].Pateikta[0].sumPajamos),
+              apskEbitda: ((this.state.toProject[0].Pateikta[0] === undefined) ? 0 : this.state.toProject[0].Pateikta[0].sumEbitda),
+              apskBendrasKiekis: ((this.state.toProject[0].Pateikta[0] === undefined) ? 0 : this.state.toProject[0].Pateikta[0].sumSuma),
+              apskEbitdaProc: ((this.state.toProject[0].Pateikta[0] === undefined) ? 0 : this.state.toProject[0].Pateikta[0].sumSuma),
+
+              laimetaSuma: ((this.state.toProject[0].Laimeta[0] === undefined) ? 0 : this.state.toProject[0].Laimeta[0].sumSuma),
+              laimetaBendrasPlotasm2: ((this.state.toProject[0].Laimeta[0] === undefined) ? 0 : this.state.toProject[0].Laimeta[0].sumBendrasPlotasm2),
+              laimetaPajamos: ((this.state.toProject[0].Laimeta[0] === undefined) ? 0 : this.state.toProject[0].Laimeta[0].sumPajamos),
+              laimetaEbitda: ((this.state.toProject[0].Laimeta[0] === undefined) ? 0 : this.state.toProject[0].Laimeta[0].sumEbitda),
+              laimetaBendrasKiekis: ((this.state.toProject[0].Laimeta[0] === undefined) ? 0 : this.state.toProject[0].Laimeta[0].sumBendrasKiekis),
+              laimetaEbitdaProc: ((this.state.toProject[0].Laimeta[0] === undefined) ? 0 : this.state.toProject[0].Laimeta[0].sumEbitdaProc),
+
+              pralaimetaSuma: ((this.state.toProject[0].Pralaimeta[0] === undefined) ? 0 : this.state.toProject[0].Pralaimeta[0].sumSuma),
+              pralaimetaBendrasPlotasm2: ((this.state.toProject[0].Pralaimeta[0] === undefined) ? 0 : this.state.toProject[0].Pralaimeta[0].sumBendrasPlotasm2),
+              pralaimetaPajamos: ((this.state.toProject[0].Pralaimeta[0] === undefined) ? 0 : this.state.toProject[0].Pralaimeta[0].sumPajamos),
+              pralaimetaEbitda: ((this.state.toProject[0].Pralaimeta[0] === undefined) ? 0 : this.state.toProject[0].Pralaimeta[0].sumEbitda),
+              pralaimetaBendrasKiekis: ((this.state.toProject[0].Pralaimeta[0] === undefined) ? 0 : this.state.toProject[0].Pralaimeta[0].sumBendrasKiekis),
+              pralaimetaEbitdaProc: ((this.state.toProject[0].Pralaimeta[0] === undefined) ? 0 : this.state.toProject[0].Pralaimeta[0].sumEbitdaProc)
+            };
+            console.log(projektasApsk); //gauna gerai
+            axios.post('http://localhost:5000/projects/updateest/' + prj, projektasApsk)
+              .then(res_1 => console.log(res_1.data));
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      });
 
     this.setState({
         products: this.state.products.filter(el => el._id !== id)

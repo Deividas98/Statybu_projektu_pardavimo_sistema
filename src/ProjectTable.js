@@ -197,7 +197,6 @@ export class ProjectTable extends Component {
           kontaktas: row.kontaktas,
           projektoId: row.recId,
           // kontaktas: row.this.myRef.current.value,
-          busena: row.busena//this.BusenaRef.current.value
         });
 
         console.log(this.state.pavadinimas);
@@ -235,7 +234,7 @@ export class ProjectTable extends Component {
             <ProgressBar now={progress} label={this.state.busena} />
 
             <FormControl onChange={evt => this.updateInputValue(evt)} value={this.state.pavadinimas}
-            disabled={this.state.busena == "Pabaigtas" ? true : false} />
+            disabled={this.state.busena === "Pabaigtas" ? true : false} />
 
             <FormControl onChange={evt => this.updateDescriptionValue(evt)} value={this.state.aprasymas}  as="textarea"
             disabled={this.state.busena === "Pabaigtas" ? true : false}/>

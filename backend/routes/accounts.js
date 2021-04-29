@@ -4,19 +4,6 @@ let Account = require('../models/account.model');
 
 router.route('/').get((req, res) => {
   Account.find()
- //Product.aggregate([
-   /*{ "$lookup": {
-    "from": "projects",
-    //"let": { "projektas": "$products.projektas" },
-    "pipeline": [
-      { "$match": {
-        "$expr": { "$in": ["$$projektas", "$projects._id"] }
-      }}//,
-      //{ "$unwind": "$projects._id" }
-    ],
-    "as": "projektas"
-  }}
- ])*/
     .then(accounts => res.json(accounts))
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -30,6 +17,7 @@ router.route('/addacc').post((req, res) => {
   const elPastas = req.body.elPastas;
   const kontaktinisAsmuo = req.body.kontaktinisAsmuo;
   const svetaine = req.body.svetaine;
+  const lojalumas = req.body.lojalumas;
 
   const newAccount = new Account({
     pavadinimas,
@@ -38,7 +26,8 @@ router.route('/addacc').post((req, res) => {
     telefonoNr,
     elPastas,
     kontaktinisAsmuo,
-    svetaine
+    svetaine,
+    lojalumas
   });
 
   newAccount.save()
@@ -46,7 +35,7 @@ router.route('/addacc').post((req, res) => {
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/acc/:id').get((req, res) => {
+router.route('/:id').get((req, res) => {
     Account.findById(req.params.id)
     .then(account => res.json(account))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -68,12 +57,19 @@ router.route('/updateacc/:id').post((req, res) => {
         account.elPastas = req.body.elPastas;
         account.kontaktinisAsmuo = req.body.kontaktinisAsmuo;
         account.svetaine = req.body.svetaine;
+        account.lojalumas = req.body.lojalumas;
 
         account.save()
         .then(() => res.json('Account updated!'))
         .catch(err => res.status(400).json('Error: ' + err));
     })
     .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/accLoyalty/:imone').get((req, res) => {
+  Account.findById(req.params.imone, {"lojalumas": 1, "_id": 1})
+   .then(accounts => (res.json(accounts), console.log(accounts.lojalumas)))
+   .catch(err => res.status(400).json('Error: ' + err));
 });
 
 module.exports = router;

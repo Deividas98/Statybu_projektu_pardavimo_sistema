@@ -42,6 +42,7 @@ export default class EditAccount extends Component {
         this.onChangeElPastas = this.onChangeElPastas.bind(this);
         this.onChangeKontaktinisAsmuo = this.onChangeKontaktinisAsmuo.bind(this);
         this.onChangeSvetaine = this.onChangeSvetaine.bind(this);
+        this.onChangeLojalumas = this.onChangeLojalumas.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
@@ -52,6 +53,7 @@ export default class EditAccount extends Component {
             elPastas: new Date(),
             kontaktinisAsmuo: '',
             svetaine: '',
+            lojalumas: '',
             //date: new Date(), pataisyti
             projektai: [],
             ProjectId: '',
@@ -71,8 +73,8 @@ export default class EditAccount extends Component {
                     telefonoNr: response.data.telefonoNr,
                     elPastas: response.data.elPastas,
                     kontaktinisAsmuo: response.data.kontaktinisAsmuo,
-                    svetaine: response.data.svetaine
-                    //date: new Date(response.data.date)
+                    svetaine: response.data.svetaine,
+                    lojalumas: response.data.lojalumas
                 })
             })
             .catch(function (error) {
@@ -96,21 +98,21 @@ export default class EditAccount extends Component {
                 console.log(error);
             })
 
-        axios.get('http://localhost:5000/users/')//neranda tokio
-            .then(response => {
-                if (response.data.length > 0) {
-                    this.setState({
-                        //projektai: response.data.map(projektas => projektas.pavadinimas),
-                        naudotojai: response.data.map(naudotojas => [naudotojas._id, naudotojas.username]),
-                        username: response.data[0].username//,
-                        //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
-                    })
-                    console.log(this.state.naudotojai)
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        // axios.get('http://localhost:5000/users/')//neranda tokio
+        //     .then(response => {
+        //         if (response.data.length > 0) {
+        //             this.setState({
+        //                 //projektai: response.data.map(projektas => projektas.pavadinimas),
+        //                 naudotojai: response.data.map(naudotojas => [naudotojas._id, naudotojas.username]),
+        //                 username: response.data[0].username//,
+        //                 //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
+        //             })
+        //             console.log(this.state.naudotojai)
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     })
 
             //nauja
             axios.get('http://localhost:5000/agreements/accagr/' + this.props.match.params.id)
@@ -174,6 +176,12 @@ export default class EditAccount extends Component {
         })
     }
 
+    onChangeLojalumas(e) {
+        this.setState({
+            lojalumas: e.target.value
+        })
+    }
+
     onSubmit = (e) => {
         e.preventDefault();
 
@@ -184,7 +192,8 @@ export default class EditAccount extends Component {
             telefonoNr: this.state.telefonoNr,
             elPastas: this.state.elPastas,
             kontaktinisAsmuo: this.state.kontaktinisAsmuo,
-            svetaine: this.state.svetaine
+            svetaine: this.state.svetaine,
+            lojalumas: this.state.lojalumas
         }
 
         console.log(imone);
@@ -192,7 +201,7 @@ export default class EditAccount extends Component {
         axios.post('http://localhost:5000/accounts/updateacc/' + this.props.match.params.id, imone)
             .then(res => console.log(res.data));
 
-        window.location = '/';
+       // window.location = '/';
     }
 
     agreementList() {
@@ -212,7 +221,7 @@ export default class EditAccount extends Component {
     render() {
         return (
             <div>
-                <h3>Sukurti Naują užduotį</h3>
+                <h3>Redaguoti užduotį</h3>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label>Pavadinimas: </label>
@@ -276,6 +285,19 @@ export default class EditAccount extends Component {
                             value={this.state.svetaine}
                             onChange={this.onChangeSvetaine}
                         />
+                    </div>
+                    <div className="form-group">
+                        <label>Lojalumas: </label>
+                        <select //ref="userInput"
+                            required
+                            className="form-control"
+                            value={this.state.lojalumas}
+                            onChange={this.onChangeLojalumas}>
+                            <option value="Pasirinkti">Pasirinkti</option>
+                            <option value="Bronza">Bronza</option>
+                            <option value="Sidabras">Sidabras</option>
+                            <option value="Auksas">Auksas</option>
+                        </select>
                     </div>
 
                     {/*} <div className="form-group">

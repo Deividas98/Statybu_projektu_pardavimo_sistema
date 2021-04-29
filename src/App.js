@@ -1,19 +1,16 @@
 import './App.css';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-//import Table from './Table';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar } from 'react-bootstrap';
 /*import ContactTable from './ContactTable';
 import ProjectTable from './ProjectTable';
 import ProductTable from './ProductTable';
-//import { ReactComponent } from '*.svg';
 import EditContactForm from './EditContactForm.js';
 import AddProject from './AddProjectModal';*/
 
-import { BrowserRouter as Router, Route, Redirect, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import Navbar2 from "./components/navbar.component"
 /*import ProductsList from "./components/products-list.component";
 import EditProduct from "./components/edit-products.component";
 import CreateProduct from "./components/create-product.component";

@@ -16,12 +16,13 @@ export default class CreateProject extends Component {
 
         this.state = {
             aprasymas: '',
-            pavadinimas: '',
+            prjPavadinimas: '',
             imone: '',
             projektoSuma: 0,
             nuolaida: 0,
             busena: 'Pradėtas',
-            imones: []
+            imones: [],
+            pavadinimas: ''
         }
     }
 
@@ -51,7 +52,7 @@ export default class CreateProject extends Component {
 
     onChangePavadinimas(e) {
         this.setState({
-            pavadinimas: e.target.value
+            prjPavadinimas: e.target.value
         })
     }
 
@@ -84,7 +85,7 @@ export default class CreateProject extends Component {
 
         const projektas = {
             aprasymas: this.state.aprasymas,
-            pavadinimas: this.state.pavadinimas,
+            pavadinimas: this.state.prjPavadinimas,
             imone: this.state.imone,
             projektoSuma: this.state.projektoSuma,
             nuolaida: this.state.nuolaida,
@@ -98,7 +99,7 @@ export default class CreateProject extends Component {
 
         this.setState({
             aprasymas: '',
-            pavadinimas: '',
+            prjPavadinimas: '',
             imone: '',
             projektoSuma: 0,
             nuolaida: 0,
@@ -118,7 +119,7 @@ export default class CreateProject extends Component {
                         <input type="text"
                             required
                             className="form-control"
-                            value={this.state.pavadinimas}
+                            value={this.state.prjPavadinimas}
                             onChange={this.onChangePavadinimas}
                         />
                     </div>

@@ -138,8 +138,39 @@ const projectSchema = new Schema({
   pralaimetaEbitdaProc: {
     type: Number,
     required: false,
+    unique: false
+  },
+  atvirosUzduotys: {
+    type: Number,
+    required: false,
+    unique: false
+  },
+  mokesciai: {
+    type: Number,
+    required: false,
+    unique: false
+  },
+  grynasisPelnas: {
+    type: Number,
+    required: false,
     unique: false,
-  }
+    default: function() {
+      return (this.laimetaEbitda - this.mokesciai)
+    }
+  },
+  nuolaidaProc: {
+    type: Number,
+    required: false,
+    unique: false
+  },
+  grynasisPelnasSuNuolaida: {
+    type: Number,
+    required: false,
+    unique: false,
+    default: function() {
+      return (this.laimetaEbitda - this.mokesciai - (this.laimetaPajamos * (this.nuolaidaProc / 100)))
+    }
+  },
 }, {
   timestamps: true,
 });

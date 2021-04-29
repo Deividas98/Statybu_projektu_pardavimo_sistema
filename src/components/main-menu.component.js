@@ -131,17 +131,6 @@ export default class MainMenu extends Component {
           </Navbar.Collapse>
         </Navbar>
 
-       {/* <div className="splitleft">
-         {/* <Nav defaultActiveKey="/" className="navbar">
-
-           {/* <Nav.Link href="/home">Active</Nav.Link>*/}
-            {/*<Nav.Link eventKey="link-1" onClick={this.clickHandlerContact.bind(this)}>Contacts</Nav.Link>
-            <Nav.Link eventKey="link-2" onClick={this.clickHandlerProject.bind(this)}>Projects</Nav.Link>
-            <Nav.Link href="/" onClick={this.clickHandlerProduct.bind(this)}>Products</Nav.Link>*/}
-            {/* palikti sita komentara <Nav.Link eventKey="link-2">Link</Nav.Link>*/}
-
-       {/* </div>*/}
-
         <div className="splitright">
        
        <button onClick={getUser}>getuser</button>{/*baltas kairys kampas yra del situ komponentu*/}
