@@ -3,6 +3,7 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import Timer from './timer.component';
+import { Button } from 'react-bootstrap';
 
 export default class EditTask extends Component {
     constructor(props) {
@@ -14,6 +15,9 @@ export default class EditTask extends Component {
         this.onChangePabaigosData = this.onChangePabaigosData.bind(this);
         this.onChangeKomentaras = this.onChangeKomentaras.bind(this);
         this.onChangeKomentaruSarasas = this.onChangeKomentaruSarasas.bind(this);
+
+        this.onChangeLaikas = this.onChangeLaikas.bind(this);
+        this.showtimer = this.showtimer.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
@@ -26,7 +30,10 @@ export default class EditTask extends Component {
             komentaruSarasas: '',
             //date: new Date(), pataisyti
             projektai: [],
-            ProjectId: ''
+            ProjectId: '',
+
+            laikas: new Date(),
+            showTimer: false
         }
     }
 
@@ -41,9 +48,11 @@ export default class EditTask extends Component {
           atlieka: response.data.atlieka,
           pabaigosData: new Date(response.data.pabaigosData),
           komentaras: response.data.komentaras,
-          komentaruSarasas: response.data.komentaruSarasas
+          komentaruSarasas: response.data.komentaruSarasas,
           //date: new Date(response.data.date)
+          laikas: new Date(response.data.laikas)
         })
+        console.log(response.data.laikas)
       })
       .catch(function (error) {
         console.log(error);
@@ -125,6 +134,28 @@ export default class EditTask extends Component {
         })
     }
 
+    // onChangeLaikas(laikas) {
+    //     this.setState({
+    //         laikas: laikas
+    //     })
+    // }
+
+    onChangeLaikas(e) {
+        this.setState({
+            laikas: e.target.value
+        })
+    }
+
+    handleCallback = (childData) =>{
+        this.setState({laikas: childData})
+    }
+
+    showtimer() {
+        this.setState({
+          showTimer: true
+        });
+      }
+
     onSubmit = (e) => {
         e.preventDefault();
 
@@ -135,7 +166,9 @@ export default class EditTask extends Component {
             atlieka: this.state.atlieka,
             pabaigosData: this.state.pabaigosData,
             komentaras: this.state.komentaras,
-            komentaruSarasas: this.state.komentaruSarasas
+            komentaruSarasas: this.state.komentaruSarasas,
+
+            laikas: this.state.laikas
         }
 
         console.log(uzduotis);
@@ -143,7 +176,7 @@ export default class EditTask extends Component {
         axios.post('http://localhost:5000/tasks/updatetask/' + this.props.match.params.id, uzduotis)
             .then(res => console.log(res.data));
 
-        window.location = '/main';//!!!
+        // window.location = '/main';//!!!
     }
 
     render() {
@@ -230,7 +263,12 @@ export default class EditTask extends Component {
                             onChange={this.onChangeKomentaruSarasas}
                         />
                     </div>
-                    <Timer/>
+                    
+                    {this.state.showTimer == true ? <Timer laikas2={this.state.laikas} parentCallback = {this.handleCallback}/> : 
+                    <Button onClick ={this.showtimer} >Išskleisti laikrodį</Button>}
+                    {/* <Timer laikas2={this.state.laikas} parentCallback = {this.handleCallback}/> */}
+                    {/* <div>{Date.parse(this.state.laikas)}</div> */}
+                    {/* onLaikas1Changed={this.onChangeLaikas} */}
 
                     <div className="form-group">
                         <input type="submit" value="Redaguojama užduotis" className="btn btn-primary" />

@@ -292,9 +292,9 @@ export default class EditProject extends Component {
     console.log(projektas);
 
     // add forecast request
-var firstDay = new Date(this.state.pradziosData.getFullYear(), this.state.pradziosData.getMonth(), 1);
+//var firstDay = new Date(this.state.pradziosData.getFullYear(), this.state.pradziosData.getMonth(), 1);
 var lastDay = new Date(this.state.pradziosData.getFullYear(), this.state.pradziosData.getMonth() + 1, 0);
-var firstDayLastMonth = new Date(this.state.pabaigosData.getFullYear(), this.state.pabaigosData.getMonth() + 1, 0);
+//var firstDayLastMonth = new Date(this.state.pabaigosData.getFullYear(), this.state.pabaigosData.getMonth() + 1, 0);
 let number_of_months = this.state.pabaigosData.getMonth() - this.state.pradziosData.getMonth() + (12 * (this.state.pabaigosData.getFullYear() - this.state.pradziosData.getFullYear()));
 //number_of_months=Number(number_of_months);
 var addedMonth = number_of_months +1;

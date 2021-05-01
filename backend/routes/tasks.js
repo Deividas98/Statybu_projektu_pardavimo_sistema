@@ -59,7 +59,7 @@ router.route('/addtask').post((req, res) => {
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/task/:id').get((req, res) => {
+router.route('/:id').get((req, res) => {
     Task.findById(req.params.id)
     .then(task => res.json(task))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -81,6 +81,8 @@ router.route('/updatetask/:id').post((req, res) => {
         task.pabaigosData = Date(req.body.pabaigosData);
         task.komentaras = req.body.komentaras;
         task.komentaruSarasas = req.body.komentaruSarasas;
+
+        task.laikas = req.body.laikas;
 
         task.save()
         .then(() => res.json('Task updated!'))

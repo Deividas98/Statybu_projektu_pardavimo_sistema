@@ -42,6 +42,9 @@ const taskSchema = new Schema({
     //trim: true,
     //minlength: 3
   },
+  laikas: {
+    type: Date
+  },
 }, {
   timestamps: true,
 });
