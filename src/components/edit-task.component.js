@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import Timer from './timer.component';
 
 export default class EditTask extends Component {
     constructor(props) {
@@ -229,6 +230,7 @@ export default class EditTask extends Component {
                             onChange={this.onChangeKomentaruSarasas}
                         />
                     </div>
+                    <Timer/>
 
                     <div className="form-group">
                         <input type="submit" value="Redaguojama užduotis" className="btn btn-primary" />

@@ -97,7 +97,7 @@ export default class CreateAgreements extends Component {
         axios.post('http://localhost:5000/agreements/addagr', sutartis)
             .then(res => console.log(res.data));
 
-        window.location = '/';
+        //window.location = '/';
     }
 
     render() {

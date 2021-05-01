@@ -40,6 +40,8 @@ router.route('/add').post((req, res) => {
   const projektoSuma = Number(req.body.projektoSuma);
   const nuolaida = parseFloat(req.body.nuolaida); //Number(req.body.nuolaida);
   const busena = req.body.busena;
+  const pradziosData = Date.parse(req.body.pradziosData);
+  const pabaigosData = Date.parse(req.body.pabaigosData);
 
   const newProject = new Project({
       aprasymas,
@@ -47,7 +49,9 @@ router.route('/add').post((req, res) => {
       imone,
       projektoSuma,
       nuolaida,
-      busena
+      busena,
+      pradziosData,
+      pabaigosData
     });
 
   newProject.save()
@@ -70,6 +74,8 @@ router.route('/updateprj/:id').post((req, res) => {
     project.projektoSuma = Number(req.body.projektoSuma);
     project.nuolaida = parseFloat(req.body.nuolaida);
     project.busena = req.body.busena;
+    project.pradziosData = Date.parse(req.body.pradziosData);
+    project.pabaigosData = Date.parse(req.body.pabaigosData);
 
     project.grynasisPelnasSuNuolaida = Number(req.body.grynasisPelnasSuNuolaida);
     project.laimetaEbitda = Number(req.body.laimetaEbitda);

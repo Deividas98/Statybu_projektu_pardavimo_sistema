@@ -28,6 +28,12 @@ const projectSchema = new Schema({
     //trim: true,
     //minlength: 3
   },
+  pradziosData: {
+    type: Date
+  },
+  pabaigosData: {
+    type: Date
+  },
   nuolaida: {
     type: String,//mongoose.Types.Decimal128,//Number,
     required: false,

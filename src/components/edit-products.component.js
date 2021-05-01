@@ -1,16 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-//import DatePicker from 'react-datepicker';
-//import "react-datepicker/dist/react-datepicker.css";
-
-// const projektas = {
-//   psumSuma: "",
-//   psumPlotasm2: "",
-//   psumPajamos: "",
-//   psumEbitda: "",
-//   psumBendrasKiekis: "",
-//   psumEbitdaProc: ""
-// }
 
 export default class EditProduct extends Component {
   constructor(props) {

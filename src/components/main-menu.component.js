@@ -134,8 +134,7 @@ export default class MainMenu extends Component {
         <div className="splitright">
        
        <button onClick={getUser}>getuser</button>{/*baltas kairys kampas yra del situ komponentu*/}
-          <div style={{ margin: "20px 20px 20px 20px" }}> 
-
+          <div style={{ margin: "5px 5px 5px 5px" }}> 
 
         <Router>
         <Navbar2/>

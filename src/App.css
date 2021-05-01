@@ -75,7 +75,7 @@
   
   overflow-x: hidden;
   left: 0;
-  background-color: #333;
+  background-color: whitesmoke;
 }
 
 .splitright {
@@ -125,4 +125,17 @@
   padding: 50px;
   margin: 20px;
   float: left;
+}
+
+.project-details::after{
+  /*float: left;*/
+  content: "";
+  display: table;
+  clear: both;
+  
+}
+
+.prj-details-col {
+  float: left;
+  width: 33.33%;
 }

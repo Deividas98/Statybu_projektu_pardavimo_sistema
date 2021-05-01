@@ -1,16 +1,9 @@
 const router = require('express').Router();
-const { Mongoose } = require('mongoose');
-let Forecast = require('../models/forecast.model');
+const { Mongoose, now } = require('mongoose');
+let Forecast = require('../models/forecasts.model');
 
 router.route('/').get((req, res) => {
   Forecast.find()
-    .then(forecasts => res.json(forecasts))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
-//gauti prognozes pagal susijusi projekta
-router.route('/projfore/:id').get((req, res) => {
-Forecast.find({"projektas" : req.params.id/*"60856a05a142774d008c3e7c"*/})
     .then(forecasts => res.json(forecasts))
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -34,9 +27,10 @@ Forecast.find({"projektas" : req.params.id/*"60856a05a142774d008c3e7c"*/})
     .catch(err => res.status(400).json('Error: ' + err));
 });*/
 
-//gauti sutartis pagal susijusias imones
+//gauti projekto prognozes FIND BY THEN AGREGATE!!!
 router.route('/projfore/:id').get((req, res) => {
-  Forecast.find({"projektas" : req.params.id/*"60856a05a142774d008c3e7c"*/})
+  Forecast.find({"projektas" : req.params.id}, { "periodoPradzia": {"$dateToString": {"date":"$periodoPradzia","timezone":"Europe/Vilnius"}}, "periodoPabaiga": {"$dateToString": {"date":"$periodoPabaiga","timezone":"Europe/Vilnius"}}, "isdalintaSuma":1})
+  .sort({"periodoPradzia": 1})
       .then(forecasts => res.json(forecasts))
       .catch(err => res.status(400).json('Error: ' + err));
   });
@@ -44,8 +38,8 @@ router.route('/projfore/:id').get((req, res) => {
 router.route('/addfore').post((req, res) => {
   console.log(req.body);
   const projektas = req.body.projektas;
-  const periodoPradzia = req.body.periodoPradzia;
-  const periodoPabaiga = req.body.periodoPabaiga;//req.body.projektas;//kai neparasyta id, reikia prideti id, kai nurodyta id reikia ideti pavadinima
+  const periodoPradzia = Date.parse(req.body.periodoPradzia);
+  const periodoPabaiga = Date.parse(req.body.periodoPabaiga);
   const isdalintaSuma = req.body.isdalintaSuma;
 
   const newForecast = new Forecast({
@@ -56,7 +50,7 @@ router.route('/addfore').post((req, res) => {
   });
 
   newForecast.save()
-  .then(() => res.json('Forecastadded!'))
+  .then(() => res.json('Forecast added!'))
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
@@ -69,6 +63,21 @@ router.route('/fore/:id').get((req, res) => {
 router.route('/:id').delete((req, res) => {
     Forecast.findByIdAndDelete(req.params.id)
     .then(() => res.json('Forecast deleted.'))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+//ar veikia?
+router.route('/dltfore/:projektas').delete((req, res) => {
+  Forecast.deleteMany({"projektas": req.params.projektas})
+  .then(() => res.json('Forecast deleted.'))
+  .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/getforetime').get((req, res) => {
+  Forecast.aggregate([
+         {"$project": { "projektas": 1, "periodoPradzia": {"$dateToString": {"date":"$periodoPradzia","timezone":"Europe/Vilnius"}}, "periodoPabaiga": {"$dateToString": {"date":"$periodoPabaiga","timezone":"Europe/Vilnius"}}, "isdalintaSuma":1}}
+  ])
+    .then(products => res.json(products))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 

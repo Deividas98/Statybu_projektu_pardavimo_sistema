@@ -26,9 +26,9 @@ export default class Navbar2 extends Component {
           <li style = {{marginLeft: "30px"}} /*className="navbar-item"*/>
           <Link to="/istekliai" className="nav-link">Ištekliai</Link>
           </li>
-          <li style = {{marginLeft: "30px"}} /*className="navbar-item"*/>
+          {/* <li style = {{marginLeft: "30px"}} >
           <Link to="/user" className="nav-link">Create User</Link>
-          </li>
+          </li> */}
         </ul>
         </div>
       </nav>

@@ -6,9 +6,7 @@ const forecastSchema = new Schema({
     type: Date
   },
   projektas: {
-    type: mongoose.Schema.Types.ObjectId,//String,  naudojant id neprisideda irasas is ui
-    //required: false,
-    //unique: false//,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Project'
   },
   periodoPabaiga: {
