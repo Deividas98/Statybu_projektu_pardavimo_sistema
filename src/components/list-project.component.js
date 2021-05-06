@@ -45,12 +45,14 @@ export default class ProjectsList extends Component {
   }
 
   deleteProject(id) {
+    if (window.confirm('Ar tikrai norite pa6alinti šį įrašą?')){
     axios.delete('http://localhost:5000/projects/'+id)
       .then(response => { console.log(response.data)});
 
     this.setState({
         projects: this.state.projects.filter(el => el._id !== id)
     })
+  }
   }
 
   projectList() {

@@ -4,9 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar } from 'react-bootstrap';
 /*import ContactTable from './ContactTable';
-import ProjectTable from './ProjectTable';
 import ProductTable from './ProductTable';
-import EditContactForm from './EditContactForm.js';
 import AddProject from './AddProjectModal';*/
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -28,16 +26,13 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      /*deps: [], addModalShow: false,
-      deps2: [], contactModalShow: false,
+      /*deps2: [], contactModalShow: false,
       deps3: [], productModalShow: false,
       table: 'projectTable',*/
       //logino komponentai
       /* registerUsername: "",
      registerPassword: "",
      loginUsername: "",
-      loginPassword: "",
-      data: null,
       role: "EmptyRole",*/
       userRole: 'tuscias',
       showMainMenu: false,
@@ -85,22 +80,10 @@ class App extends React.Component {
     }
   }
 
-
-  /*HomeButton() {
-   const history = useHistory();
- 
-   function navigateToMainMenu() {
-     history.push("/main");
-   }
- }*/
-
-
   render() {
     /*
      let testcomponentas;
 
-     if (this.state.table == 'projectTable') {
-       testcomponentas = <ProjectTable/>
      } else if (this.state.table == 'productTable') {
        testcomponentas = <ProductTable />
      } else {
@@ -151,5 +134,3 @@ class App extends React.Component {
   }
 }
 export default App;
-
-//}

@@ -33,8 +33,8 @@ export default class EditProduct extends Component {
       projektai: [],
       //test
       products: [],
-      toProject: []
-
+      toProject: [],
+      rakintiForma: false
     }
   }
 
@@ -134,8 +134,16 @@ export default class EditProduct extends Component {
   onChangeStatusas(e) {
     this.setState({
       statusas: e.target.value
-    })
+    }, this.checkStatus)
   }
+
+  checkStatus = () => {
+    if(this.state.statusas === "Pateiktas" || this.state.statusas === "Laimėtas" || this.state.statusas === "Pralaimėtas"){
+      this.setState({rakintiForma: true})
+    }
+    else if(this.state.statusas === "Juodraštis"){this.setState({rakintiForma: false})}
+  };
+  
 
   onSubmit(e) {
     e.preventDefault();
@@ -244,35 +252,27 @@ export default class EditProduct extends Component {
   }
 
   render() {
+    // if(this.state.statusas === "Pateiktas" || this.state.statusas === "Laimėtas" || this.state.statusas === "Pralaimėtas"){
+    //   this.setState({rakintiForma: true})
+    // }
     return (
       <div>
         <h3>Redaguoti produktą</h3>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <label>Pavadinimas: </label>
-            <input type="text"
-              required
-              className="form-control"
-              value={this.state.pavadinimas}
-              onChange={this.onChangePavadinimas}
-            />
+            <input type="text" required className="form-control" value={this.state.pavadinimas} onChange={this.onChangePavadinimas}
+            disabled={this.state.rakintiForma}/>
           </div>
           <div className="form-group">
             <label>Aprasymas: </label>
-            <input type="text"
-              required
-              className="form-control"
-              value={this.state.aprasymas}
-              onChange={this.onChangeAprasymas}
-            />
+            <input type="text" required className="form-control" value={this.state.aprasymas} onChange={this.onChangeAprasymas}
+            disabled={this.state.rakintiForma}/>
           </div>
           <div className="form-group">
             <label>Projektas: </label>
-            <select ref="userInput"
-              required
-              className="form-control"
-              value={this.state.projektas}
-              onChange={this.onChangeProjektas}>
+            <select ref="userInput" required className="form-control" value={this.state.projektas}onChange={this.onChangeProjektas}
+            disabled={this.state.rakintiForma}>
               {
                 this.state.projektai.map(function ([_id, projektas]) {
                   return <option
@@ -285,84 +285,49 @@ export default class EditProduct extends Component {
           </div>
           <div className="form-group">
             <label>Kaina: </label>
-            <input type="text"
-              required
-              className="form-control"
-              value={this.state.kaina}
-              onChange={this.onChangeKaina}
-            />
+            <input type="text" required className="form-control" value={this.state.kaina} onChange={this.onChangeKaina}
+            disabled={this.state.rakintiForma}/>
           </div>
           <div className="form-group">
             <label>Kiekis: </label>
-            <input type="text"
-              required
-              className="form-control"
-              value={this.state.kiekis}
-              onChange={this.onChangeKiekis}
-            />
+            <input type="text" required className="form-control" value={this.state.kiekis} onChange={this.onChangeKiekis}
+            disabled={this.state.rakintiForma}/>
           </div>
           <div className="form-group"> 
           <label>Suma: </label>
-          <input  type="text"
-              required
-              className="form-control"
-              value={this.state.suma}
-              onChange={this.onChangeSuma}
-              />
+          <input  type="text" required className="form-control" value={this.state.suma} onChange={this.onChangeSuma}
+          disabled={this.state.rakintiForma}/>
         </div>
         <div className="form-group"> 
           <label>Plotas m2: </label>
-          <input  type="text"
-              required
-              className="form-control"
-              value={this.state.plotasm2}
-              onChange={this.onChangePlotasm2}
-              />
+          <input  type="text" required className="form-control" value={this.state.plotasm2} onChange={this.onChangePlotasm2}
+         disabled={this.state.rakintiForma} />
         </div>
         <div className="form-group"> 
           <label>Pajamos: </label>
-          <input  type="text"
-              required
-              className="form-control"
-              value={this.state.pajamos}
-              onChange={this.onChangePajamos}
-              />
+          <input  type="text" required className="form-control" value={this.state.pajamos} onChange={this.onChangePajamos}
+         disabled={this.state.rakintiForma} />
         </div>
         <div className="form-group"> 
           <label>EBITDA: </label>
-          <input  type="text"
-              required
-              className="form-control"
-              value={this.state.pajamos - this.state.suma}
-              disabled = {true}
-              />
+          <input  type="text" required className="form-control" value={this.state.pajamos - this.state.suma} disabled = {true}/>
         </div>
         <div className="form-group"> 
           <label>EBTIDA %: </label>
-          <input  type="text"
-              required
-              className="form-control"
+          <input  type="text" required className="form-control"
               value={((this.state.pajamos - this.state.suma) / this.state.pajamos * 100)}
-              disabled = {true}
-              />
+              disabled = {true}/>
         </div>
         <div className="form-group"> 
           <label>Kiekis: </label>
-          <input  type="text"
-              required
-              className="form-control"
-              value={this.state.kiekis}
-              onChange={this.onChangeKiekis}
-              />
+          <input  type="text" required className="form-control" value={this.state.kiekis} onChange={this.onChangeKiekis}
+          disabled={this.state.rakintiForma}/>
         </div>
         <div className="form-group"> 
           <label>m2 kaina: </label>
-          <input  type="text"
-              required
-              className="form-control"
+          <input  type="text" required className="form-control"
             value={this.state.plotasm2 / this.state.kiekis}
-              disabled = {true}
-              />
+              disabled = {true}/>
         </div>
         <div className="form-group"> 
         <label>Statusas: </label>

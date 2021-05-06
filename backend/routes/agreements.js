@@ -59,9 +59,8 @@ router.route('/agrwlookup').get((req, res) => {
               }  
          },
          {"$unwind":'$imone'},
-         {"$project": { "subjektas": 1, "pradziosData": 1, "skirta": "$imone.pavadinimas", "pabaigosData": 1, "komentaras": 1}}
-  ]  
-  )
+         {"$project": { "pavadinimas": 1, "skirta": "$imone.pavadinimas", "sutartiesNumeris": 1, "tipas": 1}}
+  ])
     .then(agreements => res.json(agreements))
     .catch(err => res.status(400).json('Error: ' + err));
 });

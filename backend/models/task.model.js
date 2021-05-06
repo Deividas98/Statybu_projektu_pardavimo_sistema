@@ -36,11 +36,12 @@ const taskSchema = new Schema({
     //minlength: 3
   },
   komentaruSarasas: {
-    type: String//,
-    //required: false,
-    //unique: false//,
-    //trim: true,
-    //minlength: 3
+    type: String
+    //trim: true
+  },
+  statusas: {
+    type: String
+    //trim: true
   },
   laikas: {
     type: Date

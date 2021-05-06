@@ -47,12 +47,14 @@ export default class AccountsList extends Component {
   }
 
   deleteAccount(id) {
+    if (window.confirm('Ar tikrai norite pa6alinti šį įrašą?')){
     axios.delete('http://localhost:5000/accounts/'+id)
       .then(response => { console.log(response.data)});
 
     this.setState({
         accounts: this.state.accounts.filter(el => el._id !== id)
     })
+  }
   }
 
   accountList() {

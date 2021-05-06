@@ -48,7 +48,16 @@ const projectSchema = new Schema({
     //trim: true,
     //minlength: 3
   },
+  statusas: {
+    type: String,
+    unique: false
+  },
   kaina: {
+    type: Number,
+    required: false,
+    unique: false
+  },
+  resursuKiekis: {
     type: Number,
     required: false,
     unique: false
@@ -172,10 +181,10 @@ const projectSchema = new Schema({
   grynasisPelnasSuNuolaida: {
     type: Number,
     required: false,
-    unique: false,
-    default: function() {
-      return (this.laimetaEbitda - this.mokesciai - (this.laimetaPajamos * (this.nuolaidaProc / 100)))
-    }
+    unique: false//,
+    // default: function() {
+    //   return (this.laimetaEbitda - this.mokesciai - (this.laimetaPajamos * (this.nuolaidaProc / 100)))
+    // }
   },
 }, {
   timestamps: true,

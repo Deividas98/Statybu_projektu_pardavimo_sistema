@@ -42,12 +42,14 @@ export default class AgreementsList extends Component {
   }
 
   deleteAgreement(id) {
+    if (window.confirm('Ar tikrai norite pašalinti šį įrašą?')){
     axios.delete('http://localhost:5000/agreements/'+id)
       .then(response => { console.log(response.data)});
 
     this.setState({
         agreements: this.state.agreements.filter(el => el._id !== id)
     })
+  }
   }
 
   agreementList() {

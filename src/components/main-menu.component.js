@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Navbar, Nav } from 'react-bootstrap';
 /*import ContactTable from '../ContactTable';
-import ProjectTable from '../ProjectTable';
 import ProductTable from '../ProductTable';*/
 
 import {BrowserRouter as Router, Route} from "react-router-dom";
 import Navbar2 from "./navbar.component"
 import ProductsList from "./products-list.component";
+import ResourcesList from "./list-resources.component";
 import EditProduct from "./edit-products.component";
 import CreateProduct from "./create-product.component";
 import CreateProject from "./create-project.component";
@@ -81,10 +80,7 @@ export default class MainMenu extends Component {
         let productModalClose = () => {this.setState({ productShow: false })};
 
     /*    let testcomponentas;
-    
-        if (this.state.table == 'projectTable') {
-          testcomponentas = <ProjectTable/>
-        } else if (this.state.table == 'productTable') {
+ else if (this.state.table == 'productTable') {
           testcomponentas = <ProductTable />
         } else {
           testcomponentas = <ContactTable />
@@ -134,7 +130,7 @@ export default class MainMenu extends Component {
         <div className="splitright">
        
        <button onClick={getUser}>getuser</button>{/*baltas kairys kampas yra del situ komponentu*/}
-          <div style={{ margin: "5px 5px 5px 5px" }}> 
+          <div> 
 
         <Router>
         <Navbar2/>
@@ -143,7 +139,8 @@ export default class MainMenu extends Component {
       <Route path="/imones" exact component={AccountsList} />
       <Route path="/sutartis" exact component={AgreementsList} />
       <Route path="/projektai" exact component={ProjectsList} />
-      <Route path="/list" exact component={ProductsList} />{/*pakeisti kelius!!!*/}{/*buvo link to / */}
+      <Route path="/istekliai" exact component={ResourcesList} />
+      <Route path="/list" exact component={ProductsList} />{/*pakeisti kelius!!!*/}
       <Route path="/edittask/:id" component={EditTask} />
       <Route path="/editacc/:id" component={EditAccount} />
       <Route path="/editagr/:id" component={EditAgreement} />

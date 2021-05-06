@@ -39,6 +39,7 @@ const accountRouter = require('./routes/accounts');
 const agreementRouter = require('./routes/agreements');
 const tasksRouter = require('./routes/tasks');
 const forecastsRouter = require('./routes/forecasts');
+const resourcesRouter = require('./routes/resources');
 
 //uzkraus viska is sio saito (sub nuorodos pvz /projects)
 app.use('/projects', projectssRouter);
@@ -47,6 +48,7 @@ app.use('/accounts', accountRouter);
 app.use('/agreements', agreementRouter);
 app.use('/tasks', tasksRouter);
 app.use('/forecasts', forecastsRouter);
+app.use('/resources', resourcesRouter);
 
 
 //suveikia, kai pasileidzia serveris

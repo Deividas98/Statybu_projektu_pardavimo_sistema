@@ -72,15 +72,17 @@ router.route('/updateprj/:id').post((req, res) => {
     project.aprasymas = req.body.aprasymas;
     project.imone = req.body.imone;
     project.projektoSuma = Number(req.body.projektoSuma);
-    project.nuolaida = parseFloat(req.body.nuolaida);
+    //project.nuolaida = parseFloat(req.body.nuolaida);
     project.busena = req.body.busena;
     project.pradziosData = Date.parse(req.body.pradziosData);
     project.pabaigosData = Date.parse(req.body.pabaigosData);
+    project.statusas = req.body.statusas;//nauja!!!
+    project.resursuKiekis = Number(req.body.resursuKiekis);//nauja!!!
 
-    project.grynasisPelnasSuNuolaida = Number(req.body.grynasisPelnasSuNuolaida);
-    project.laimetaEbitda = Number(req.body.laimetaEbitda);
-    project.mokesciai = Number(req.body.mokesciai);
-    project.laimetaPajamos = Number(req.body.laimetaPajamos);
+     project.grynasisPelnasSuNuolaida = Number(req.body.grynasisPelnasSuNuolaida);
+    // project.laimetaEbitda = Number(req.body.laimetaEbitda);
+    // project.mokesciai = Number(req.body.mokesciai);
+    // project.laimetaPajamos = Number(req.body.laimetaPajamos);
 
     project.save()
       .then(() => res.json('Project updated!'))

@@ -45,12 +45,14 @@ export default class TasksList extends Component {
   }
 
   deleteTask(id) {
+    if (window.confirm('Ar tikrai norite pa6alinti šį įrašą?')){
     axios.delete('http://localhost:5000/tasks/'+id)
       .then(response => { console.log(response.data)});
 
     this.setState({
         tasks: this.state.tasks.filter(el => el._id !== id)
     })
+  }
   }
 
   taskList() {

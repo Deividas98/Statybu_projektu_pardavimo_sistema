@@ -78,12 +78,9 @@ router.route('/sumProducts/:projektas'/*/:statusas'*/).get((req, res) => {
        "sumEbitdaProc":{ "$sum": "$ebitdaProc"},
        "sumBendrasKiekis":{ "$sum": "$kiekis"},
       }
+    }]
     }
-    ]
-    }
-
-  }
-    
+  } 
   ])
     .then(products => (res.json(products), projektoPajamos = products[0].esamaslaukas, projektoId = products[0]._id
     //, function(data) { res.render('index', { data: JSON.stringify(data) }); }
