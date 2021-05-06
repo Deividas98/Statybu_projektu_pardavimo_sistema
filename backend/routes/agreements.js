@@ -4,45 +4,13 @@ let Agreement = require('../models/agreement.model');
 
 router.route('/').get((req, res) => {
   Agreement.find()
- //Product.aggregate([
-   /*{ "$lookup": {
-    "from": "projects",
-    //"let": { "projektas": "$products.projektas" },
-    "pipeline": [
-      { "$match": {
-        "$expr": { "$in": ["$$projektas", "$projects._id"] }
-      }}//,
-      //{ "$unwind": "$projects._id" }
-    ],
-    "as": "projektas"
-  }}
- ])*/
     .then(agreements => res.json(agreements))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-/*router.route('/getProjects').get((req, res) => {
-  Product.aggregate([
-          {
-            "$lookup":
-              {
-                "from": "projects",
-                "localField": "projektas",
-                "foreignField": "_id",
-                "as": "projektas"
-              }  
-         },
-         {"$unwind":'$projektas'},
-         {"$project": { "pavadinimas": 1, "aprasymas": 1, "projektas": "$projektas.pavadinimas", "suma": 1, "kiekis": 1, "kaina": 1}}
-  ]  
-  )
-    .then(products => res.json(products))
-    .catch(err => res.status(400).json('Error: ' + err));
-});*/
-
 //gauti sutartis pagal susijusias imones
 router.route('/accagr/:id').get((req, res) => {
-Agreement.find({"imone" : req.params.id/*"60856a05a142774d008c3e7c"*/})
+Agreement.find({"imone" : req.params.id})
     .then(agreements => res.json(agreements))
     .catch(err => res.status(400).json('Error: ' + err));
 });

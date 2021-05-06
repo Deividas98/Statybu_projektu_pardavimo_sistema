@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {Button} from 'react-bootstrap';
+import {Button, Alert} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-//import DatePicker from 'react-datepicker';
-//import "react-datepicker/dist/react-datepicker.css";
+import { Salys } from './countries.component';
+
 
 const Agreement = props => (
     <tr>
@@ -12,7 +12,6 @@ const Agreement = props => (
       <td>{props.agreement.tipas}</td>
       <td>
         <Link to={"/editagr/"+props.agreement._id}>Redaguoti</Link> | <Button onClick={() => { props.deleteAgreement(props.agreement._id) }}>Ištrinti</Button>
-        {/* <a href="#" onClick={() => { props.deleteAgreement(props.agreement._id) }}>Ištrinti</a> */}
       </td>
     </tr>
   )
@@ -27,7 +26,6 @@ const Agreement = props => (
   
       <td>
         <Link to={"/editprj/"+props.project._id}>Redaguoti</Link> | <Button onClick={() => { props.deleteProject(props.project._id) }}>Ištrinti</Button>
-        {/* <a href="#" onClick={() => { props.deleteProject(props.project._id) }}>Ištrinti</a> */}
       </td>
     </tr>
   )
@@ -47,18 +45,18 @@ export default class EditAccount extends Component {
 
         this.state = {
             pavadinimas: '',
-            salis: new Date(),
+            salis: '',
             adresas: '',
             telefonoNr: '',
-            elPastas: new Date(),
+            elPastas: '',
             kontaktinisAsmuo: '',
             svetaine: '',
             lojalumas: '',
-            //date: new Date(), pataisyti
             projektai: [],
             ProjectId: '',
             agreements: [],
-            projects: []
+            projects: [],
+            visibleAlert: false
         }
     }
 
@@ -98,23 +96,6 @@ export default class EditAccount extends Component {
                 console.log(error);
             })
 
-        // axios.get('http://localhost:5000/users/')//neranda tokio
-        //     .then(response => {
-        //         if (response.data.length > 0) {
-        //             this.setState({
-        //                 //projektai: response.data.map(projektas => projektas.pavadinimas),
-        //                 naudotojai: response.data.map(naudotojas => [naudotojas._id, naudotojas.username]),
-        //                 username: response.data[0].username//,
-        //                 //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
-        //             })
-        //             console.log(this.state.naudotojai)
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     })
-
-            //nauja
             axios.get('http://localhost:5000/agreements/accagr/' + this.props.match.params.id)
             .then(response => {
               this.setState({ agreements: response.data })
@@ -202,6 +183,8 @@ export default class EditAccount extends Component {
             .then(res => console.log(res.data));
 
        // window.location = '/';
+       this.setState({ visibleAlert: true })
+        setTimeout(() => { this.setState({ visibleAlert: false }) }, 3000);
     }
 
     agreementList() {
@@ -221,7 +204,8 @@ export default class EditAccount extends Component {
     render() {
         return (
             <div>
-                <h3>Redaguoti užduotį</h3>
+                <Alert show={this.state.visibleAlert} variant="success" dismissible>Įmonė sėkmingai atnaujinta!</Alert>
+                <h3>Atnaujinti įmonę</h3>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label>Pavadinimas: </label>
@@ -234,12 +218,15 @@ export default class EditAccount extends Component {
                     </div>
                     <div className="form-group">
                         <label>Šalis: </label>
-                        <input type="text"
-                            required
-                            className="form-control"
+                        <select required className="form-control"
                             value={this.state.salis}
-                            onChange={this.onChangeSalis}
-                        />
+                            onChange={this.onChangeSalis}>
+                            {
+                                Salys.map((salis, i) => {
+                                    return <option key={i} value={salis}>{salis}</option>;
+                                })
+                            }
+                        </select>
                     </div>
                     <div className="form-group">
                         <label>Adresas: </label>

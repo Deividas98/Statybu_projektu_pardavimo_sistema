@@ -20,15 +20,13 @@ const accountSchema = new Schema({
     required: false,
     unique: false
   },
-  telefonoNr: {//pakeisti!!!
-    type: String,//String,  naudojant id neprisideda irasas is ui
-    required: false,
+  telefonoNr: {
+    type: String,
+    required: true,
     unique: false
   },
-  elPastas: {//pakeisti!!!
-    type: String,//String,  naudojant id neprisideda irasas is ui
-    //required: false,
-    //unique: false//,
+  elPastas: {
+    type: String,
     required: true,
     unique: false
   },

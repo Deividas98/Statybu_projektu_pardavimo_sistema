@@ -16,15 +16,10 @@ const Account = props => (
     <td>{props.account.lojalumas}</td>
 
     <td>
-      <Link to={"/editacc/"+props.account._id}>Redaguoti</Link> | {/*<a href="#" onClick={() => { props.deleteAccount(props.account._id) }}>Ištrinti</a>*/}
-      <Button onClick={() => { props.deleteAccount(props.account._id) }}>Ištrinti</Button>
+      <Link to={"/editacc/"+props.account._id}>Redaguoti</Link> | <Button onClick={() => { props.deleteAccount(props.account._id) }}>Ištrinti</Button>
     </td>
   </tr>
 )
-
-/*const Projektai = Object.keys(products).map(key =>
-  <option value={key}>{products[key]}</option>
-)*/
 
 export default class AccountsList extends Component {
   constructor(props) {
@@ -58,7 +53,6 @@ export default class AccountsList extends Component {
   }
 
   accountList() {
-    console.log(this.state.accounts.projektas);//projektas???
     return this.state.accounts.map(currentaccount => {
       return <Account account={currentaccount} deleteAccount={this.deleteAccount} key={currentaccount._id}/>;
     })
