@@ -59,7 +59,17 @@ router.route('/agrwlookup').get((req, res) => {
               }  
          },
          {"$unwind":'$imone'},
-         {"$project": { "pavadinimas": 1, "skirta": "$imone.pavadinimas", "sutartiesNumeris": 1, "tipas": 1}}
+         {
+          "$lookup":
+            {
+              "from": "projects",
+              "localField": "projektas",
+              "foreignField": "_id",
+              "as": "projektas"
+            }  
+       },
+       {"$unwind":'$projektas'},
+         {"$project": { "pavadinimas": 1, "imone": "$imone.pavadinimas", "projektas": "$projektas.pavadinimas", "sutartiesNumeris": 1, "tipas": 1}}
   ])
     .then(agreements => res.json(agreements))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -68,6 +78,7 @@ router.route('/agrwlookup').get((req, res) => {
 router.route('/addagr').post((req, res) => {
   console.log(req.body);
   const pavadinimas = req.body.pavadinimas;
+  const projektas = req.body.projektas;
   const imone = req.body.imone;
   const sutartiesNumeris = req.body.sutartiesNumeris;//req.body.projektas;//kai neparasyta id, reikia prideti id, kai nurodyta id reikia ideti pavadinima
   const tipas = req.body.tipas;
@@ -75,6 +86,7 @@ router.route('/addagr').post((req, res) => {
   const newAgreement = new Agreement({
     pavadinimas,
     imone,
+    projektas,
     sutartiesNumeris,
     tipas
   });
@@ -84,7 +96,7 @@ router.route('/addagr').post((req, res) => {
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/agr/:id').get((req, res) => {
+router.route('/:id').get((req, res) => {
     Agreement.findById(req.params.id)
     .then(agreement => res.json(agreement))
     .catch(err => res.status(400).json('Error: ' + err));
@@ -101,6 +113,7 @@ router.route('/updateagr/:id').post((req, res) => {
     .then(agreement => {
         agreement.pavadinimas = req.body.pavadinimas;
         agreement.imone = req.body.imone;
+        agreement.projektas = req.body.projektas;
         agreement.sutartiesNumeris = req.body.sutartiesNumeris;
         agreement.tipas = req.body.tipas;
 

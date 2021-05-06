@@ -10,10 +10,12 @@ const agreementSchema = new Schema({
     minlength: 3
   },
   imone: {
-    type: mongoose.Schema.Types.ObjectId,//String,  naudojant id neprisideda irasas is ui
-    //required: false,
-    //unique: false//,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Account'
+  },
+  projektas: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Project'
   },
   sutartiesNumeris: {
     type: String,
@@ -21,7 +23,7 @@ const agreementSchema = new Schema({
     unique: false
   },
   tipas: {
-    type: String,//String,  naudojant id neprisideda irasas is ui
+    type: String,
     required: false,
     unique: false
   },

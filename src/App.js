@@ -74,7 +74,7 @@ class App extends React.Component {
   }
 
   renderMainMenu() {
-    if (this.state.showMainMenu == true) {
+    if (this.state.showMainMenu === true) {
       //this.setState({hideLogin: true})
       return <MainMenu />
     }

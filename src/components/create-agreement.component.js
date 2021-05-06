@@ -1,56 +1,53 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import "react-datepicker/dist/react-datepicker.css";
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Alert } from 'react-bootstrap';
 
 export default class CreateAgreements extends Component {
     constructor(props) {
         super(props);
         this.onChangePavadinimas = this.onChangePavadinimas.bind(this);
         this.onChangeImone = this.onChangeImone.bind(this);
+        this.onChangeProjektas = this.onChangeProjektas.bind(this);
         this.onChangeSutartiesNumeris = this.onChangeSutartiesNumeris.bind(this);
         this.onChangeTipas = this.onChangeTipas.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            pavadinimas: '',
+            agrPavadinimas: '',
             imone: '',
             sutartiesNumeris: '',
             tipas: '',
-            //date: new Date(), pataisyti
             projektai: [],
-            ProjectId: ''
+            projektas: '',
+            imones: [],
+            visibleAlert: false
         }
     }
 
-    //su kitais objektais ta padaryti
     componentDidMount() {
-        /*axios.get('http://localhost:5000/projects/')
+        axios.get('http://localhost:5000/projects/')
             .then(response => {
                 if (response.data.length > 0) {
                     this.setState({
-                        //projektai: response.data.map(projektas => projektas.pavadinimas),
                         projektai: response.data.map(projektas => [projektas._id, projektas.pavadinimas]),
-                        pavadinimas: response.data[0].pavadinimas//,
-                        //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
+                        pavadinimas: response.data[0].pavadinimas
                     })
-                    console.log(this.state.projektai)
+                    //console.log(this.state.projektai)
                 }
             })
             .catch((error) => {
                 console.log(error);
-            })*/
+            })
 
-        axios.get('http://localhost:5000/accounts/')//neranda tokio
+        axios.get('http://localhost:5000/accounts/')
             .then(response => {
                 if (response.data.length > 0) {
                     this.setState({
-                        //projektai: response.data.map(projektas => projektas.pavadinimas),
                         imones: response.data.map(imone => [imone._id, imone.pavadinimas]),
-                        pavadinimas: response.data[0].pavadinimas//,
-                        //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
+                        pavadinimas: response.data[0].pavadinimas
                     })
-                    console.log(this.state.imones)
+                    //console.log(this.state.imones)
                 }
             })
             .catch((error) => {
@@ -59,35 +56,32 @@ export default class CreateAgreements extends Component {
     }
 
     onChangePavadinimas(e) {
-        this.setState({
-            pavadinimas: e.target.value
-        })
+        this.setState({ agrPavadinimas: e.target.value })
     }
 
     onChangeImone(e) {
-        this.setState({
-            imone: e.target.value
-        })
+        this.setState({ imone: e.target.value })
+    }
+
+    onChangeProjektas(e) {
+        this.setState({ projektas: e.target.value })
     }
 
     onChangeSutartiesNumeris(e) {
-        this.setState({
-            sutartiesNumeris: e.target.value
-        })
+        this.setState({ sutartiesNumeris: e.target.value })
     }
 
     onChangeTipas(e) {
-        this.setState({
-            tipas: e.target.value
-        })
+        this.setState({ tipas: e.target.value })
     }
 
     onSubmit = (e) => {
         e.preventDefault();
 
         const sutartis = {
-            pavadinimas: this.state.pavadinimas,
+            pavadinimas: this.state.agrPavadinimas,
             imone: this.state.imone,
+            projektas: this.state.projektas,
             sutartiesNumeris: this.state.sutartiesNumeris,
             tipas: this.state.tipas
         }
@@ -98,27 +92,30 @@ export default class CreateAgreements extends Component {
             .then(res => console.log(res.data));
 
         //window.location = '/';
+        this.setState({ visibleAlert: true })
+        setTimeout(() => { this.setState({ visibleAlert: false }) }, 3000);
     }
 
     render() {
         return (
             <Modal {...this.props}>
-            <Modal.Header closeButton onClick={this.props.onHide}>
-                <Modal.Title>Pridėti įmonę</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
+                <Alert show={this.state.visibleAlert} variant="success" dismissible>Sutartis sėkmingai sukurta!</Alert>
+                <Modal.Header closeButton onClick={this.props.onHide}>
+                    <Modal.Title>Pridėti įmonę</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
                     <div className="form-group">
                         <label>Pavadinimas: </label>
                         <input type="text"
                             required
                             className="form-control"
-                            value={this.state.pavadinimas}
+                            value={this.state.agrPavadinimas}
                             onChange={this.onChangePavadinimas}
                         />
                     </div>
-                   {/* <div className="form-group">
+                    <div className="form-group">
                         <label>Įmonė: </label>
-                        <select //ref="userInput"
+                        <select
                             required
                             className="form-control"
                             value={this.state.imone}
@@ -132,7 +129,24 @@ export default class CreateAgreements extends Component {
                                 })
                             }
                         </select>
-                        </div>*/}
+                    </div>
+                    <div className="form-group">
+                        <label>Projektas: </label>
+                        <select //ref="userInput"
+                            required
+                            className="form-control"
+                            value={this.state.projektas}
+                            onChange={this.onChangeProjektas}>
+                            {
+                                this.state.projektai.map(function ([_id, pavadinimas]) {
+                                    return <option
+                                        key={_id}
+                                        value={_id}>{pavadinimas}
+                                    </option>;
+                                })
+                            }
+                        </select>
+                    </div>
                     <div className="form-group">
                         <label>Sutarties numeris: </label>
                         <input type="text"
@@ -151,43 +165,7 @@ export default class CreateAgreements extends Component {
                             onChange={this.onChangeTipas}
                         />
                     </div>
-
-                   {/*} <div className="form-group">
-                        <label>Skirta: </label>
-                        <select //ref="userInput"
-                            required
-                            className="form-control"
-                            value={this.state.projektas}
-                            onChange={this.onChangeSkirta}>
-                            {
-                                this.state.projektai.map(function ([_id, pavadinimas]) {
-                                    return <option
-                                        key={_id}
-                                        value={_id}>{pavadinimas}
-                                    </option>;
-                                })
-                            }
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Atlieka: </label>
-                        <select //ref="userInput"
-                            required
-                            className="form-control"
-                            value={this.state.naudotojas}
-                            onChange={this.onChangeAtlieka}>
-                            {
-                                this.state.naudotojai.map(function ([_id, username]) {
-                                    return <option
-                                        key={_id}
-                                        value={_id}>{username}
-                                    </option>;
-                                })
-                            }
-                        </select>
-                    </div>*/}
-                  
-                  </Modal.Body>
+                </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={this.props.onHide}>Atšaukti</Button>
                     <Button variant="primary" onClick={this.onSubmit}>Išsaugoti</Button>

@@ -8,18 +8,14 @@ const Agreement = props => (
   <tr>
     <td>{props.agreement.pavadinimas}</td>
     <td>{props.agreement.imone}</td>
+    <td>{props.agreement.projektas}</td>
     <td>{props.agreement.sutartiesNumeris}</td>
     <td>{props.agreement.tipas}</td>
     <td>
       <Link to={"/editagr/"+props.agreement._id}>Redaguoti</Link> | <Button onClick={() => { props.deleteAgreement(props.agreement._id) }}>Ištrinti</Button>
-      {/* <a href="#" onClick={() => { props.deleteAgreement(props.agreement._id) }}>Ištrinti</a> */}
     </td>
   </tr>
 )
-
-/*const Projektai = Object.keys(products).map(key =>
-  <option value={key}>{products[key]}</option>
-)*/
 
 export default class AgreementsList extends Component {
   constructor(props) {
@@ -34,7 +30,7 @@ export default class AgreementsList extends Component {
     axios.get('http://localhost:5000/agreements/agrwlookup')
       .then(response => {
         this.setState({ agreements: response.data })
-        //console.log(this.state.products);
+     // console.log(this.state.agreements);
       })
       .catch((error) => {
         console.log(error);
@@ -53,7 +49,6 @@ export default class AgreementsList extends Component {
   }
 
   agreementList() {
-    console.log(this.state.agreements.projektas);//projektas???
     return this.state.agreements.map(currentagreement => {
       return <Agreement agreement={currentagreement} deleteAgreement={this.deleteAgreement} key={currentagreement._id}/>;
     })
@@ -68,6 +63,7 @@ export default class AgreementsList extends Component {
             <tr>
               <th>Pavadinimas</th>
               <th>Įmonė</th>
+              <th>Projektas</th>
               <th>Sutarties numeris</th>
               <th>Tipas</th>
             </tr>
@@ -76,7 +72,6 @@ export default class AgreementsList extends Component {
             { this.agreementList() }
           </tbody>
         </table>
-        
       </div>
     )
   }
