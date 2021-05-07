@@ -12,7 +12,7 @@ router.route('/addacc').post((req, res) => {
   console.log(req.body);
   const pavadinimas = req.body.pavadinimas;
   const salis = req.body.salis;
-  const adresas = req.body.adresas;//req.body.projektas;//kai neparasyta id, reikia prideti id, kai nurodyta id reikia ideti pavadinima
+  const adresas = req.body.adresas;
   const telefonoNr = req.body.telefonoNr;
   const elPastas = req.body.elPastas;
   const kontaktinisAsmuo = req.body.kontaktinisAsmuo;

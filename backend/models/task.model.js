@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const taskSchema = new Schema({
-  subjektas: {
+  tema: {
     type: String,
     required: true,
     unique: false,
@@ -13,35 +13,28 @@ const taskSchema = new Schema({
   pradziosData: {
     type: Date
   },
-  skirta: {//pakeisti!!!
+  skirta: {
     type: mongoose.Schema.Types.ObjectId,//String,  naudojant id neprisideda irasas is ui
-    //required: false,
-    //unique: false//,
+    required: true,
     ref: 'Project'
   },
-  /*atlieka: {//pakeisti!!!
-    type: mongoose.Schema.Types.ObjectId,//String,  naudojant id neprisideda irasas is ui
-    required: false,
+  atlieka: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
     ref: 'User'
-  },*/
+  },
   pabaigosData: {
     type: Date,
     required: true
   },
   komentaras: {
     type: String//,
-    //required: false,
-    //unique: false//,
-    //trim: true,
-    //minlength: 3
   },
   komentaruSarasas: {
     type: String
-    //trim: true
   },
   statusas: {
     type: String
-    //trim: true
   },
   laikas: {
     type: Date

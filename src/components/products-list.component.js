@@ -19,7 +19,7 @@ const Product = props => (
 <td>{props.product.ebitdaProc}</td>
 <td>{props.product.statusas}</td>
     <td>
-      <Link to={"/edit/"+props.product._id}>Redaguoti</Link> | <Button onClick={() => { props.deleteProduct(props.product._id, props.product.custom) }}>Ištrinti</Button> 
+      <Link to={"/edit/"+props.product._id}>Redaguoti</Link> | <Button variant="danger" onClick={() => { props.deleteProduct(props.product._id, props.product.custom) }}>Ištrinti</Button> 
       {/* <a href="#" onClick={() => { props.deleteProduct(props.product._id) }}>delete</a> */}
     </td>
   </tr>

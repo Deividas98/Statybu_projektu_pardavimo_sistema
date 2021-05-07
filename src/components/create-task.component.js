@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Alert } from 'react-bootstrap';
 
 export default class CreateTasks extends Component {
     constructor(props) {
         super(props);
-        this.onChangeSubjektas = this.onChangeSubjektas.bind(this);
+        this.onChangeTema = this.onChangeTema.bind(this);
         this.onChangePradziosData = this.onChangePradziosData.bind(this);
         this.onChangeSkirta = this.onChangeSkirta.bind(this);
         this.onChangeAtlieka = this.onChangeAtlieka.bind(this);
@@ -17,103 +17,82 @@ export default class CreateTasks extends Component {
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            subjektas: '',
+            tema: '',
             pradziosData: new Date(),
             skirta: '',
             atlieka: '',
             pabaigosData: new Date(),
             komentaras: '',
             komentaruSarasas: '',
-            //date: new Date(), pataisyti
             projektai: [],
-            ProjectId: '',
-            naudotojai: []
+            naudotojai: [],
+            visibleAlert: false
         }
     }
 
-    //su kitais objektais ta padaryti
     componentDidMount() {
         axios.get('http://localhost:5000/projects/')
             .then(response => {
                 if (response.data.length > 0) {
                     this.setState({
-                        //projektai: response.data.map(projektas => projektas.pavadinimas),
                         projektai: response.data.map(projektas => [projektas._id, projektas.pavadinimas]),
-                        pavadinimas: response.data[0].pavadinimas//,
-                        //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
+                        pavadinimas: response.data[0].pavadinimas
                     })
-                    console.log(this.state.projektai)
+                    //console.log(this.state.projektai)
                 }
             })
             .catch((error) => {
                 console.log(error);
             })
 
-        /*axios.get('http://localhost:5000/users/')//neranda tokio
+        axios.get('http://localhost:5000/users/')
             .then(response => {
                 if (response.data.length > 0) {
                     this.setState({
-                        //projektai: response.data.map(projektas => projektas.pavadinimas),
-                        naudotojai: response.data.map(naudotojas => [naudotojas._id, naudotojas.username]),
-                        username: response.data[0].username//,
-                        //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
+                        naudotojai: response.data.map(naudotojas => [naudotojas._id, naudotojas.username])
                     })
                     console.log(this.state.naudotojai)
                 }
             })
             .catch((error) => {
                 console.log(error);
-            })*/
+            })
     }
 
-    onChangeSubjektas(e) {
-        this.setState({
-            subjektas: e.target.value
-        })
+    onChangeTema(e) {
+        this.setState({ tema: e.target.value })
     }
 
     onChangePradziosData(pradziosData) {
-        this.setState({
-            pradziosData: pradziosData
-        })
+        this.setState({ pradziosData: pradziosData })
     }
 
     onChangePabaigosData(pabaigosData) {
-        this.setState({
-            pabaigosData: pabaigosData
-        })
-        console.log(this.state.pabaigosData)
+        this.setState({ pabaigosData: pabaigosData })
+        //console.log(this.state.pabaigosData)
     }
 
     onChangeSkirta(e) {
-        this.setState({
-            skirta: e.target.value
-        })
+        this.setState({ skirta: e.target.value })
     }
 
     onChangeAtlieka(e) {
-        this.setState({
-            atlieka: e.target.value
-        })
+        this.setState({ atlieka: e.target.value })
     }
 
     onChangeKomentaras(e) {
-        this.setState({
-            komentaras: e.target.value
-        })
+        this.setState({ komentaras: e.target.value })
     }
 
     onChangeKomentaruSarasas(e) {
-        this.setState({
-            komentaruSarasas: e.target.value
-        })
+        this.setState({ komentaruSarasas: e.target.value })
     }
 
     onSubmit = (e) => {
         e.preventDefault();
 
         const uzduotis = {
-            subjektas: this.state.subjektas,
+            tema: this.state.tema,
             pradziosData: this.state.pradziosData,
             skirta: this.state.skirta,
             atlieka: this.state.atlieka,
@@ -127,89 +106,74 @@ export default class CreateTasks extends Component {
         axios.post('http://localhost:5000/tasks/addtask', uzduotis)
             .then(res => console.log(res.data));
 
-            setTimeout(window.location = '/main', 2000);//sitaip on save isimamas modalinis langas
-       // window.location = '/main';
-       
+        // setTimeout(window.location = '/main', 2000);//sitaip on save isimamas modalinis langas
+        // window.location = '/main';
+        this.setState({ visibleAlert: true })
+        setTimeout(() => { this.setState({ visibleAlert: false }) }, 3000);
+
     }
 
     render() {
         return (
             <Modal {...this.props}>
+                <Alert show={this.state.visibleAlert} variant="success" dismissible>Sutartis sėkmingai sukurta!</Alert>
                 <Modal.Header closeButton onClick={this.props.onHide}>
                     <Modal.Title>Sukurti užduotį</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                <div className="form-group">
-                       <label>Subjektas: </label>
-                       <input type="text"
-                           required
-                           className="form-control"
-                           value={this.state.subjektas}
-                           onChange={this.onChangeSubjektas}
-                       />
-                   </div>
-                   <div className="form-group">
-                       <label>Pradžios data: </label>
-                       <div>
-                           <DatePicker
-                               selected={this.state.pradziosData}
-                               onChange={this.onChangePradziosData}
-                           />
-                       </div>
-                   </div>
-                   <div className="form-group">
-                       <label>Pabaigos data: </label>
-                       <div>
-                           <DatePicker
-                               selected={this.state.pabaigosData}
-                               onChange={this.onChangePabaigosData}
-                           />
-                       </div>
-                   </div>
-                   <div className="form-group">
-                       <label>Skirta: </label>
-                       <select //ref="userInput"
-                           required
-                           className="form-control"
-                           value={this.state.projektas}
-                           onChange={this.onChangeSkirta}>
-                           {
-                               this.state.projektai.map(function ([_id, pavadinimas]) {
-                                   return <option
-                                       key={_id}
-                                       value={_id}>{pavadinimas}
-                                   </option>;
-                               })
-                           }
-                       </select>
-                   </div>
-                  {/*} <div className="form-group">
-                       <label>Atlieka: </label>
-                       <select //ref="userInput"
-                           required
-                           className="form-control"
-                           value={this.state.naudotojas}
-                           onChange={this.onChangeAtlieka}>
-                           {
-                               this.state.naudotojai.map(function ([_id, username]) {
-                                   return <option
-                                       key={_id}
-                                       value={_id}>{username}
-                                   </option>;
-                               })
-                           }
-                       </select>
-                   </div>*/}
-                   <div className="form-group">
-                       <label>Komentaras: </label>
-                       <input type="text"
-                           required
-                           className="form-control"
-                           value={this.state.komentaras}
-                           onChange={this.onChangeKomentaras}
-                       />
-                   </div>
-                   <div className="form-group">
+                    <div className="form-group">
+                        <label>Tema: </label>
+                        <input type="text" required className="form-control" value={this.state.tema} onChange={this.onChangeTema} />
+                    </div>
+                    <div className="form-group">
+                        <label>Pradžios data: </label>
+                        <div>
+                            <DatePicker
+                                selected={this.state.pradziosData}
+                                onChange={this.onChangePradziosData} />
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label>Pabaigos data: </label>
+                        <div>
+                            <DatePicker
+                                selected={this.state.pabaigosData}
+                                onChange={this.onChangePabaigosData} />
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label>Skirta: </label>
+                        <select required className="form-control" value={this.state.projektas}
+                            onChange={this.onChangeSkirta}>
+                            {
+                                this.state.projektai.map(function ([_id, pavadinimas]) {
+                                    return <option
+                                        key={_id}
+                                        value={_id}>{pavadinimas}
+                                    </option>;
+                                })
+                            }
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label>Atlieka: </label>
+                        <select required className="form-control" value={this.state.naudotojas} onChange={this.onChangeAtlieka}>
+                            {
+                                this.state.naudotojai.map(function ([_id, username]) {
+                                    return <option
+                                        key={_id}
+                                        value={_id}>{username}
+                                    </option>;
+                                })
+                            }
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label>Komentaras: </label>
+                        <input type="text" required className="form-control" value={this.state.komentaras}
+                            onChange={this.onChangeKomentaras} />
+                    </div>
+                    {/* <div className="form-group">
                        <label>Komenarų įrašai: </label>
                        <input type="text"
                            required
@@ -217,7 +181,7 @@ export default class CreateTasks extends Component {
                            value={this.state.komentaruSarasas}
                            onChange={this.onChangeKomentaruSarasas}
                        />
-                   </div>
+                   </div> */}
 
                 </Modal.Body>
                 <Modal.Footer>

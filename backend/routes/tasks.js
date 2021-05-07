@@ -20,7 +20,18 @@ router.route('/alltaskslookup').get((req, res) => {
       }
     },
     { "$unwind": '$projektas' },
-    { "$project": { "subjektas": 1, "pradziosData": 1, "skirta": "$projektas.pavadinimas", "pabaigosData": 1, "komentaras": 1, "statusas": 1 } }
+    {
+      "$lookup":
+      {
+        "from": "users",
+        "localField": "atlieka",
+        "foreignField": "_id",
+        "as": "naudotojas"
+      }
+    },
+    { "$unwind": '$naudotojas' },
+    { "$project": { "tema": 1, "pradziosData": 1, "skirta": "$projektas.pavadinimas", "atlieka": "$naudotojas.username", "pabaigosData": 1, "komentaras": 1, "statusas": 1 } }
+    //gal dar itraukti laiko parametra
   ]
   )
     .then(tasks => res.json(tasks))
@@ -29,31 +40,33 @@ router.route('/alltaskslookup').get((req, res) => {
 
 //gauti sutartis pagal susijusias imones
 router.route('/projtask/:id').get((req, res) => {
-  Task.find({ "projektas": req.params.id/*"60856a05a142774d008c3e7c"*/ })
+  Task.find({ "projektas": req.params.id })
     .then(tasks => res.json(tasks))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/addtask').post((req, res) => {
   console.log(req.body);
-  const subjektas = req.body.subjektas;
+  const tema = req.body.tema;
   const pradziosData = Date.parse(req.body.pradziosData);
-  const skirta = req.body.skirta;//req.body.projektas;//kai neparasyta id, reikia prideti id, kai nurodyta id reikia ideti pavadinima
+  const skirta = req.body.skirta;
   const atlieka = req.body.atlieka;
   const pabaigosData = Date.parse(req.body.pabaigosData);
   const komentaras = req.body.komentaras;
   const komentaruSarasas = req.body.komentaruSarasas;
   const statusas = req.body.statusas;
+  const laikas = Date.parse("1970-01-01T00:00:00.000+00:00");
 
   const newTask = new Task({
-    subjektas,
+    tema,
     pradziosData,
     skirta,
     atlieka,
     pabaigosData,
     komentaras,
     komentaruSarasas,
-    statusas
+    statusas,
+    laikas
   });
 
   newTask.save()
@@ -76,7 +89,7 @@ router.route('/:id').delete((req, res) => {
 router.route('/updatetask/:id').post((req, res) => {
   Task.findById(req.params.id)
     .then(task => {
-      task.subjektas = req.body.subjektas;
+      task.tema = req.body.tema;
       task.pradziosData = Date(req.body.pradziosData);
       task.skirta = req.body.skirta;
       task.atlieka = req.body.atlieka;

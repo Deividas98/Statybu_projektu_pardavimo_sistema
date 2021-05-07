@@ -14,7 +14,7 @@ const Project = props => (
     <td>{props.project.busena}</td>
 
     <td>
-      <Link to={"/editprj/"+props.project._id}>Redaguoti</Link> | <Button onClick={() => { props.deleteProject(props.project._id) }}>Ištrinti</Button>
+      <Link to={"/editprj/"+props.project._id}>Redaguoti</Link> | <Button variant="danger" onClick={() => { props.deleteProject(props.project._id) }}>Ištrinti</Button>
       {/* <a href="#" onClick={() => { props.deleteProject(props.project._id) }}>Ištrinti</a> */}
     </td>
   </tr>

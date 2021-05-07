@@ -3,12 +3,12 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import Timer from './timer.component';
-import { Button } from 'react-bootstrap';
+import { Button, Alert } from 'react-bootstrap';
 
 export default class EditTask extends Component {
     constructor(props) {
         super(props);
-        this.onChangeSubjektas = this.onChangeSubjektas.bind(this);
+        this.onChangeTema = this.onChangeTema.bind(this);
         this.onChangePradziosData = this.onChangePradziosData.bind(this);
         this.onChangeSkirta = this.onChangeSkirta.bind(this);
         this.onChangeAtlieka = this.onChangeAtlieka.bind(this);
@@ -28,9 +28,9 @@ export default class EditTask extends Component {
             pabaigosData: new Date(),
             komentaras: '',
             komentaruSarasas: '',
-            //date: new Date(), pataisyti
             projektai: [],
-            ProjectId: '',
+            naudotojai: [],
+            visibleAlert: false,
 
             laikas: new Date(),
             showTimer: false
@@ -40,134 +40,106 @@ export default class EditTask extends Component {
     //su kitais objektais ta padaryti
     componentDidMount() {
         axios.get('http://localhost:5000/tasks/' + this.props.match.params.id)
-      .then(response => {
-        this.setState({
-          subjektas: response.data.subjektas,
-          pradziosData: new Date(response.data.pradziosData),
-          skirta: response.data.skirta,
-          atlieka: response.data.atlieka,
-          pabaigosData: new Date(response.data.pabaigosData),
-          komentaras: response.data.komentaras,
-          komentaruSarasas: response.data.komentaruSarasas,
-          //date: new Date(response.data.date)
-          laikas: new Date(response.data.laikas)
-        })
-        console.log(response.data.laikas)
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
+            .then(response => {
+                this.setState({
+                    tema: response.data.tema,
+                    pradziosData: new Date(response.data.pradziosData),
+                    skirta: response.data.skirta,
+                    atlieka: response.data.atlieka,
+                    pabaigosData: new Date(response.data.pabaigosData),
+                    komentaras: response.data.komentaras,
+                    komentaruSarasas: response.data.komentaruSarasas,
+                    laikas: new Date(response.data.laikas)
+                })
+                console.log(response.data.laikas)
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
 
 
         axios.get('http://localhost:5000/projects/')
             .then(response => {
                 if (response.data.length > 0) {
                     this.setState({
-                        //projektai: response.data.map(projektas => projektas.pavadinimas),
                         projektai: response.data.map(projektas => [projektas._id, projektas.pavadinimas]),
-                        pavadinimas: response.data[0].pavadinimas//,
-                        //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
+                        pavadinimas: response.data[0].pavadinimas
                     })
-                    console.log(this.state.projektai)
+                    //console.log(this.state.projektai)
                 }
             })
             .catch((error) => {
                 console.log(error);
             })
 
-       /* axios.get('http://localhost:5000/users/')//neranda tokio
+        axios.get('http://localhost:5000/users/')
             .then(response => {
                 if (response.data.length > 0) {
                     this.setState({
-                        //projektai: response.data.map(projektas => projektas.pavadinimas),
-                        naudotojai: response.data.map(naudotojas => [naudotojas._id, naudotojas.username]),
-                        username: response.data[0].username//,
-                        //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
+                        naudotojai: response.data.map(naudotojas => [naudotojas._id, naudotojas.username])//,
+                        //username: response.data[0].username
                     })
                     console.log(this.state.naudotojai)
                 }
             })
             .catch((error) => {
                 console.log(error);
-            })*/
+            })
     }
 
-    onChangeSubjektas(e) {
-        this.setState({
-            subjektas: e.target.value
-        })
+    onChangeTema(e) {
+        this.setState({ tema: e.target.value })
     }
 
     onChangePradziosData(pradziosData) {
-        this.setState({
-            pradziosData: pradziosData
-        })
+        this.setState({ pradziosData: pradziosData})
     }
 
     onChangePabaigosData(pabaigosData) {
-        this.setState({
-            pabaigosData: pabaigosData
-        })
+        this.setState({pabaigosData: pabaigosData})
     }
 
     onChangeSkirta(e) {
-        this.setState({
-            skirta: e.target.value
-        })
+        this.setState({skirta: e.target.value })
     }
 
     onChangeAtlieka(e) {
-        this.setState({
-            atlieka: e.target.value
-        })
+        this.setState({ atlieka: e.target.value })
     }
 
     onChangeKomentaras(e) {
-        this.setState({
-            komentaras: e.target.value
-        })
+        this.setState({ komentaras: e.target.value })
     }
 
     onChangeKomentaruSarasas(e) {
-        this.setState({
-            komentaruSarasas: e.target.value
-        })
+        this.setState({ komentaruSarasas: e.target.value  })
     }
-
-    // onChangeLaikas(laikas) {
-    //     this.setState({
-    //         laikas: laikas
-    //     })
-    // }
 
     onChangeLaikas(e) {
-        this.setState({
-            laikas: e.target.value
-        })
+        this.setState({ laikas: e.target.value })
     }
 
-    handleCallback = (childData) =>{
-        this.setState({laikas: childData})
+    handleCallback = (childData) => {
+        this.setState({ laikas: childData })
     }
 
     showtimer() {
         this.setState({
-          showTimer: true
+            showTimer: true
         });
-      }
+    }
 
     onSubmit = (e) => {
         e.preventDefault();
 
         const uzduotis = {
-            subjektas: this.state.subjektas,
+            tema: this.state.tema,
             pradziosData: this.state.pradziosData,
             skirta: this.state.skirta,
             atlieka: this.state.atlieka,
             pabaigosData: this.state.pabaigosData,
             komentaras: this.state.komentaras,
             komentaruSarasas: this.state.komentaruSarasas,
-
             laikas: this.state.laikas
         }
 
@@ -177,29 +149,27 @@ export default class EditTask extends Component {
             .then(res => console.log(res.data));
 
         // window.location = '/main';//!!!
+        this.setState({ visibleAlert: true })
+        setTimeout(() => { this.setState({ visibleAlert: false }) }, 3000);
     }
 
     render() {
         return (
             <div>
-                <h3>Sukurti Naują užduotį</h3>
+             <Alert show={this.state.visibleAlert} variant="success" dismissible>Užduotis sėkmingai atnaujinta!</Alert>
+                <h3>Atnaujinti užduotį</h3>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
-                        <label>Subjektas: </label>
-                        <input type="text"
-                            required
-                            className="form-control"
-                            value={this.state.subjektas}
-                            onChange={this.onChangeSubjektas}
-                        />
+                        <label>Tema: </label>
+                        <input type="text" required className="form-control" value={this.state.tema}
+                            onChange={this.onChangeTema}/>
                     </div>
                     <div className="form-group">
                         <label>Pradžios data: </label>
                         <div>
                             <DatePicker
                                 selected={this.state.pradziosData}
-                                onChange={this.onChangePradziosData}
-                            />
+                                onChange={this.onChangePradziosData}/>
                         </div>
                     </div>
                     <div className="form-group">
@@ -207,14 +177,12 @@ export default class EditTask extends Component {
                         <div>
                             <DatePicker
                                 selected={this.state.pabaigosData}
-                                onChange={this.onChangePabaigosData}
-                            />
+                                onChange={this.onChangePabaigosData}/>
                         </div>
                     </div>
                     <div className="form-group">
                         <label>Skirta: </label>
-                        <select //ref="userInput"
-                            required
+                        <select required
                             className="form-control"
                             value={this.state.projektas}
                             onChange={this.onChangeSkirta}>
@@ -228,10 +196,9 @@ export default class EditTask extends Component {
                             }
                         </select>
                     </div>
-                   {/*} <div className="form-group">
+                   <div className="form-group">
                         <label>Atlieka: </label>
-                        <select //ref="userInput"
-                            required
+                        <select required
                             className="form-control"
                             value={this.state.naudotojas}
                             onChange={this.onChangeAtlieka}>
@@ -244,7 +211,7 @@ export default class EditTask extends Component {
                                 })
                             }
                         </select>
-                    </div>*/}
+                    </div>
                     <div className="form-group">
                         <label>Komentaras: </label>
                         <input type="text"
@@ -254,7 +221,7 @@ export default class EditTask extends Component {
                             onChange={this.onChangeKomentaras}
                         />
                     </div>
-                    <div className="form-group">
+                    {/* <div className="form-group">
                         <label>Komenarų įrašai: </label>
                         <input type="text"
                             required
@@ -262,10 +229,10 @@ export default class EditTask extends Component {
                             value={this.state.komentaruSarasas}
                             onChange={this.onChangeKomentaruSarasas}
                         />
-                    </div>
-                    
-                    {this.state.showTimer == true ? <Timer laikas2={this.state.laikas} parentCallback = {this.handleCallback}/> : 
-                    <Button onClick ={this.showtimer} >Išskleisti laikrodį</Button>}
+                    </div> */}
+
+                    {this.state.showTimer == true ? <Timer laikas2={this.state.laikas} parentCallback={this.handleCallback} /> :
+                        <Button onClick={this.showtimer} >Išskleisti laikrodį</Button>}
                     {/* <Timer laikas2={this.state.laikas} parentCallback = {this.handleCallback}/> */}
                     {/* <div>{Date.parse(this.state.laikas)}</div> */}
                     {/* onLaikas1Changed={this.onChangeLaikas} */}

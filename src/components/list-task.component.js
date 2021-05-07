@@ -6,30 +6,24 @@ import {Button} from 'react-bootstrap';
 //ne atskiram faile nes mazas komponentas
 const Task = props => (
   <tr>
-    <td>{props.task.subjektas}</td>
+    <td>{props.task.tema}</td>
     <td>{props.task.pradziosData}</td>
     <td>{props.task.skirta}</td>
+    <td>{props.task.atlieka}</td>
     <td>{props.task.pabaigosData}</td>
     <td>{props.task.komentaras}</td>
 
     <td>
-      <Link to={"/edittask/"+props.task._id}>Redaguoti</Link> | <Button onClick={() => { props.deleteTask(props.task._id) }}>Ištrinti</Button> 
-      {/* <a href="#" onClick={() => { props.deleteTask(props.task._id) }}>Ištrinti</a> */}
-
+      <Link to={"/edittask/"+props.task._id}>Redaguoti</Link> | <Button variant="danger" onClick={() => { props.deleteTask(props.task._id) }}>Ištrinti</Button> 
     </td>
   </tr>
 )
-
-/*const Projektai = Object.keys(products).map(key =>
-  <option value={key}>{products[key]}</option>
-)*/
 
 export default class TasksList extends Component {
   constructor(props) {
     super(props);
 
     this.deleteTask = this.deleteTask.bind(this)
-
     this.state = {tasks: []};
   }
 
@@ -37,7 +31,6 @@ export default class TasksList extends Component {
     axios.get('http://localhost:5000/tasks/alltaskslookup')
       .then(response => {
         this.setState({ tasks: response.data })
-        //console.log(this.state.products);
       })
       .catch((error) => {
         console.log(error);
@@ -45,7 +38,7 @@ export default class TasksList extends Component {
   }
 
   deleteTask(id) {
-    if (window.confirm('Ar tikrai norite pa6alinti šį įrašą?')){
+    if (window.confirm('Ar tikrai norite pašalinti šį įrašą?')){
     axios.delete('http://localhost:5000/tasks/'+id)
       .then(response => { console.log(response.data)});
 
@@ -69,19 +62,18 @@ export default class TasksList extends Component {
         <table className="table">
           <thead className="thead-light">
             <tr>
-              <th>Subjektas</th>
+              <th>Tema</th>
               <th>Pradžios Data</th>
-              <th>Skirta</th>
+              <th>Skirta projektui</th>
+              <th>Atlieka</th>
               <th>Pabaigos Data</th>
-              <th>Komentaras</th>
-              
+              <th>Komentaras</th>  
             </tr>
           </thead>
           <tbody>
             { this.taskList() }
           </tbody>
         </table>
-        
       </div>
     )
   }
