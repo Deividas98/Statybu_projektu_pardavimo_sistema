@@ -14,6 +14,7 @@ export default class CreateTasks extends Component {
         this.onChangePabaigosData = this.onChangePabaigosData.bind(this);
         this.onChangeKomentaras = this.onChangeKomentaras.bind(this);
         this.onChangeKomentaruSarasas = this.onChangeKomentaruSarasas.bind(this);
+        this.onChangeStatusas = this.onChangeStatusas.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
@@ -26,7 +27,8 @@ export default class CreateTasks extends Component {
             komentaruSarasas: '',
             projektai: [],
             naudotojai: [],
-            visibleAlert: false
+            visibleAlert: false,
+            statusas: ""
         }
     }
 
@@ -88,6 +90,10 @@ export default class CreateTasks extends Component {
         this.setState({ komentaruSarasas: e.target.value })
     }
 
+    onChangeStatusas(e) {
+        this.setState({ statusas: e.target.value })
+    }
+
     onSubmit = (e) => {
         e.preventDefault();
 
@@ -98,7 +104,8 @@ export default class CreateTasks extends Component {
             atlieka: this.state.atlieka,
             pabaigosData: this.state.pabaigosData,
             komentaras: this.state.komentaras,
-            komentaruSarasas: this.state.komentaruSarasas
+            komentaruSarasas: this.state.komentaruSarasas,
+            statusas: this.state.statusas
         }
 
         console.log(uzduotis);
@@ -172,6 +179,14 @@ export default class CreateTasks extends Component {
                         <label>Komentaras: </label>
                         <input type="text" required className="form-control" value={this.state.komentaras}
                             onChange={this.onChangeKomentaras} />
+                    </div>
+                    <div className="form-group">
+                        <label>Statusas: </label>
+                        <select required className="form-control" value={this.state.statusas} onChange={this.onChangeStatusas}>
+                          <option value="Atvira">Atvira</option>
+                          <option value="Atlikta">Atlikta</option>
+                          <option value="Uždaryta">Uždaryta</option>
+                        </select>
                     </div>
                     {/* <div className="form-group">
                        <label>Komenarų įrašai: </label>

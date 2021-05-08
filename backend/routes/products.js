@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const { Mongoose } = require('mongoose');
-const { useCallback } = require('react');
 let Product = require('../models/product.model');
 
 router.route('/').get((req, res) => {
@@ -22,60 +21,55 @@ router.route('/getProjects').get((req, res) => {
          },
          {"$unwind":'$projektas'},
          {"$project": { "pavadinimas": 1, "aprasymas": 1, "projektas": "$projektas.pavadinimas",
-         "plotasm2":1, "suma": 1, "kiekis": 1, "ebitdaProc":1, "ebitda":1, "pajamos":1, "m2kaina":1, "kaina": 1, "statusas": 1, "custom": "$projektas._id"}}
+         "plotasm2":1, "suma": 1, "kiekis": 1, "ebitdaProc":1, "ebitda":1, "pajamos":1, "m2kaina":1, "statusas": 1, "custom": "$projektas._id"}}
   ]  
   )
     .then(products => res.json(products))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-let projektoId = "";
 let projektoPajamos = 0;
+var ObjectID = require('mongodb').ObjectID;
 router.route('/sumProducts/:projektas'/*/:statusas'*/).get((req, res) => {
   Product.aggregate([
     {"$facet":
     {
       "Pateikta":[
-        {"$match":
-      {"statusas": /*req.params.statusas*/ "Pateiktas"/*,
-       'DOB':
-        { $gte: 19400801,
-        $lte: 20131231 }*/ } },
+        {"$match": {  "statusas": "Pateiktas", "projektas": ObjectID(req.params.projektas) } },
     {"$group":
-       {"_id": req.params.projektas,//"$projektas",
+       {"_id": "$projektas",//req.params.projektas,//"$projektas",
        "sumBendrasPlotasm2":{ "$sum": "$plotasm2"},
        "sumSuma":{ "$sum": "$suma"},
        "sumPajamos":{ "$sum": "$pajamos"},
        "sumEbitda":{ "$sum": "$ebitda"},
-       "sumEbitdaProc":{ "$sum": "$ebitdaProc"},
+       "sumEbitdaProc":{ "$avg": "$ebitdaProc"},
        "sumBendrasKiekis":{ "$sum": "$kiekis"},
-      }
+      },
     }
     ],
     "Laimeta": [
-      {"$match":
-      {"statusas": "Laimėtas"} },
+      {"$match": { "statusas": "Laimėtas", "projektas": ObjectID(req.params.projektas) } },
+      
     {"$group":
-       {"_id": req.params.projektas,//"$projektas",
+       {"_id": "$projektas",//req.params.projektas,//"$projektas",
        "sumBendrasPlotasm2":{ "$sum": "$plotasm2"},
        "sumSuma":{ "$sum": "$suma"},
        "sumPajamos":{ "$sum": "$pajamos"},
        "sumEbitda":{ "$sum": "$ebitda"},
-       "sumEbitdaProc":{ "$sum": "$ebitdaProc"},
+       "sumEbitdaProc":{ "$avg": "$ebitdaProc"},
        "sumBendrasKiekis":{ "$sum": "$kiekis"},
       }
     }
     ],
     "Pralaimeta":[
-      {"$match":
-      {"statusas": "Pralaimėtas" } },
+      {"$match": {  "statusas": "Pralaimėtas", "projektas": ObjectID(req.params.projektas) } },
     {"$group":
-       {"_id": req.params.projektas,//"$projektas",
+       {"_id": "$projektas",//req.params.projektas,//"$projektas",
        "sumBendrasPlotasm2":{ "$sum": "$plotasm2"},
        "sumSuma":{ "$sum": "$suma"},
        "sumPajamos":{ "$sum": "$pajamos"},
        "sumEbitda":{ "$sum": "$ebitda"},
-       "sumEbitdaProc":{ "$sum": "$ebitdaProc"},
+       "sumEbitdaProc":{ "$avg": "$ebitdaProc"},
        "sumBendrasKiekis":{ "$sum": "$kiekis"},
       }
     }]
@@ -83,18 +77,14 @@ router.route('/sumProducts/:projektas'/*/:statusas'*/).get((req, res) => {
   } 
   ])
     .then(products => (res.json(products), projektoPajamos = products[0].esamaslaukas, projektoId = products[0]._id
-    //, function(data) { res.render('index', { data: JSON.stringify(data) }); }
     , console.log(projektoPajamos)))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 function printTheDocToFile(doc) {
   //fs.writeFile(`/Users/Deividas/Desktop/doc_${doc._id}.txt`, doc, 'utf8');
-  //console.log(doc);
-  //module.exports.variableName = doc;
   return doc;
 }
-//console.log(doc)
 
 // router.route('/sumProducts').get( async function(req, res, next) {
 //   Product.aggregate([
@@ -127,7 +117,7 @@ router.route('/add').post((req, res) => {
   console.log(req.body);
   const aprasymas = req.body.aprasymas;
   const pavadinimas = req.body.pavadinimas;
-  const projektas = req.body.projektas;//req.body.projektas;//kai neparasyta id, reikia prideti id, kai nurodyta id reikia ideti pavadinima
+  const projektas = req.body.projektas;
   const suma = Number(req.body.suma);
   const kiekis = Number(req.body.kiekis);
   const kaina = Number(req.body.kaina);
@@ -135,16 +125,10 @@ router.route('/add').post((req, res) => {
   const plotasm2 = Number(req.body.plotasm2);
   const pajamos = Number(req.body.pajamos);
   const statusas = req.body.statusas;
-  //const ebitdaProc = Number(req.body.ebitdaProc);
-  /*const ebitda = Number(req.body.ebitda);
-  const ebitdaProc = Number(req.body.ebitdaProc);
-  const m2kaina = Number(req.body.m2kaina);*/
 
   const ebitda = Number(req.body.pajamos) - Number(req.body.suma);
   const ebitdaProc = ((Number(req.body.pajamos) - Number(req.body.suma)) / Number(req.body.pajamos) * 100);
   const m2kaina = Number(req.body.plotasm2) * Number(req.body.kiekis);
-
-
 
   const newProduct = new Product({
     aprasymas,

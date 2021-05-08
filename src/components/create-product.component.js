@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Alert } from 'react-bootstrap';
 
 export default class CreateProducts extends Component {
   constructor(props) {
@@ -19,22 +19,22 @@ export default class CreateProducts extends Component {
 
     this.state = {
       aprasymas: '',
-      pavadinimas: '',
+      prodPavadinimas: '',
       suma: 0,
       kiekis: 0,
       kaina: 0,
-      //date: new Date(),
+
       plotasm2: 0,
       pajamos: 0,
-      statusas: '',
+      statusas: 'Juodraštis',
       //---calc
       ebitda: 0,
       ebbitdaProc: 0,
       m2kaina: 0,
       //---calc
       projektai: [],
-      ProjectId: '',
-      toProject: []
+      toProject: [],
+      visibleAlert: false
     }
   }
 
@@ -43,10 +43,8 @@ export default class CreateProducts extends Component {
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
-            //projektai: response.data.map(projektas => projektas.pavadinimas),
             projektai: response.data.map(projektas => [projektas._id, projektas.pavadinimas]),
-            pavadinimas: response.data[0].pavadinimas//,
-            //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
+            pavadinimas: response.data[0].pavadinimas
           })
           console.log(this.state.projektai)
         }
@@ -58,40 +56,27 @@ export default class CreateProducts extends Component {
   }
 
   onChangePavadinimas(e) {
-    this.setState({
-      pavadinimas: e.target.value
-    })
+    this.setState({prodPavadinimas: e.target.value})
   }
 
   onChangeAprasymas(e) {
-    this.setState({
-      aprasymas: e.target.value
-    })
+    this.setState({aprasymas: e.target.value})
   }
 
   onChangeSuma(e) {
-    this.setState({
-      suma: e.target.value
-    })
+    this.setState({suma: e.target.value})
   }
 
   onChangeKiekis(e) {
-    this.setState({
-      kiekis: e.target.value
-    })
+    this.setState({kiekis: e.target.value})
   }
 
   onChangeKaina(e) {
-    this.setState({
-      kaina: e.target.value
-    })
+    this.setState({kaina: e.target.value})
   }
 
-  onChangeProjektas(e) {
-    this.setState({
-      projektas: e.target.value
-    })
-    console.log(this.state.projektas)//paima tik is antro/ trecio karto kazkodel ir paima preajusi vizualiai bet iraso teisingai
+  onChangeProjektas(e) {this.setState({projektas: e.target.value})
+    //console.log(this.state.projektas)//paima tik is antro/ trecio karto kazkodel ir paima preajusi vizualiai bet iraso teisingai
   }
 
   onChangePlotasm2(e) {
@@ -102,15 +87,11 @@ export default class CreateProducts extends Component {
   }
 
   onChangePajamos(e) {
-    this.setState({
-      pajamos: e.target.value
-    })
+    this.setState({ pajamos: e.target.value})
   }
 
   onChangeStatusas(e) {
-    this.setState({
-      statusas: e.target.value
-    })
+    this.setState({ statusas: e.target.value })
   }
 
   onSubmit = (e) => {
@@ -118,7 +99,7 @@ export default class CreateProducts extends Component {
 
     const produktas = {
       aprasymas: this.state.aprasymas,
-      pavadinimas: this.state.pavadinimas,
+      pavadinimas: this.state.prodPavadinimas,
       projektas: this.state.projektas,
       suma: this.state.suma,
       kiekis: this.state.kiekis,
@@ -173,11 +154,14 @@ export default class CreateProducts extends Component {
       });
 
    // window.location = '/main'; atkomentuoti
+   this.setState({ visibleAlert: true })
+   setTimeout(() => { this.setState({ visibleAlert: false }) }, 3000);
   }
 
   render() {
     return (
       <Modal {...this.props}>
+        <Alert show={this.state.visibleAlert} variant="success" dismissible>Produktas sėkmingai sukurtas!</Alert>
             <Modal.Header closeButton onClick={this.props.onHide}>
                 <Modal.Title>Sukurti produktą</Modal.Title>
             </Modal.Header>
@@ -187,12 +171,12 @@ export default class CreateProducts extends Component {
           <input  type="text"
               required
               className="form-control"
-              value={this.state.pavadinimas}
+              value={this.state.prodPavadinimas}
               onChange={this.onChangePavadinimas}
               />
         </div>
         <div className="form-group"> 
-          <label>Aprasymas: </label>
+          <label>Aprašymas: </label>
           <input  type="text"
               required
               className="form-control"
@@ -227,7 +211,7 @@ export default class CreateProducts extends Component {
               />
         </div>
         <div className="form-group"> 
-          <label>Suma: </label>
+          <label>Parduotų prekių kaina:</label>
           <input  type="text"
               required
               className="form-control"

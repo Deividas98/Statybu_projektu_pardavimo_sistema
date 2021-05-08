@@ -8,8 +8,7 @@ const productSchema = new Schema({
     type: String,
     required: false,
     unique: false,
-    trim: true,
-    minlength: 3
+    trim: true
   },
   pavadinimas: {
     type: String,
@@ -19,22 +18,20 @@ const productSchema = new Schema({
     minlength: 3
   },
   projektas: {
-    type: mongoose.Schema.Types.ObjectId,//String,  naudojant id neprisideda irasas is ui
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Project'
   },
   suma: {//cia product cogs
     type: Number,
     required: false,
-    unique: false//,
-    //trim: true,
-    //minlength: 3
+    unique: false
   },
   kiekis: {
     type: Number,
     required: false,
     unique: false
   },
-  kaina: {
+  kaina: {//nzn ar reikia
     type: Number,
     required: false,
     unique: false
@@ -78,7 +75,7 @@ const productSchema = new Schema({
     required: true,
     unique: false
   },
-  pajamosSuNuolaida: {//gal ir nereikia, o uzteks tai suskaiciuoti i pajamas
+  pajamosSuNuolaida: {
     type: Number,
     required: false,
     unique: false,

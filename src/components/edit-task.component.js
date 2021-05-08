@@ -15,6 +15,7 @@ export default class EditTask extends Component {
         this.onChangePabaigosData = this.onChangePabaigosData.bind(this);
         this.onChangeKomentaras = this.onChangeKomentaras.bind(this);
         this.onChangeKomentaruSarasas = this.onChangeKomentaruSarasas.bind(this);
+        this.onChangeStatusas = this.onChangeStatusas.bind(this);
 
         this.onChangeLaikas = this.onChangeLaikas.bind(this);
         this.showtimer = this.showtimer.bind(this);
@@ -31,6 +32,7 @@ export default class EditTask extends Component {
             projektai: [],
             naudotojai: [],
             visibleAlert: false,
+            statusas: "",
 
             laikas: new Date(),
             showTimer: false
@@ -49,7 +51,8 @@ export default class EditTask extends Component {
                     pabaigosData: new Date(response.data.pabaigosData),
                     komentaras: response.data.komentaras,
                     komentaruSarasas: response.data.komentaruSarasas,
-                    laikas: new Date(response.data.laikas)
+                    laikas: new Date(response.data.laikas),
+                    statusas: response.data.statusas
                 })
                 console.log(response.data.laikas)
             })
@@ -119,6 +122,10 @@ export default class EditTask extends Component {
         this.setState({ laikas: e.target.value })
     }
 
+    onChangeStatusas(e) {
+        this.setState({ statusas: e.target.value })
+    }
+
     handleCallback = (childData) => {
         this.setState({ laikas: childData })
     }
@@ -140,7 +147,8 @@ export default class EditTask extends Component {
             pabaigosData: this.state.pabaigosData,
             komentaras: this.state.komentaras,
             komentaruSarasas: this.state.komentaruSarasas,
-            laikas: this.state.laikas
+            laikas: this.state.laikas,
+            statusas: this.state.statusas
         }
 
         console.log(uzduotis);
@@ -156,6 +164,7 @@ export default class EditTask extends Component {
     render() {
         return (
             <div>
+                <div>{this.state.statusas}</div>
              <Alert show={this.state.visibleAlert} variant="success" dismissible>Užduotis sėkmingai atnaujinta!</Alert>
                 <h3>Atnaujinti užduotį</h3>
                 <form onSubmit={this.onSubmit}>
@@ -220,6 +229,14 @@ export default class EditTask extends Component {
                             value={this.state.komentaras}
                             onChange={this.onChangeKomentaras}
                         />
+                    </div>
+                    <div className="form-group">
+                        <label>Statusas: </label>
+                        <select required className="form-control" value={this.state.statusas} onChange={this.onChangeStatusas}>
+                          <option value="Atvira">Atvira</option>
+                          <option value="Atlikta">Atlikta</option>
+                          <option value="Uždaryta">Uždaryta</option>
+                        </select>
                     </div>
                     {/* <div className="form-group">
                         <label>Komenarų įrašai: </label>

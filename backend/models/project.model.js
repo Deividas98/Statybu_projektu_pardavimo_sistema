@@ -18,15 +18,13 @@ const projectSchema = new Schema({
     minlength: 3
   },
   imone: {
-    type: mongoose.Schema.Types.ObjectId,//String,  naudojant id neprisideda irasas is ui
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Account'
   },
-  projektoSuma: {
+  projektoSuma: {//nezinau ar reikia
     type: Number,
     required: false,
-    unique: false//,
-    //trim: true,
-    //minlength: 3
+    unique: false
   },
   pradziosData: {
     type: Date
@@ -34,7 +32,7 @@ const projectSchema = new Schema({
   pabaigosData: {
     type: Date
   },
-  nuolaida: {
+  nuolaida: {//ar nereikia kito tipo //pasitikslinti kurimo ir updato metu
     type: String,//mongoose.Types.Decimal128,//Number,
     required: false,
     unique: false//,
@@ -44,15 +42,13 @@ const projectSchema = new Schema({
   busena: {
     type: String,
     required: true,
-    unique: false//,
-    //trim: true,
-    //minlength: 3
+    unique: false
   },
   statusas: {
     type: String,
     unique: false
   },
-  kaina: {
+  kaina: {//pasitikslinti. kurimo metu net nera jos. gal net nereikia
     type: Number,
     required: false,
     unique: false
@@ -160,18 +156,24 @@ const projectSchema = new Schema({
     required: false,
     unique: false
   },
-  mokesciai: {
+  mokesciai: {//gal nereikes
     type: Number,
     required: false,
     unique: false
   },
-  grynasisPelnas: {
+  grynasisPelnas: {//gross profit
     type: Number,
     required: false,
     unique: false,
     default: function() {
-      return (this.laimetaEbitda - this.mokesciai)
+      //return (this.laimetaEbitda - this.mokesciai)
+      return (this.laimetaPajamos - this.laimetaSuma)
     }
+  },
+  grynasisPelnasProc: {//gross profit proc
+    type: Number,
+    required: false,
+    unique: false
   },
   nuolaidaProc: {
     type: Number,

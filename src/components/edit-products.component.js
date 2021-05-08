@@ -48,9 +48,11 @@ export default class EditProduct extends Component {
           kiekis: response.data.kiekis,
           kaina: response.data.kaina,
           projektas: response.data.projektas,
-          //date: new Date(response.data.date)
-          statusas: response.data.statusas
+          statusas: response.data.statusas,
+          plotasm2: response.data.plotasm2,
+          pajamos: response.data.pajamos
         })
+        //console.log(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -60,7 +62,6 @@ export default class EditProduct extends Component {
       .then(response => {
         if (response.data.length > 0) {
           this.setState({
-            //projektai: response.data.map(projektas => projektas.pavadinimas),//projekto pavadinimas
             projektai: response.data.map(projektas => [projektas._id, projektas.pavadinimas]),
             pavadinimas: response.data[0].pavadinimas
           })
@@ -69,17 +70,6 @@ export default class EditProduct extends Component {
       .catch((error) => {
         console.log(error);
       })
-
-      //test
-       /* axios.get('http://localhost:5000/products/')
-          .then(response => {
-            this.setState({ products: response.data })
-            //console.log(this.state.products); gauna visus produktus
-          })
-          .catch((error) => {
-            console.log(error);
-          })*/
-
   }
 
   onChangePavadinimas(e) {
@@ -283,11 +273,11 @@ export default class EditProduct extends Component {
               }
             </select>
           </div>
-          <div className="form-group">
+          {/* <div className="form-group">
             <label>Kaina: </label>
             <input type="text" required className="form-control" value={this.state.kaina} onChange={this.onChangeKaina}
             disabled={this.state.rakintiForma}/>
-          </div>
+          </div> */}
           <div className="form-group">
             <label>Kiekis: </label>
             <input type="text" required className="form-control" value={this.state.kiekis} onChange={this.onChangeKiekis}

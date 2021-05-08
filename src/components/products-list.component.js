@@ -11,7 +11,7 @@ const Product = props => (
     <td>{props.product.projektas}</td>
     <td>{props.product.suma}</td>
     <td>{props.product.kiekis}</td>
-<td>{props.product.kaina}</td>
+{/* <td>{props.product.kaina}</td> */}
 <td>{props.product.plotasm2}</td>
 <td>{props.product.pajamos}</td>
 <td>{props.product.ebitda}</td>
@@ -20,21 +20,15 @@ const Product = props => (
 <td>{props.product.statusas}</td>
     <td>
       <Link to={"/edit/"+props.product._id}>Redaguoti</Link> | <Button variant="danger" onClick={() => { props.deleteProduct(props.product._id, props.product.custom) }}>Ištrinti</Button> 
-      {/* <a href="#" onClick={() => { props.deleteProduct(props.product._id) }}>delete</a> */}
     </td>
   </tr>
 )
-
-/*const Projektai = Object.keys(products).map(key =>
-  <option value={key}>{products[key]}</option>
-)*/
 
 export default class ProductsList extends Component {
   constructor(props) {
     super(props);
 
     this.deleteProduct = this.deleteProduct.bind(this)
-
     this.state = {products: [], toProject: []};
   }
 
@@ -111,11 +105,11 @@ console.log( prj);
           <thead className="thead-light">
             <tr>
               <th>Pavadinimas</th>
-              <th>Aprasymas</th>
+              <th>Aprašymas</th>
               <th>Projektas</th>
               <th>Suma</th>
               <th>Kiekis</th>
-              <th>Kaina</th>
+              {/* <th>Kaina</th> */}
               <th>Plotas m2</th>
               <th>Pajamos</th>
               <th>EBITDA</th>

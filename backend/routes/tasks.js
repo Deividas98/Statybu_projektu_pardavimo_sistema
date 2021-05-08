@@ -107,8 +107,9 @@ router.route('/updatetask/:id').post((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+var ObjectID = require('mongodb').ObjectID;
 router.route('/sumtasks/:skirta').get((req, res) => {
-   Task.find({"skirta": req.params.skirta, "statusas": "Atvira"}).count()
+   Task.find({"skirta": ObjectID(req.params.skirta), "statusas": "Atvira"}).count()
     .then(tasks => (res.json(tasks)))
     .catch(err => res.status(400).json('Error: ' + err));
 });

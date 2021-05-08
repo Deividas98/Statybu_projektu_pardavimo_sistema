@@ -9,22 +9,6 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-/*router.route('/getByProductList').get((req, res) => {
-  Project.  .find()
-    .then(projects => res.json(projects))
-    .catch(err => res.status(400).json('Error: ' + err));
-});*/
-
-/*router.route('/allprojects').get((req, res) => {
-  Project.aggregate([
-         {"$unwind":'$numberDecimal'},
-         {"$project": { "aprasymas": 1, "pavadinimas": 1, "kontaktas": "$numberDecimal", "projektoSuma": 1, "busena": 1}}
-  ]  
-  )
-    .then(projects => res.json(projects))
-    .catch(err => res.status(400).json('Error: ' + err));
-});*/
-
 //gauti projektus pagal susijusia imone
 router.route('/projagr/:id').get((req, res) => {
   Project.find({"imone" : req.params.id/*"60856a05a142774d008c3e7c"*/})
@@ -37,21 +21,29 @@ router.route('/add').post((req, res) => {
   const aprasymas = req.body.aprasymas;
   const pavadinimas = req.body.pavadinimas;
   const imone = req.body.imone;
-  const projektoSuma = Number(req.body.projektoSuma);
-  const nuolaida = parseFloat(req.body.nuolaida); //Number(req.body.nuolaida);
+  //const projektoSuma = Number(req.body.projektoSuma);
+  //const nuolaida = parseFloat(req.body.nuolaida); //Number(req.body.nuolaida);
   const busena = req.body.busena;
+  const statusas = "Atviras";
   const pradziosData = Date.parse(req.body.pradziosData);
   const pabaigosData = Date.parse(req.body.pabaigosData);
+  const atvirosUzduotys = 0;
+  const grynasisPelnas = 0;
+  const resursuKiekis = 0;
 
   const newProject = new Project({
       aprasymas,
       pavadinimas,
       imone,
-      projektoSuma,
-      nuolaida,
+      //projektoSuma,
+      //nuolaida,
       busena,
       pradziosData,
-      pabaigosData
+      pabaigosData,
+      atvirosUzduotys,
+      grynasisPelnas,
+      resursuKiekis,
+      statusas
     });
 
   newProject.save()
@@ -71,7 +63,7 @@ router.route('/updateprj/:id').post((req, res) => {
     project.pavadinimas = req.body.pavadinimas;
     project.aprasymas = req.body.aprasymas;
     project.imone = req.body.imone;
-    project.projektoSuma = Number(req.body.projektoSuma);
+    //project.projektoSuma = Number(req.body.projektoSuma);
     //project.nuolaida = parseFloat(req.body.nuolaida);
     project.busena = req.body.busena;
     project.pradziosData = Date.parse(req.body.pradziosData);
@@ -123,39 +115,39 @@ router.route('/updateest/:id').post((req, res) => {
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/updatelost/:id').post((req, res) => {
-  Project.findById(req.params.id)
-  .then(project => {
-    project.pralaimetaSuma = Number(req.body.pralaimetaSuma);
-    project.pralaimetaBendrasPlotasm2 = Number(req.body.pralaimetaBendrasPlotasm2);
-    project.pralaimetaPajamos = Number(req.body.pralaimetaPajamos);
-    project.pralaimetaEbitda = Number(req.body.pralaimetaEbitda);
-    project.pralaimetaBendrasKiekis = Number(req.body.pralaimetaBendrasKiekis);
-    project.pralaimetaEbitdaProc = Number(req.body.pralaimetaEbitdaProc);
+// router.route('/updatelost/:id').post((req, res) => {
+//   Project.findById(req.params.id)
+//   .then(project => {
+//     project.pralaimetaSuma = Number(req.body.pralaimetaSuma);
+//     project.pralaimetaBendrasPlotasm2 = Number(req.body.pralaimetaBendrasPlotasm2);
+//     project.pralaimetaPajamos = Number(req.body.pralaimetaPajamos);
+//     project.pralaimetaEbitda = Number(req.body.pralaimetaEbitda);
+//     project.pralaimetaBendrasKiekis = Number(req.body.pralaimetaBendrasKiekis);
+//     project.pralaimetaEbitdaProc = Number(req.body.pralaimetaEbitdaProc);
 
-    project.save()
-      .then(() => res.json('Project lost updated!'))
-      .catch(err => res.status(400).json('Error: ' + err));
-  })
-  .catch(err => res.status(400).json('Error: ' + err));
-});
+//     project.save()
+//       .then(() => res.json('Project lost updated!'))
+//       .catch(err => res.status(400).json('Error: ' + err));
+//   })
+//   .catch(err => res.status(400).json('Error: ' + err));
+// });
 
-router.route('/updatewon/:id').post((req, res) => {
-  Project.findById(req.params.id)
-  .then(project => {
-    project.laimetaSuma = Number(req.body.laimetaSuma);
-    project.laimetaBendrasPlotasm2 = Number(req.body.laimetaBendrasPlotasm2);
-    project.laimetaPajamos = Number(req.body.laimetaPajamos);
-    project.laimetaEbitda = Number(req.body.laimetaEbitda);
-    project.laimetaBendrasKiekis = Number(req.body.laimetaBendrasKiekis);
-    project.laimetaEbitdaProc = Number(req.body.laimetaEbitdaProc);
+// router.route('/updatewon/:id').post((req, res) => {
+//   Project.findById(req.params.id)
+//   .then(project => {
+//     project.laimetaSuma = Number(req.body.laimetaSuma);
+//     project.laimetaBendrasPlotasm2 = Number(req.body.laimetaBendrasPlotasm2);
+//     project.laimetaPajamos = Number(req.body.laimetaPajamos);
+//     project.laimetaEbitda = Number(req.body.laimetaEbitda);
+//     project.laimetaBendrasKiekis = Number(req.body.laimetaBendrasKiekis);
+//     project.laimetaEbitdaProc = Number(req.body.laimetaEbitdaProc);
 
-    project.save()
-      .then(() => res.json('Project won updated!'))
-      .catch(err => res.status(400).json('Error: ' + err));
-  })
-  .catch(err => res.status(400).json('Error: ' + err));
-});
+//     project.save()
+//       .then(() => res.json('Project won updated!'))
+//       .catch(err => res.status(400).json('Error: ' + err));
+//   })
+//   .catch(err => res.status(400).json('Error: ' + err));
+// });
 
 router.route('/:id').get((req, res) => {
   Project.findById(req.params.id)
