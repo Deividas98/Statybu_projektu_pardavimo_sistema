@@ -8,21 +8,16 @@ const Project = props => (
   <tr>
     <td>{props.project.pavadinimas}</td>
     <td>{props.project.aprasymas}</td>
+    <td>{props.project.grynasisPelnas}</td>
     <td>{props.project.imone}</td>
-    <td>{props.project.projektoSuma}</td>
-    <td>{props.project.nuolaida}</td>
-    <td>{props.project.busena}</td>
-
+    <td>{props.project.pradziosData}</td>
+    <td>{props.project.pabaigosData}</td>
+    <td>{props.project.statusas}</td>
     <td>
       <Link to={"/editprj/"+props.project._id}>Redaguoti</Link> | <Button variant="danger" onClick={() => { props.deleteProject(props.project._id) }}>Ištrinti</Button>
-      {/* <a href="#" onClick={() => { props.deleteProject(props.project._id) }}>Ištrinti</a> */}
     </td>
   </tr>
 )
-
-/*const Projektai = Object.keys(products).map(key =>
-  <option value={key}>{products[key]}</option>
-)*/
 
 export default class ProjectsList extends Component {
   constructor(props) {
@@ -34,7 +29,7 @@ export default class ProjectsList extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/projects/')
+    axios.get('http://localhost:5000/projects/allprojects')
       .then(response => {
         this.setState({ projects: response.data })
         //console.log(this.state.products);
@@ -45,7 +40,7 @@ export default class ProjectsList extends Component {
   }
 
   deleteProject(id) {
-    if (window.confirm('Ar tikrai norite pa6alinti šį įrašą?')){
+    if (window.confirm('Ar tikrai norite pašalinti šį įrašą?')){
     axios.delete('http://localhost:5000/projects/'+id)
       .then(response => { console.log(response.data)});
 
@@ -56,7 +51,6 @@ export default class ProjectsList extends Component {
   }
 
   projectList() {
-    //console.log(this.state.projects.projektas);
     return this.state.projects.map(currentproject => {
       return <Project project={currentproject} deleteProject={this.deleteProject} key={currentproject._id}/>;
     })
@@ -71,10 +65,11 @@ export default class ProjectsList extends Component {
             <tr>
               <th>Pavadinimas</th>
               <th>Aprašymas</th>
+              <th>Grynasis pelnas</th>
               <th>Įmonė</th>
-              <th>Projekto suma</th>
-              <th>Nuolaida</th>
-              <th>Būsena</th>
+              <th>Pradžios data</th>
+              <th>Pabaigos data</th>
+              <th>Statusas</th>
             </tr>
           </thead>
           <tbody>

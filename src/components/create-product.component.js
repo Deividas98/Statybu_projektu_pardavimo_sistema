@@ -201,7 +201,7 @@ export default class CreateProducts extends Component {
               }
           </select>
         </div>
-        <div className="form-group"> 
+        {/* <div className="form-group"> 
           <label>Kaina: </label>
           <input  type="text"
               required
@@ -209,7 +209,7 @@ export default class CreateProducts extends Component {
               value={this.state.kaina}
               onChange={this.onChangeKaina}
               />
-        </div>
+        </div> */}
         <div className="form-group"> 
           <label>Parduotų prekių kaina:</label>
           <input  type="text"

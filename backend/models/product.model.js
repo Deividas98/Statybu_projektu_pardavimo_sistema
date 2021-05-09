@@ -80,7 +80,7 @@ const productSchema = new Schema({
     required: false,
     unique: false,
     default: function() {
-      return (this.pajamos - (this.pajamos * 0,05))
+      return (this.pajamos - (this.pajamos * 0.05))//buvo 0,05
     }
   }
 }, {

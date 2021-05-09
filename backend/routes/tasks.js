@@ -29,8 +29,8 @@ router.route('/alltaskslookup').get((req, res) => {
         "as": "naudotojas"
       }
     },
-    { "$unwind": '$naudotojas' },
-    { "$project": { "tema": 1, "pradziosData": 1, "skirta": "$projektas.pavadinimas", "atlieka": "$naudotojas.username", "pabaigosData": 1, "komentaras": 1, "statusas": 1 } }
+   { "$unwind": '$naudotojas' },
+    { "$project": { "tema": 1, "pradziosData": 1, "pabaigosData": 1, "skirta": "$projektas.pavadinimas", "atlieka": "$naudotojas.username", "komentaras": 1, "statusas": 1} }
     //gal dar itraukti laiko parametra
   ]
   )

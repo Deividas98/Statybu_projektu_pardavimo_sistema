@@ -481,6 +481,7 @@ export default class EditProject extends Component {
   }
 
   render() {
+    if(this.state.pradziosData > this.state.pabaigosData) window.alert("Pradžios data negali būti vėlesnė negu pabaigos")
     return (
       <div>
         {/* <div>{this.state.grynasisPelnasSuNuolaida}</div> */}

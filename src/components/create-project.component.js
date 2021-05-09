@@ -114,6 +114,7 @@ export default class CreateProject extends Component {
     }
 
     render() {
+        if(this.state.pradziosData > this.state.pabaigosData) window.alert("Pradžios data negali būti vėlesnė negu pabaigos")
                 //DAR PEKEISTI BUSENAS!!!!
                 let progress = 0;
                 if(this.state.busena === "Pradėtas") progress = 33

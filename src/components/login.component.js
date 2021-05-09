@@ -71,7 +71,7 @@ export default class Login extends Component {
         <span>
           <img src={projectLogo} alt="Logo" height="120px" width="120px" />
           <Form>
-            <Form.Group controlId="formRegistracija" classname="loginForm2">
+            {/* <Form.Group controlId="formRegistracija" classname="loginForm2">
               <h1>Registracija</h1>
               <Row>
                 <Col>
@@ -85,7 +85,7 @@ export default class Login extends Component {
                 <Button variant="primary" type="button" onClick={register}>Sukurti</Button>
 
               </Row>
-            </Form.Group>
+            </Form.Group> */}
 
             <Form.Group controlId="formPrisijungimas">
               <h1>Prisijungimas</h1>
@@ -101,12 +101,33 @@ export default class Login extends Component {
                 <Button variant="primary" type="button" onClick={login}>Prisijungti</Button>
               </Row>
             </Form.Group>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+<br></br>
 
-            <Form.Group controlId="formEsamasNaudotojas">
+
+            {/* <Form.Group controlId="formEsamasNaudotojas">
               <h1>Gauti naudotoją</h1>
               <Button variant="primary" type="button" onClick={getUser}>Gauti naudotoją</Button>
               {this.state.data ? <h1>Welcome Back {this.state.data.username}</h1> : null}
-            </Form.Group>
+            </Form.Group> */}
           </Form>
         </span>
       </div>

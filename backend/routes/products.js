@@ -30,14 +30,14 @@ router.route('/getProjects').get((req, res) => {
 
 let projektoPajamos = 0;
 var ObjectID = require('mongodb').ObjectID;
-router.route('/sumProducts/:projektas'/*/:statusas'*/).get((req, res) => {
+router.route('/sumProducts/:projektas').get((req, res) => {
   Product.aggregate([
     {"$facet":
     {
       "Pateikta":[
         {"$match": {  "statusas": "Pateiktas", "projektas": ObjectID(req.params.projektas) } },
     {"$group":
-       {"_id": "$projektas",//req.params.projektas,//"$projektas",
+       {"_id": "$projektas",
        "sumBendrasPlotasm2":{ "$sum": "$plotasm2"},
        "sumSuma":{ "$sum": "$suma"},
        "sumPajamos":{ "$sum": "$pajamos"},
@@ -51,7 +51,7 @@ router.route('/sumProducts/:projektas'/*/:statusas'*/).get((req, res) => {
       {"$match": { "statusas": "Laimėtas", "projektas": ObjectID(req.params.projektas) } },
       
     {"$group":
-       {"_id": "$projektas",//req.params.projektas,//"$projektas",
+       {"_id": "$projektas",
        "sumBendrasPlotasm2":{ "$sum": "$plotasm2"},
        "sumSuma":{ "$sum": "$suma"},
        "sumPajamos":{ "$sum": "$pajamos"},
@@ -64,7 +64,7 @@ router.route('/sumProducts/:projektas'/*/:statusas'*/).get((req, res) => {
     "Pralaimeta":[
       {"$match": {  "statusas": "Pralaimėtas", "projektas": ObjectID(req.params.projektas) } },
     {"$group":
-       {"_id": "$projektas",//req.params.projektas,//"$projektas",
+       {"_id": "$projektas",
        "sumBendrasPlotasm2":{ "$sum": "$plotasm2"},
        "sumSuma":{ "$sum": "$suma"},
        "sumPajamos":{ "$sum": "$pajamos"},

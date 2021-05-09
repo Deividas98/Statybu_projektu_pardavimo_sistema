@@ -16,6 +16,26 @@ router.route('/projagr/:id').get((req, res) => {
       .catch(err => res.status(400).json('Error: ' + err));
   });
 
+  router.route('/allprojects').get((req, res) => {
+    Project.aggregate([
+      {
+        "$lookup":
+        {
+          "from": "accounts",
+          "localField": "imone",
+          "foreignField": "_id",
+          "as": "imone"
+        }
+      },
+      { "$unwind": '$imone' },
+      { "$project": { "pavadinimas": 1, "aprasymas": 1, "grynasisPelnas": 1, "imone": "$imone.pavadinimas", "pradziosData": 1, "pabaigosData": 1, "statusas": 1} }
+      //gal dar itraukti laiko parametra
+    ]
+    )
+      .then(projects => res.json(projects))
+      .catch(err => res.status(400).json('Error: ' + err));
+  });
+
 //post create project
 router.route('/add').post((req, res) => {
   const aprasymas = req.body.aprasymas;

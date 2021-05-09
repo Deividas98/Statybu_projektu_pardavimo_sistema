@@ -51,10 +51,15 @@ app.use('/forecasts', forecastsRouter);
 app.use('/resources', resourcesRouter);
 
 
+//ATKOMENTUOTI!!!!
 //suveikia, kai pasileidzia serveris
-app.listen(port, () => {
-    console.log(`Server is running on port: ${port}`);
-});
+app.listen(port, () => {console.log(`Server is running on port: ${port}`);});
+
+// if(!module.parent){
+// app.listen(process.env.PORT, () =>
+//     console.log(port, () => {console.log(`Server is running on port: ${port}`);})
+//   );
+// }
 
 //Authentication naudojamos dalys
 //middleware
@@ -117,3 +122,5 @@ app.get('/users/me', (req, res) => {
     res.sendStatus(204);
   }
 });
+
+//module.exports = app

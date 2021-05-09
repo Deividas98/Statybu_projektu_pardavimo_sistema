@@ -118,7 +118,8 @@ export default class MainMenu extends Component {
               {/* <Nav.Link onClick={() => this.setState({ contactModalShow: true })} href="/">Add Contact</Nav.Link> */}
               {/* <Nav.Link onClick={() => this.setState({ addModalShow: true })} href="/edit/:id">Create Project</Nav.Link> */}
               {/* <Nav.Link onClick={() => this.setState({ productModalShow: true })} href="/create">Add Product</Nav.Link> */}
-              <Nav.Link onClick={() => this.sort()} href="#link">Sort</Nav.Link>
+              {/* <Nav.Link onClick={() => this.sort()} href="#link">Sort</Nav.Link> */}
+              {/* dar grizti cia */}
 
 
               {/* palikti sita komentara <Nav.Link href="#link">Change Date/Currency format</Nav.Link>
@@ -129,7 +130,9 @@ export default class MainMenu extends Component {
 
         <div className="splitright">
        
-       <button onClick={getUser}>getuser</button>{/*baltas kairys kampas yra del situ komponentu*/}
+       {/* dar grizti */}
+       {/* <button onClick={getUser}>getuser</button> */}
+       {/*baltas kairys kampas yra del situ komponentu*/}
           <div> 
 
         <Router>
