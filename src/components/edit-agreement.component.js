@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Alert } from 'react-bootstrap';
+import '../App.css';
 
 export default class UpdateAgreement extends Component {
     constructor(props) {
@@ -114,7 +115,7 @@ export default class UpdateAgreement extends Component {
             <div>
                 <Alert show={this.state.visibleAlert} variant="success" dismissible>Sutartis sėkmingai atnaujinta!</Alert>
                 <h3>Redaguoti sutartį</h3>
-                <form onSubmit={this.onSubmit}>
+                <form className='form-tab' onSubmit={this.onSubmit}>
                     <div className="form-group">
                         <label>Pavadinimas: </label>
                         <input type="text" required className="form-control" value={this.state.agrPavadinimas} onChange={this.onChangePavadinimas}
@@ -165,7 +166,7 @@ export default class UpdateAgreement extends Component {
                         />
                     </div>
                     <div className="form-group">
-                        <input type="submit" value="Atnaujinti sutartį" className="btn btn-primary" />
+                        <input type="submit" value="Išsaugoti" className="btn btn-primary"/>
                     </div>
                 </form>
             </div>

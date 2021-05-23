@@ -100,7 +100,7 @@ console.log( prj);
   render() {
     return (
       <div>
-        <h3>Produktų sąrašas</h3>
+        <h3>Produktai</h3>
         <table className="table">
           <thead className="thead-light">
             <tr>

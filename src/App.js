@@ -1,20 +1,13 @@
 import './App.css';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-//import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar } from 'react-bootstrap';
-/*import ContactTable from './ContactTable';
-import ProductTable from './ProductTable';
-import AddProject from './AddProjectModal';*/
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-/*import ProductsList from "./components/products-list.component";
-import EditProduct from "./components/edit-products.component";
-import CreateProduct from "./components/create-product.component";
+/*import EditProduct from "./components/edit-products.component";
 import CreateProject from "./components/create-project.component";
-import TasksList from "./components/list-task.component";
-import AccountsList from "./components/list-account.component";*/
+import TasksList from "./components/list-task.component";*/
 //import Login from "./components/login";
 //import Axios from "axios";
 import MainMenu from "./components/main-menu.component";
@@ -27,11 +20,9 @@ class App extends React.Component {
     super(props);
     this.state = {
       /*deps2: [], contactModalShow: false,
-      deps3: [], productModalShow: false,
       table: 'projectTable',*/
       //logino komponentai
       /* registerUsername: "",
-     registerPassword: "",
      loginUsername: "",
       role: "EmptyRole",*/
       userRole: 'tuscias',
@@ -39,10 +30,6 @@ class App extends React.Component {
       hideLogin: false
     };
 
-    //const [show, setShow] = useState(false);
-
-    //const handleClose = () => setShow(false);
-    //const handleShow = () => setShow(true);
     this.handleClickLogin = this.handleClickLogin.bind(this);
   }
 
@@ -111,8 +98,6 @@ class App extends React.Component {
           <Route path="/list" component={ProductsList} />
           <Route path="/edit/:id" component={EditProduct} />
           <Route path="/create" component={CreateProduct} />*/}
-
-
         </div>
       </div>
     )

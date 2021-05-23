@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import tasklogo from '../tasks.jpg';
+import accountlogo from '../account.png';
+import projectlogo from '../project.png';
+import productlogo from '../product.png';
+import agreementlogo from '../agreement.png';
+import resourcelogo from '../resource.png';
+import '../App.css';
 
 export default class Navbar2 extends Component {
 
@@ -7,24 +14,30 @@ export default class Navbar2 extends Component {
     return (
       <nav className="splitleft"/*className="navbar navbar-dark bg-dark navbar-expand-lg"*/>
         <div className="collpase navbar-collapse">
-        <ul className="navbar-nav mr-auto">
-        <li style = {{marginLeft: "30px"}} /*className="navbar-item"*/>
-          <Link to="/uzduotys" className="nav-link">Užduotys</Link>
+        <ul className="navbar-nav mr-auto" style = {{ marginTop: "30px"}}>
+        <li>
+          <Link to="/uzduotys" className='navbarbutton'>Užduotys 
+          <img src={tasklogo} style={{ height: "20px", width: "20px" }} alt='logo'/></Link>
           </li>
-          <li style = {{marginLeft: "30px"}} /*className="navbar-item"*/>
-          <Link to="/imones" className="nav-link">Įmonės</Link>
+          <li>
+          <Link to="/imones" className='navbarbutton'>Įmonės 
+          <img src={accountlogo} style={{ height: "20px", width: "20px" }} alt='logo'/></Link>
           </li>
-          <li style = {{marginLeft: "30px"}} /*className="navbar-item"*/>
-          <Link to="/projektai" className="nav-link">Projektai</Link>
+          <li>
+          <Link to="/projektai" className='navbarbutton'>Projektai 
+          <img src={projectlogo} style={{ height: "20px", width: "20px" }} alt='logo'/></Link>
           </li>
-          <li style = {{ marginLeft: "30px"}} /*className="navbar-item"*/>
-          <Link to="/list" className="nav-link">Produktai</Link>
+          <li>
+          <Link to="/list" className='navbarbutton'>Produktai 
+          <img src={productlogo} style={{ height: "20px", width: "20px" }} alt='logo'/></Link>
           </li>
-          <li style = {{marginLeft: "30px"}} /*className="navbar-item"*/>
-          <Link to="/sutartis" className="nav-link">Sutartys</Link>
+          <li>
+          <Link to="/sutartis" className='navbarbutton'>Sutartys 
+          <img src={agreementlogo} style={{ height: "20px", width: "20px" }} alt='logo'/></Link>
           </li>
-          <li style = {{marginLeft: "30px"}} /*className="navbar-item"*/>
-          <Link to="/istekliai" className="nav-link">Ištekliai</Link>
+          <li>
+          <Link to="/istekliai" className='navbarbutton'>Ištekliai 
+          <img src={resourcelogo} style={{ height: "20px", width: "20px" }} alt='logo'/></Link>
           </li>
           {/* <li style = {{marginLeft: "30px"}} >
           <Link to="/user" className="nav-link">Create User</Link>

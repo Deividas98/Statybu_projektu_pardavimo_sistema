@@ -101,7 +101,7 @@ export default class CreateAgreements extends Component {
             <Modal {...this.props}>
                 <Alert show={this.state.visibleAlert} variant="success" dismissible>Sutartis sėkmingai sukurta!</Alert>
                 <Modal.Header closeButton onClick={this.props.onHide}>
-                    <Modal.Title>Pridėti įmonę</Modal.Title>
+                    <Modal.Title>Pridėti sutartį</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="form-group">

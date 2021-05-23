@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import '../App.css';
+import { Col, Row } from 'react-bootstrap';
 
 export default class EditProduct extends Component {
   constructor(props) {
@@ -128,12 +130,12 @@ export default class EditProduct extends Component {
   }
 
   checkStatus = () => {
-    if(this.state.statusas === "Pateiktas" || this.state.statusas === "Laimėtas" || this.state.statusas === "Pralaimėtas"){
-      this.setState({rakintiForma: true})
+    if (this.state.statusas === "Pateiktas" || this.state.statusas === "Laimėtas" || this.state.statusas === "Pralaimėtas") {
+      this.setState({ rakintiForma: true })
     }
-    else if(this.state.statusas === "Juodraštis"){this.setState({rakintiForma: false})}
+    else if (this.state.statusas === "Juodraštis") { this.setState({ rakintiForma: false }) }
   };
-  
+
 
   onSubmit(e) {
     e.preventDefault();
@@ -153,18 +155,19 @@ export default class EditProduct extends Component {
     console.log(produktas);
 
     //vyksta keli pranesimai is eiles, todel vyksta asinchroniskai!!! paversta i async
-     axios.post('http://localhost:5000/products/update/' + this.props.match.params.id, produktas)
-       .then(async res => {console.log(res.data); //);
+    axios.post('http://localhost:5000/products/update/' + this.props.match.params.id, produktas)
+      .then(async res => {
+        console.log(res.data); //);
 
-     try {
-           const response = await axios.get('http://localhost:5000/products/sumProducts/' + this.state.projektas /*+ '/' + this.state.statusas*/);
-           if (response.data.length > 0) {
-             //console.log(response.data._id);
-             this.setState({
-               toProject: response.data
-             });
+        try {
+          const response = await axios.get('http://localhost:5000/products/sumProducts/' + this.state.projektas /*+ '/' + this.state.statusas*/);
+          if (response.data.length > 0) {
+            //console.log(response.data._id);
+            this.setState({
+              toProject: response.data
+            });
 
-             const projektasApsk = {
+            const projektasApsk = {
               apskSuma: ((this.state.toProject[0].Pateikta[0] === undefined) ? 0 : this.state.toProject[0].Pateikta[0].sumSuma),
               apskBendrasPlotasm2: ((this.state.toProject[0].Pateikta[0] === undefined) ? 0 : this.state.toProject[0].Pateikta[0].sumBendrasPlotasm2),
               apskPajamos: ((this.state.toProject[0].Pateikta[0] === undefined) ? 0 : this.state.toProject[0].Pateikta[0].sumPajamos),
@@ -185,60 +188,17 @@ export default class EditProduct extends Component {
               pralaimetaEbitda: ((this.state.toProject[0].Pralaimeta[0] === undefined) ? 0 : this.state.toProject[0].Pralaimeta[0].sumEbitda),
               pralaimetaBendrasKiekis: ((this.state.toProject[0].Pralaimeta[0] === undefined) ? 0 : this.state.toProject[0].Pralaimeta[0].sumBendrasKiekis),
               pralaimetaEbitdaProc: ((this.state.toProject[0].Pralaimeta[0] === undefined) ? 0 : this.state.toProject[0].Pralaimeta[0].sumEbitdaProc)
-             };
-             console.log(projektasApsk); //gauna gerai
-             axios.post('http://localhost:5000/projects/updateest/' + this.state.projektas /*this.props.match.params.id*/, projektasApsk)
-               .then(res_1 => console.log(res_1.data));
+            };
+            console.log(projektasApsk); //gauna gerai
+            axios.post('http://localhost:5000/projects/updateest/' + this.state.projektas /*this.props.match.params.id*/, projektasApsk)
+              .then(res_1 => console.log(res_1.data));
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      });
 
-
-             //console.log(this.state.toProject[0].Pralaimeta[0].sumSuma)//gerai gauna
-             // switch(this.state.statusas){
-             //   case "Pateiktas":
-             //     const projektasApsk = {
-             //       apskSuma: this.state.toProject[0].sumSuma,
-             //       apskBendrasPlotasm2: this.state.toProject[0].sumBendrasPlotasm2,
-             //       apskPajamos: this.state.toProject[0].sumPajamos,
-             //       apskEbitda: this.state.toProject[0].sumEbitda,
-             //       apskBendrasKiekis: this.state.toProject[0].sumBendrasKiekis,
-             //       apskEbitdaProc: this.state.toProject[0].sumEbitdaProc
-             //     }
-             //     console.log(projektasApsk);//gauna gerai
-             //     axios.post('http://localhost:5000/projects/updateest/' + this.state.projektas/*this.props.match.params.id*/, projektasApsk)
-             //   .then(res => console.log(res.data));
-             //     break;
-             //   case "Laimėtas":
-             //     const projektasWon = {
-             //       laimetaSuma: this.state.toProject[0].sumSuma,
-             //       laimetaBendrasPlotasm2: this.state.toProject[0].sumBendrasPlotasm2,
-             //       laimetaPajamos: this.state.toProject[0].sumPajamos,
-             //       laimetaEbitda: this.state.toProject[0].sumEbitda,
-             //       laimetaBendrasKiekis: this.state.toProject[0].sumBendrasKiekis,
-             //       laimetaEbitdaProc: this.state.toProject[0].sumEbitdaProc
-             //     }
-             //     console.log(projektasWon);//gauna gerai
-             //     axios.post('http://localhost:5000/projects/updatewon/' + this.state.projektas/*this.props.match.params.id*/, projektasWon)
-             //   .then(res => console.log(res.data));
-             //     break;
-             //   case "Pralaimėtas":
-             //     const projektasLost = {
-             //       pralaimetaSuma: this.state.toProject[0].sumSuma,
-             //       pralaimetaBendrasPlotasm2: this.state.toProject[0].sumBendrasPlotasm2,
-             //       pralaimetaPajamos: this.state.toProject[0].sumPajamos,
-             //       pralaimetaEbitda: this.state.toProject[0].sumEbitda,
-             //       pralaimetaBendrasKiekis: this.state.toProject[0].sumBendrasKiekis,
-             //       pralaimetaEbitdaProc: this.state.toProject[0].sumEbitdaProc
-             //     }
-             //     console.log(projektasLost);//gauna gerai
-             //     axios.post('http://localhost:5000/projects/updatelost/' + this.state.projektas/*this.props.match.params.id*/, projektasLost)
-             //   .then(res => console.log(res.data));
-             // }
-           }
-         } catch (error) {
-           console.log(error);
-         }
-        });
-
-   // window.location = '/main';
+    // window.location = '/main';
   }
 
   render() {
@@ -248,93 +208,131 @@ export default class EditProduct extends Component {
     return (
       <div>
         <h3>Redaguoti produktą</h3>
-        <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label>Pavadinimas: </label>
-            <input type="text" required className="form-control" value={this.state.pavadinimas} onChange={this.onChangePavadinimas}
-            disabled={this.state.rakintiForma}/>
-          </div>
-          <div className="form-group">
-            <label>Aprasymas: </label>
-            <input type="text" required className="form-control" value={this.state.aprasymas} onChange={this.onChangeAprasymas}
-            disabled={this.state.rakintiForma}/>
-          </div>
-          <div className="form-group">
-            <label>Projektas: </label>
-            <select ref="userInput" required className="form-control" value={this.state.projektas}onChange={this.onChangeProjektas}
-            disabled={this.state.rakintiForma}>
-              {
-                this.state.projektai.map(function ([_id, projektas]) {
-                  return <option
-                    key={_id}
-                    value={_id}>{projektas}
-                  </option>;
-                })
-              }
-            </select>
-          </div>
+        <form className='form-tab' onSubmit={this.onSubmit}>
+          <Row>
+            <Col>
+              <div className="form-group">
+                <label>Pavadinimas: </label>
+                <input type="text" required className="form-control" value={this.state.pavadinimas} onChange={this.onChangePavadinimas}
+                  disabled={this.state.rakintiForma} />
+              </div>
+            </Col>
+            <Col>
+              <div className="form-group">
+                <label>Kiekis: </label>
+                <input type="text" required className="form-control" value={this.state.kiekis} onChange={this.onChangeKiekis}
+                  disabled={this.state.rakintiForma} />
+              </div>
+            </Col>
+            <Col>
+              <label>EBITDA: </label>
+              <div class="input-group mb-3">
+                <input type="text" required className="form-control" value={this.state.pajamos - this.state.suma} disabled={true} />
+                <div class="input-group-append">
+                  <span class="input-group-text">€</span>
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <div className="form-group">
+                <label>Projektas: </label>
+                <select ref="userInput" required className="form-control" value={this.state.projektas} onChange={this.onChangeProjektas}
+                  disabled={this.state.rakintiForma}>
+                  {
+                    this.state.projektai.map(function ([_id, projektas]) {
+                      return <option
+                        key={_id}
+                        value={_id}>{projektas}
+                      </option>;
+                    })
+                  }
+                </select>
+              </div>
+
+            </Col>
+            <Col>
+              <label>Suma: </label>
+              <div class="input-group mb-3">
+                <input type="text" required className="form-control" value={this.state.suma} onChange={this.onChangeSuma}
+                  disabled={this.state.rakintiForma} />
+                <div class="input-group-append"><span class="input-group-text">€</span></div>
+              </div>
+            </Col>
+            <Col>
+              <label>EBTIDA %: </label>
+              <div class="input-group mb-3">
+                <input type="text" required className="form-control"
+                  value={((this.state.pajamos - this.state.suma) / this.state.pajamos * 100)} disabled={true} />
+                <div class="input-group-append">
+                  <span class="input-group-text">%</span>
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <div className="form-group">
+                <label>Statusas: </label>
+                <select //ref="userInput"
+                  required
+                  className="form-control"
+                  value={this.state.statusas}
+                  onChange={this.onChangeStatusas}>
+                  <option value="Juodraštis">Juodraštis</option>
+                  <option value="Pateiktas">Pateiktas</option>
+                  <option value="Laimėtas">Laimėtas</option>
+                  <option value="Pralaimėtas">Pralaimėtas</option>
+                  <option value="Atšauktas">Atšauktas</option>
+                </select>
+              </div>
+
+            </Col>
+            <Col>
+              <label>Plotas m<sup>2</sup>: </label>
+              <div class="input-group mb-3">
+                <input type="text" required className="form-control" value={this.state.plotasm2} onChange={this.onChangePlotasm2}
+                  disabled={this.state.rakintiForma} />
+                <div class="input-group-append"><span class="input-group-text">m<sup>2</sup></span></div>
+              </div>
+            </Col>
+            <Col>
+              <label>m<sup>2</sup> kaina: </label>
+              <div class="input-group mb-3">
+              <input type="text" required className="form-control"
+                  value={this.state.plotasm2 / this.state.kiekis} disabled={true} />
+                <div class="input-group-append">
+                  <span class="input-group-text">€</span>
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col></Col>
+            <Col>
+              <label>Pajamos: </label>
+              <div class="input-group mb-3">
+                <input type="text" required className="form-control" value={this.state.pajamos} onChange={this.onChangePajamos}
+                  disabled={this.state.rakintiForma} />
+                <div class="input-group-append"><span class="input-group-text">€</span></div>
+              </div>
+            </Col>
+            <Col></Col>
+          </Row>
           {/* <div className="form-group">
             <label>Kaina: </label>
             <input type="text" required className="form-control" value={this.state.kaina} onChange={this.onChangeKaina}
             disabled={this.state.rakintiForma}/>
           </div> */}
+
           <div className="form-group">
-            <label>Kiekis: </label>
-            <input type="text" required className="form-control" value={this.state.kiekis} onChange={this.onChangeKiekis}
-            disabled={this.state.rakintiForma}/>
+            <label>Aprašymas: </label>
+            <textarea className="form-control" value={this.state.aprasymas} onChange={this.onChangeAprasymas}
+              disabled={this.state.rakintiForma} />
           </div>
-          <div className="form-group"> 
-          <label>Suma: </label>
-          <input  type="text" required className="form-control" value={this.state.suma} onChange={this.onChangeSuma}
-          disabled={this.state.rakintiForma}/>
-        </div>
-        <div className="form-group"> 
-          <label>Plotas m2: </label>
-          <input  type="text" required className="form-control" value={this.state.plotasm2} onChange={this.onChangePlotasm2}
-         disabled={this.state.rakintiForma} />
-        </div>
-        <div className="form-group"> 
-          <label>Pajamos: </label>
-          <input  type="text" required className="form-control" value={this.state.pajamos} onChange={this.onChangePajamos}
-         disabled={this.state.rakintiForma} />
-        </div>
-        <div className="form-group"> 
-          <label>EBITDA: </label>
-          <input  type="text" required className="form-control" value={this.state.pajamos - this.state.suma} disabled = {true}/>
-        </div>
-        <div className="form-group"> 
-          <label>EBTIDA %: </label>
-          <input  type="text" required className="form-control"
-              value={((this.state.pajamos - this.state.suma) / this.state.pajamos * 100)}
-              disabled = {true}/>
-        </div>
-        <div className="form-group"> 
-          <label>Kiekis: </label>
-          <input  type="text" required className="form-control" value={this.state.kiekis} onChange={this.onChangeKiekis}
-          disabled={this.state.rakintiForma}/>
-        </div>
-        <div className="form-group"> 
-          <label>m2 kaina: </label>
-          <input  type="text" required className="form-control"
-            value={this.state.plotasm2 / this.state.kiekis}
-              disabled = {true}/>
-        </div>
-        <div className="form-group"> 
-        <label>Statusas: </label>
-          <select //ref="userInput"
-              required
-              className="form-control"
-                value={this.state.statusas}
-              onChange={this.onChangeStatusas}>
-              <option value="Juodraštis">Juodraštis</option>
-              <option value="Pateiktas">Pateiktas</option>
-              <option value="Laimėtas">Laimėtas</option>
-              <option value="Pralaimėtas">Pralaimėtas</option>
-              <option value="Atšauktas">Atšauktas</option>                   
-          </select>
-        </div>
           <div className="form-group">
-            <input type="submit" value="Redaguoti" className="btn btn-primary" />
+            <input type="submit" value="Išsaugoti" className="btn btn-primary" />
           </div>
         </form>
       </div>

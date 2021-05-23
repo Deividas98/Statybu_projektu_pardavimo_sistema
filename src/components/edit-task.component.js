@@ -3,7 +3,8 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import Timer from './timer.component';
-import { Button, Alert } from 'react-bootstrap';
+import { Button, Alert, Row, Col } from 'react-bootstrap';
+import '../App.css';
 
 export default class EditTask extends Component {
     constructor(props) {
@@ -95,15 +96,15 @@ export default class EditTask extends Component {
     }
 
     onChangePradziosData(pradziosData) {
-        this.setState({ pradziosData: pradziosData})
+        this.setState({ pradziosData: pradziosData })
     }
 
     onChangePabaigosData(pabaigosData) {
-        this.setState({pabaigosData: pabaigosData})
+        this.setState({ pabaigosData: pabaigosData })
     }
 
     onChangeSkirta(e) {
-        this.setState({skirta: e.target.value })
+        this.setState({ skirta: e.target.value })
     }
 
     onChangeAtlieka(e) {
@@ -115,7 +116,7 @@ export default class EditTask extends Component {
     }
 
     onChangeKomentaruSarasas(e) {
-        this.setState({ komentaruSarasas: e.target.value  })
+        this.setState({ komentaruSarasas: e.target.value })
     }
 
     onChangeLaikas(e) {
@@ -164,80 +165,79 @@ export default class EditTask extends Component {
     render() {
         return (
             <div>
-                <div>{this.state.statusas}</div>
-             <Alert show={this.state.visibleAlert} variant="success" dismissible>Užduotis sėkmingai atnaujinta!</Alert>
-                <h3>Atnaujinti užduotį</h3>
-                <form onSubmit={this.onSubmit}>
-                    <div className="form-group">
-                        <label>Tema: </label>
-                        <input type="text" required className="form-control" value={this.state.tema}
-                            onChange={this.onChangeTema}/>
-                    </div>
-                    <div className="form-group">
-                        <label>Pradžios data: </label>
-                        <div>
-                            <DatePicker
-                                selected={this.state.pradziosData}
-                                onChange={this.onChangePradziosData}/>
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label>Pabaigos data: </label>
-                        <div>
-                            <DatePicker
-                                selected={this.state.pabaigosData}
-                                onChange={this.onChangePabaigosData}/>
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label>Skirta: </label>
-                        <select required
-                            className="form-control"
-                            value={this.state.projektas}
-                            onChange={this.onChangeSkirta}>
-                            {
-                                this.state.projektai.map(function ([_id, pavadinimas]) {
-                                    return <option
-                                        key={_id}
-                                        value={_id}>{pavadinimas}
-                                    </option>;
-                                })
-                            }
-                        </select>
-                    </div>
-                   <div className="form-group">
-                        <label>Atlieka: </label>
-                        <select required
-                            className="form-control"
-                            value={this.state.naudotojas}
-                            onChange={this.onChangeAtlieka}>
-                            {
-                                this.state.naudotojai.map(function ([_id, username]) {
-                                    return <option
-                                        key={_id}
-                                        value={_id}>{username}
-                                    </option>;
-                                })
-                            }
-                        </select>
-                    </div>
+                {/* <div>{this.state.statusas}</div> */}
+                <Alert show={this.state.visibleAlert} variant="success" dismissible>Užduotis sėkmingai atnaujinta!</Alert>
+                <h3>Redaguoti užduotį</h3>
+                <form className='form-tab' onSubmit={this.onSubmit}>
+                    <Row>
+                        <Col>
+                            <label>Tema: </label>
+                            <input type="text" required className="form-control" value={this.state.tema}
+                                onChange={this.onChangeTema} />
+                        </Col>
+                        <Col>
+                            <label>Skirta: </label>
+                            <select required className="form-control" value={this.state.projektas}
+                                onChange={this.onChangeSkirta}>
+                                {
+                                    this.state.projektai.map(function ([_id, pavadinimas]) {
+                                        return <option
+                                            key={_id}
+                                            value={_id}>{pavadinimas}
+                                        </option>;
+                                    })
+                                }
+                            </select>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <label>Pradžios data: </label>
+                            <div>
+                                <DatePicker className="form-control"
+                                    selected={this.state.pradziosData}
+                                    onChange={this.onChangePradziosData} />
+                            </div>
+                        </Col>
+                        <Col>
+                            <label>Pabaigos data: </label>
+                            <div>
+                                <DatePicker className="form-control"
+                                    selected={this.state.pabaigosData}
+                                    onChange={this.onChangePabaigosData} />
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <label>Atlieka: </label>
+                            <select required className="form-control" value={this.state.naudotojas}
+                                onChange={this.onChangeAtlieka}>
+                                {
+                                    this.state.naudotojai.map(function ([_id, username]) {
+                                        return <option
+                                            key={_id}
+                                            value={_id}>{username}
+                                        </option>;
+                                    })
+                                }
+                            </select>
+                        </Col>
+                        <Col>
+                            <label>Statusas: </label>
+                            <select required className="form-control" value={this.state.statusas} onChange={this.onChangeStatusas}>
+                                <option value="Atvira">Atvira</option>
+                                <option value="Atlikta">Atlikta</option>
+                                <option value="Uždaryta">Uždaryta</option>
+                            </select>
+                        </Col>
+                    </Row>
+
                     <div className="form-group">
                         <label>Komentaras: </label>
-                        <input type="text"
-                            required
-                            className="form-control"
-                            value={this.state.komentaras}
-                            onChange={this.onChangeKomentaras}
-                        />
+                        <textarea className="form-control" value={this.state.komentaras} onChange={this.onChangeKomentaras} />
                     </div>
-                    <div className="form-group">
-                        <label>Statusas: </label>
-                        <select required className="form-control" value={this.state.statusas} onChange={this.onChangeStatusas}>
-                          <option value="Atvira">Atvira</option>
-                          <option value="Atlikta">Atlikta</option>
-                          <option value="Uždaryta">Uždaryta</option>
-                        </select>
-                    </div>
+
                     {/* <div className="form-group">
                         <label>Komenarų įrašai: </label>
                         <input type="text"
@@ -250,12 +250,12 @@ export default class EditTask extends Component {
 
                     {this.state.showTimer == true ? <Timer laikas2={this.state.laikas} parentCallback={this.handleCallback} /> :
                         <Button onClick={this.showtimer} >Išskleisti laikrodį</Button>}
-                    {/* <Timer laikas2={this.state.laikas} parentCallback = {this.handleCallback}/> */}
+
                     {/* <div>{Date.parse(this.state.laikas)}</div> */}
                     {/* onLaikas1Changed={this.onChangeLaikas} */}
 
                     <div className="form-group">
-                        <input type="submit" value="Redaguojama užduotis" className="btn btn-primary" />
+                        <input type="submit" value="Išsaugoti" style={{ margin: "10px" }} className="btn btn-primary" />
                     </div>
                 </form>
             </div>

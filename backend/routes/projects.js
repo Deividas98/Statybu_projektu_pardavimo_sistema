@@ -135,40 +135,6 @@ router.route('/updateest/:id').post((req, res) => {
   .catch(err => res.status(400).json('Error: ' + err));
 });
 
-// router.route('/updatelost/:id').post((req, res) => {
-//   Project.findById(req.params.id)
-//   .then(project => {
-//     project.pralaimetaSuma = Number(req.body.pralaimetaSuma);
-//     project.pralaimetaBendrasPlotasm2 = Number(req.body.pralaimetaBendrasPlotasm2);
-//     project.pralaimetaPajamos = Number(req.body.pralaimetaPajamos);
-//     project.pralaimetaEbitda = Number(req.body.pralaimetaEbitda);
-//     project.pralaimetaBendrasKiekis = Number(req.body.pralaimetaBendrasKiekis);
-//     project.pralaimetaEbitdaProc = Number(req.body.pralaimetaEbitdaProc);
-
-//     project.save()
-//       .then(() => res.json('Project lost updated!'))
-//       .catch(err => res.status(400).json('Error: ' + err));
-//   })
-//   .catch(err => res.status(400).json('Error: ' + err));
-// });
-
-// router.route('/updatewon/:id').post((req, res) => {
-//   Project.findById(req.params.id)
-//   .then(project => {
-//     project.laimetaSuma = Number(req.body.laimetaSuma);
-//     project.laimetaBendrasPlotasm2 = Number(req.body.laimetaBendrasPlotasm2);
-//     project.laimetaPajamos = Number(req.body.laimetaPajamos);
-//     project.laimetaEbitda = Number(req.body.laimetaEbitda);
-//     project.laimetaBendrasKiekis = Number(req.body.laimetaBendrasKiekis);
-//     project.laimetaEbitdaProc = Number(req.body.laimetaEbitdaProc);
-
-//     project.save()
-//       .then(() => res.json('Project won updated!'))
-//       .catch(err => res.status(400).json('Error: ' + err));
-//   })
-//   .catch(err => res.status(400).json('Error: ' + err));
-// });
-
 router.route('/:id').get((req, res) => {
   Project.findById(req.params.id)
   .then(project => res.json(project))

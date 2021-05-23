@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import { Modal, Button, Alert } from 'react-bootstrap';
+import { Modal, Button, Alert, Row, Col } from 'react-bootstrap';
 
 export default class CreateTasks extends Component {
     constructor(props) {
@@ -125,86 +125,68 @@ export default class CreateTasks extends Component {
             <Modal {...this.props}>
                 <Alert show={this.state.visibleAlert} variant="success" dismissible>Sutartis sėkmingai sukurta!</Alert>
                 <Modal.Header closeButton onClick={this.props.onHide}>
-                    <Modal.Title>Sukurti užduotį</Modal.Title>
+                    <Modal.Title>Pridėti užduotį</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="form-group">
-                        <label>Tema: </label>
-                        <input type="text" required className="form-control" value={this.state.tema} onChange={this.onChangeTema} />
-                    </div>
-                    <div className="form-group">
-                        <label>Pradžios data: </label>
-                        <div>
-                            <DatePicker
-                                selected={this.state.pradziosData}
-                                onChange={this.onChangePradziosData} />
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label>Pabaigos data: </label>
-                        <div>
-                            <DatePicker
-                                selected={this.state.pabaigosData}
-                                onChange={this.onChangePabaigosData} />
-                        </div>
-                    </div>
-                    <div className="form-group">
-                        <label>Skirta: </label>
-                        <select required className="form-control" value={this.state.projektas}
-                            onChange={this.onChangeSkirta}>
-                            {
-                                this.state.projektai.map(function ([_id, pavadinimas]) {
-                                    return <option
-                                        key={_id}
-                                        value={_id}>{pavadinimas}
-                                    </option>;
-                                })
-                            }
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Atlieka: </label>
-                        <select required className="form-control" value={this.state.naudotojas} onChange={this.onChangeAtlieka}>
-                            {
-                                this.state.naudotojai.map(function ([_id, username]) {
-                                    return <option
-                                        key={_id}
-                                        value={_id}>{username}
-                                    </option>;
-                                })
-                            }
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Komentaras: </label>
-                        <input type="text" required className="form-control" value={this.state.komentaras}
-                            onChange={this.onChangeKomentaras} />
-                    </div>
-                    <div className="form-group">
-                        <label>Statusas: </label>
-                        <select required className="form-control" value={this.state.statusas} onChange={this.onChangeStatusas}>
-                          <option value="Atvira">Atvira</option>
-                          <option value="Atlikta">Atlikta</option>
-                          <option value="Uždaryta">Uždaryta</option>
-                        </select>
-                    </div>
-                    {/* <div className="form-group">
-                       <label>Komenarų įrašai: </label>
-                       <input type="text"
-                           required
-                           className="form-control"
-                           value={this.state.komentaruSarasas}
-                           onChange={this.onChangeKomentaruSarasas}
-                       />
-                   </div> */}
+                    <label>Tema: </label>
+                    <input type="text" required className="form-control" value={this.state.tema} onChange={this.onChangeTema} />
+                    <Row>
+                        <Col>
+                            <label>Pradžios data: </label>
+                            <div>
+                                <DatePicker className="form-control"
+                                    selected={this.state.pradziosData}
+                                    onChange={this.onChangePradziosData} />
+                            </div>
+                        </Col>
+                        <Col>
+                            <label>Pabaigos data: </label>
+                            <div>
+                                <DatePicker className="form-control" selected={this.state.pabaigosData}
+                                    onChange={this.onChangePabaigosData} />
+                            </div>
+                        </Col>
+                    </Row>
+                    <label>Skirta: </label>
+                    <select required className="form-control" value={this.state.projektas}
+                        onChange={this.onChangeSkirta}>
+                        {
+                            this.state.projektai.map(function ([_id, pavadinimas]) {
+                                return <option
+                                    key={_id}
+                                    value={_id}>{pavadinimas}
+                                </option>;
+                            })
+                        }
+                    </select>
 
+                    <label>Atlieka: </label>
+                    <select required className="form-control" value={this.state.naudotojas} onChange={this.onChangeAtlieka}>
+                        {
+                            this.state.naudotojai.map(function ([_id, username]) {
+                                return <option
+                                    key={_id}
+                                    value={_id}>{username}
+                                </option>;
+                            })
+                        }
+                    </select>
+
+                    <label>Komentaras: </label>
+                    <textarea className="form-control" value={this.state.komentaras} onChange={this.onChangeKomentaras} />
+
+                    <label>Statusas: </label>
+                    <select required className="form-control" value={this.state.statusas} onChange={this.onChangeStatusas}>
+                        <option value="Atvira">Atvira</option>
+                        <option value="Atlikta">Atlikta</option>
+                        <option value="Uždaryta">Uždaryta</option>
+                    </select>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={this.props.onHide}>Atšaukti</Button>
                     <Button variant="primary" onClick={this.onSubmit}>Išsaugoti</Button>
                 </Modal.Footer>
             </Modal>
-
         )
     }
 }

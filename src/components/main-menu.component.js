@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import '../App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Navbar, Nav } from 'react-bootstrap';
+import sysLogo from '../projectlogo.PNG';
 /*import ContactTable from '../ContactTable';
 import ProductTable from '../ProductTable';*/
 
-import {BrowserRouter as Router, Route} from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Navbar2 from "./navbar.component"
 import ProductsList from "./products-list.component";
 import ResourcesList from "./list-resources.component";
@@ -27,134 +28,111 @@ import Axios from "axios";
 
 export default class MainMenu extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-          productModalShow: false,
-          taskShow: false,
-           accountShow: false,
-           agreementShow: false,
-           productShow: false,
-           projectShow: false,
-          table: 'projectTable',
-          data: null,//,
-          //logino komponentai
-         /* registerUsername: "",
-        registerPassword: "",
-        loginUsername: "",
-         loginPassword: "",
-         data: null,
-         role: "EmptyRole"*/
-        }
-      }
-    
-      clickHandlerContact() {
-        this.setState({
-          table: 'contactTable'
-        })
-      }
-    
-      clickHandlerProject() {
-        this.setState({
-          table: 'projectTable'
-        })
-      }
-    
-      clickHandlerProduct() {
-        this.setState({
-          table: 'productTable'
-        })
-      }
+  constructor(props) {
+    super(props);
+    this.state = {
+      productModalShow: false,
+      taskShow: false,
+      accountShow: false,
+      agreementShow: false,
+      productShow: false,
+      projectShow: false,
+      table: 'projectTable',
+      data: null,//,
+      //logino komponentai
+      /* registerUsername: "",
+     loginUsername: "",
+      loginPassword: "",
+      data: null,
+      role: "EmptyRole"*/
+    }
+  }
 
-      /*taskModalClose(){
-        this.setState( prevState => (
-          {show: !prevState.taskShow}))  
-      } */
-      
+  clickHandlerContact() {
+    this.setState({
+      table: 'contactTable'
+    })
+  }
 
-    render() {
-        let taskModalClose = () => {this.setState({ taskShow: false })};
-        let accountModalClose = () => {this.setState({ accountShow: false })};
-        let agreementModalClose = () => {this.setState({ agreementShow: false })};
-        let projectModalClose = () => {this.setState({ projectShow: false })};
-        let productModalClose = () => {this.setState({ productShow: false })};
+  clickHandlerProject() {
+    this.setState({
+      table: 'projectTable'
+    })
+  }
 
-    /*    let testcomponentas;
- else if (this.state.table == 'productTable') {
-          testcomponentas = <ProductTable />
-        } else {
-          testcomponentas = <ContactTable />
-        }*/
+  clickHandlerProduct() {
+    this.setState({
+      table: 'productTable'
+    })
+  }
 
-        const getUser = /*async*/ () => {
-        console.log("apsk");
+  render() {
+    let taskModalClose = () => { this.setState({ taskShow: false }) };
+    let accountModalClose = () => { this.setState({ accountShow: false }) };
+    let agreementModalClose = () => { this.setState({ agreementShow: false }) };
+    let projectModalClose = () => { this.setState({ projectShow: false }) };
+    let productModalClose = () => { this.setState({ productShow: false }) };
+
+    const getUser = /*async*/ () => {
+      console.log("apsk");
           /*await*/  Axios({
-              method: "GET",
-              withCredentials: true,
-              url: "http://localhost:5000/user",
-            }).then(response => {
-              //this.setState({data: res.data});
-              console.log(response.data.role);
-              //console.log("role: " + res.data.role);
-            }).catch( err => {
-               console.log(err);
-            })
-          };
+        method: "GET",
+        withCredentials: true,
+        url: "http://localhost:5000/user",
+      }).then(response => {
+        //this.setState({data: res.data});
+        console.log(response.data.role);
+        //console.log("role: " + res.data.role);
+      }).catch(err => {
+        console.log(err);
+      })
+    };
 
-        return (
-
-            <div>
-                
-                   <Navbar fixed="top" variant="dark" bg="dark" expand="lg">
-          <Navbar.Brand href="/main">SPS</Navbar.Brand>
+    return (
+      <div>
+        <Navbar fixed="top" variant="dark" bg="dark" expand="lg">
+          <Navbar.Brand href="/main">
+          <img src={sysLogo} style={{ height: "30px", width: "30px" }} /></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-            <Nav.Link onClick={() => this.setState({ taskShow: true })} >Pridėti užduotį</Nav.Link>
-            <Nav.Link onClick={() => this.setState({ accountShow: true })} >Pridėti įmonę</Nav.Link>
-            <Nav.Link onClick={() => this.setState({ productShow: true })} >Pridėti produktą</Nav.Link>
-            <Nav.Link onClick={() => this.setState({ projectShow: true })} >Pridėti projektą</Nav.Link>
-            <Nav.Link onClick={() => this.setState({ agreementShow: true })} >Pridėti sutartį</Nav.Link>
+              <Nav.Link onClick={() => this.setState({ taskShow: true })} >Pridėti užduotį</Nav.Link>
+              <Nav.Link onClick={() => this.setState({ accountShow: true })} >Pridėti įmonę</Nav.Link>
+              <Nav.Link onClick={() => this.setState({ productShow: true })} >Pridėti produktą</Nav.Link>
+              <Nav.Link onClick={() => this.setState({ projectShow: true })} >Pridėti projektą</Nav.Link>
+              <Nav.Link onClick={() => this.setState({ agreementShow: true })} >Pridėti sutartį</Nav.Link>
               {/* <Nav.Link onClick={() => this.setState({ contactModalShow: true })} href="/">Add Contact</Nav.Link> */}
-              {/* <Nav.Link onClick={() => this.setState({ addModalShow: true })} href="/edit/:id">Create Project</Nav.Link> */}
-              {/* <Nav.Link onClick={() => this.setState({ productModalShow: true })} href="/create">Add Product</Nav.Link> */}
               {/* <Nav.Link onClick={() => this.sort()} href="#link">Sort</Nav.Link> */}
               {/* dar grizti cia */}
 
-
-              {/* palikti sita komentara <Nav.Link href="#link">Change Date/Currency format</Nav.Link>
+              {/* palikti sita komentara
               <Nav.Link href="#link">About</Nav.Link>*/}
             </Nav>
           </Navbar.Collapse>
         </Navbar>
 
         <div className="splitright">
-       
-       {/* dar grizti */}
-       {/* <button onClick={getUser}>getuser</button> */}
-       {/*baltas kairys kampas yra del situ komponentu*/}
-          <div> 
 
-        <Router>
-        <Navbar2/>
-      <br/>
-      <Route path="/uzduotys" exact component={TasksList} />
-      <Route path="/imones" exact component={AccountsList} />
-      <Route path="/sutartis" exact component={AgreementsList} />
-      <Route path="/projektai" exact component={ProjectsList} />
-      <Route path="/istekliai" exact component={ResourcesList} />
-      <Route path="/list" exact component={ProductsList} />{/*pakeisti kelius!!!*/}
-      <Route path="/edittask/:id" component={EditTask} />
-      <Route path="/editacc/:id" component={EditAccount} />
-      <Route path="/editagr/:id" component={EditAgreement} />
-      <Route path="/edit/:id" component={EditProduct} />
-      <Route path="/editprj/:id" component={EditProject} />
-      <Route path="/user"  component={CreateProject} />
-      </Router>
-     
-
-
-        {/*testcomponentas*/}
+          {/* dar grizti */}
+          {/* <button onClick={getUser}>getuser</button> */}
+          {/*baltas kairys kampas yra del situ komponentu*/}
+          <div>
+            <Router>
+              <Navbar2 />
+              <br />
+              <Route path="/uzduotys" exact component={TasksList} />
+              <Route path="/imones" exact component={AccountsList} />
+              <Route path="/sutartis" exact component={AgreementsList} />
+              <Route path="/projektai" exact component={ProjectsList} />
+              <Route path="/istekliai" exact component={ResourcesList} />
+              <Route path="/list" exact component={ProductsList} />
+              <Route path="/edittask/:id" component={EditTask} />
+              <Route path="/editacc/:id" component={EditAccount} />
+              <Route path="/editagr/:id" component={EditAgreement} />
+              <Route path="/edit/:id" component={EditProduct} />
+              <Route path="/editprj/:id" component={EditProject} />
+              <Route path="/user" component={CreateProject} />
+            </Router>
           </div>
         </div>
 
@@ -163,6 +141,7 @@ export default class MainMenu extends Component {
         <CreateAgreement show={this.state.agreementShow} onHide={agreementModalClose} />
         <CreateProject show={this.state.projectShow} onHide={projectModalClose} />
         <CreateProduct show={this.state.productShow} onHide={productModalClose} />
-            </div>
-        )}
+      </div>
+    )
+  }
 }
