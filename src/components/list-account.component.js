@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import {Button} from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 //ne atskiram faile nes mazas komponentas
 const Account = props => (
@@ -16,7 +16,7 @@ const Account = props => (
     <td>{props.account.lojalumas}</td>
 
     <td>
-      <Link to={"/editacc/"+props.account._id}>Redaguoti</Link> | <Button variant="danger" onClick={() => { props.deleteAccount(props.account._id) }}>Ištrinti</Button>
+      <Link to={"/editacc/" + props.account._id}>Redaguoti</Link> | <Button variant="danger" onClick={() => { props.deleteAccount(props.account._id) }}>Ištrinti</Button>
     </td>
   </tr>
 )
@@ -26,8 +26,8 @@ export default class AccountsList extends Component {
     super(props);
 
     this.deleteAccount = this.deleteAccount.bind(this)
-
-    this.state = {accounts: []};
+    this.sorting = this.sorting.bind(this)
+    this.state = { accounts: [], sorted: false };
   }
 
   componentDidMount() {
@@ -42,20 +42,44 @@ export default class AccountsList extends Component {
   }
 
   deleteAccount(id) {
-    if (window.confirm('Ar tikrai norite pa6alinti šį įrašą?')){
-    axios.delete('http://localhost:5000/accounts/'+id)
-      .then(response => { console.log(response.data)});
+    if (window.confirm('Ar tikrai norite pa6alinti šį įrašą?')) {
+      axios.delete('http://localhost:5000/accounts/' + id)
+        .then(response => { console.log(response.data) });
 
-    this.setState({
+      this.setState({
         accounts: this.state.accounts.filter(el => el._id !== id)
-    })
-  }
+      })
+    }
   }
 
   accountList() {
     return this.state.accounts.map(currentaccount => {
-      return <Account account={currentaccount} deleteAccount={this.deleteAccount} key={currentaccount._id}/>;
+      return <Account account={currentaccount} deleteAccount={this.deleteAccount} key={currentaccount._id} />;
     })
+  }
+
+  sorting() {
+    this.setState(({ sorted }) => ({ sorted: !sorted }))
+    if (this.state.sorted) {
+      axios.get('http://localhost:5000/accounts/sortbyname')
+      .then(response => {
+        this.setState({ accounts: response.data })
+        //console.log(this.state.products);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    }
+    else {
+      axios.get('http://localhost:5000/accounts/')
+      .then(response => {
+        this.setState({ accounts: response.data })
+        //console.log(this.state.products);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    }
   }
 
   render() {
@@ -73,13 +97,13 @@ export default class AccountsList extends Component {
               <th>Kontaktinis asmuo</th>
               <th>Svetainė</th>
               <th>Lojalumas</th>
+              <th><Button variant="info" onClick={this.sorting}>Rūšiuoti</Button></th>
             </tr>
           </thead>
           <tbody>
-            { this.accountList() }
+            {this.accountList()}
           </tbody>
         </table>
-        
       </div>
     )
   }

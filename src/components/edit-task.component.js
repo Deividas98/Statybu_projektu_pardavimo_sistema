@@ -40,7 +40,6 @@ export default class EditTask extends Component {
         }
     }
 
-    //su kitais objektais ta padaryti
     componentDidMount() {
         axios.get('http://localhost:5000/tasks/' + this.props.match.params.id)
             .then(response => {
@@ -80,8 +79,7 @@ export default class EditTask extends Component {
             .then(response => {
                 if (response.data.length > 0) {
                     this.setState({
-                        naudotojai: response.data.map(naudotojas => [naudotojas._id, naudotojas.username])//,
-                        //username: response.data[0].username
+                        naudotojai: response.data.map(naudotojas => [naudotojas._id, naudotojas.username])
                     })
                     console.log(this.state.naudotojai)
                 }
@@ -151,8 +149,7 @@ export default class EditTask extends Component {
             laikas: this.state.laikas,
             statusas: this.state.statusas
         }
-
-        console.log(uzduotis);
+        //console.log(uzduotis);
 
         axios.post('http://localhost:5000/tasks/updatetask/' + this.props.match.params.id, uzduotis)
             .then(res => console.log(res.data));
@@ -165,7 +162,6 @@ export default class EditTask extends Component {
     render() {
         return (
             <div>
-                {/* <div>{this.state.statusas}</div> */}
                 <Alert show={this.state.visibleAlert} variant="success" dismissible>Užduotis sėkmingai atnaujinta!</Alert>
                 <h3>Redaguoti užduotį</h3>
                 <form className='form-tab' onSubmit={this.onSubmit}>
@@ -248,7 +244,7 @@ export default class EditTask extends Component {
                         />
                     </div> */}
 
-                    {this.state.showTimer == true ? <Timer laikas2={this.state.laikas} parentCallback={this.handleCallback} /> :
+                    {this.state.showTimer === true ? <Timer laikas2={this.state.laikas} parentCallback={this.handleCallback} /> :
                         <Button onClick={this.showtimer} >Išskleisti laikrodį</Button>}
 
                     {/* <div>{Date.parse(this.state.laikas)}</div> */}

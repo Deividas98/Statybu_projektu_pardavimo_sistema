@@ -11,6 +11,7 @@
     "bootstrap": "^4.5.3",
     "bootstrap-steps": "^1.0.3",
     "http-proxy-middleware": "^0.19.1",
+    "pdfmake": "^0.1.71",
     "pretty-ms": "^7.0.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",

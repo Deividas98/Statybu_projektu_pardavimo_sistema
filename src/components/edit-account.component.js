@@ -10,7 +10,6 @@ import phoneLogo from '../phone.jpg';
 import emailLogo from '../email.jpg';
 import addressLogo from '../address.jpg';
 
-
 const Agreement = props => (
     <tr>
         <td>{props.agreement.pavadinimas}</td>
@@ -66,7 +65,6 @@ export default class EditAccount extends Component {
         }
     }
 
-    //su kitais objektais ta padaryti
     componentDidMount() {
         axios.get('http://localhost:5000/accounts/' + this.props.match.params.id)
             .then(response => {
@@ -85,12 +83,10 @@ export default class EditAccount extends Component {
                 console.log(error);
             })
 
-
         axios.get('http://localhost:5000/projects/')
             .then(response => {
                 if (response.data.length > 0) {
                     this.setState({
-                        //projektai: response.data.map(projektas => projektas.pavadinimas),
                         projektai: response.data.map(projektas => [projektas._id, projektas.pavadinimas]),
                         pavadinimas: response.data[0].pavadinimas//,
                         //ProjectId: response.data.map(projektas => projektas._id)//isbandyti
@@ -122,51 +118,35 @@ export default class EditAccount extends Component {
     }
 
     onChangePavadinimas(e) {
-        this.setState({
-            pavadinimas: e.target.value
-        })
+        this.setState({ pavadinimas: e.target.value })
     }
 
     onChangeSalis(e) {
-        this.setState({
-            salis: e.target.value
-        })
+        this.setState({ salis: e.target.value })
     }
 
     onChangeAdresas(e) {
-        this.setState({
-            adresas: e.target.value
-        })
+        this.setState({ adresas: e.target.value })
     }
 
     onChangeTelefonoNr(e) {
-        this.setState({
-            telefonoNr: e.target.value
-        })
+        this.setState({ telefonoNr: e.target.value })
     }
 
     onChangeElPastas(e) {
-        this.setState({
-            elPastas: e.target.value
-        })
+        this.setState({ elPastas: e.target.value })
     }
 
     onChangeKontaktinisAsmuo(e) {
-        this.setState({
-            kontaktinisAsmuo: e.target.value
-        })
+        this.setState({ kontaktinisAsmuo: e.target.value })
     }
 
     onChangeSvetaine(e) {
-        this.setState({
-            svetaine: e.target.value
-        })
+        this.setState({ svetaine: e.target.value })
     }
 
     onChangeLojalumas(e) {
-        this.setState({
-            lojalumas: e.target.value
-        })
+        this.setState({ lojalumas: e.target.value })
     }
 
     onSubmit = (e) => {
@@ -182,7 +162,6 @@ export default class EditAccount extends Component {
             svetaine: this.state.svetaine,
             lojalumas: this.state.lojalumas
         }
-
         console.log(imone);
 
         axios.post('http://localhost:5000/accounts/updateacc/' + this.props.match.params.id, imone)
@@ -246,7 +225,7 @@ export default class EditAccount extends Component {
                                 <input type="text" required className="form-control" value={this.state.adresas}
                                     onChange={this.onChangeAdresas} />
                                 <div class="input-group-append">
-                                    <span class="input-group-text"><img src={addressLogo} style={{ height: "20px", width: "20px" }} /></span>
+                                    <span class="input-group-text"><img src={addressLogo} style={{ height: "20px", width: "20px" }} alt='pav'/></span>
                                 </div>
                             </div>
                         </Col>
@@ -256,7 +235,7 @@ export default class EditAccount extends Component {
                                 <input type="text" required className="form-control" value={this.state.telefonoNr}
                                     onChange={this.onChangeTelefonoNr} />
                                 <div class="input-group-append">
-                                    <span class="input-group-text"><img src={phoneLogo} style={{ height: "20px", width: "20px" }} /></span>
+                                    <span class="input-group-text"><img src={phoneLogo} style={{ height: "20px", width: "20px" }} alt='pav'/></span>
                                 </div>
                             </div>
                         </Col>
@@ -268,7 +247,7 @@ export default class EditAccount extends Component {
                                 <input type="text" required className="form-control" value={this.state.elPastas}
                                     onChange={this.onChangeElPastas} />
                                 <div class="input-group-append">
-                                    <span class="input-group-text"><img src={emailLogo} style={{ height: "20px", width: "20px" }} /></span>
+                                    <span class="input-group-text"><img src={emailLogo} style={{ height: "20px", width: "20px" }} alt='pav'/></span>
                                 </div>
                             </div>
                         </Col>
@@ -278,7 +257,7 @@ export default class EditAccount extends Component {
                                 <input type="text" required className="form-control" value={this.state.kontaktinisAsmuo}
                                     onChange={this.onChangeKontaktinisAsmuo} />
                                 <div class="input-group-append">
-                                    <span class="input-group-text"><img src={contactLogo} style={{ height: "20px", width: "20px" }} /></span>
+                                    <span class="input-group-text"><img src={contactLogo} style={{ height: "20px", width: "20px" }} alt='pav'/></span>
                                 </div>
                             </div>
                         </Col>
@@ -290,7 +269,7 @@ export default class EditAccount extends Component {
                                 <input type="text" required className="form-control" value={this.state.svetaine}
                                     onChange={this.onChangeSvetaine} />
                                 <div class="input-group-append">
-                                    <span class="input-group-text"><img src={webLogo} style={{ height: "20px", width: "20px" }} /></span>
+                                    <span class="input-group-text"><img src={webLogo} style={{ height: "20px", width: "20px" }} alt='pav'/></span>
                                 </div>
                             </div>
                         </Col>
@@ -314,7 +293,6 @@ export default class EditAccount extends Component {
                         <input type="submit" value="Išsaugoti" className="btn btn-primary" />
                     </div>
                 </form>
-
                 <div style={{ margin: "50px" }}>
                     <Tabs defaultActiveKey="sutartys" id="account-tabs">
                         <Tab eventKey="sutartys" title="Sutartys">

@@ -7,13 +7,10 @@ import "react-datepicker/dist/react-datepicker.css";
 export default class CreateProject extends Component {
     constructor(props) {
         super(props);
-
         this.onSubmit = this.onSubmit.bind(this);
         this.onChangeAprasymas = this.onChangeAprasymas.bind(this);
         this.onChangePavadinimas = this.onChangePavadinimas.bind(this);
         this.onChangeImone = this.onChangeImone.bind(this);
-        //this.onChangeProjektoSuma = this.onChangeProjektoSuma.bind(this);
-        //this.onChangeNuolaida = this.onChangeNuolaida.bind(this);
         this.onChangeBusena = this.onChangeBusena.bind(this);
         this.onChangePradziosData = this.onChangePradziosData.bind(this);
         this.onChangePabaigosData = this.onChangePabaigosData.bind(this);
@@ -22,8 +19,6 @@ export default class CreateProject extends Component {
             aprasymas: '',
             prjPavadinimas: '',
             imone: '',
-            //projektoSuma: 0,
-            //nuolaida: 0,
             busena: 'Pradėtas',
             imones: [],
             pavadinimas: '',
@@ -61,14 +56,6 @@ export default class CreateProject extends Component {
         this.setState({ imone: e.target.value })
     }
 
-    // onChangeProjektoSuma(e) {
-    //     this.setState({projektoSuma: e.target.value})
-    // }
-
-    // onChangeNuolaida(e) {
-    //     this.setState({nuolaida: e.target.value})
-    // }
-
     onChangeBusena(e) {
         this.setState({ busena: e.target.value })
     }
@@ -88,8 +75,6 @@ export default class CreateProject extends Component {
             aprasymas: this.state.aprasymas,
             pavadinimas: this.state.prjPavadinimas,
             imone: this.state.imone,
-            //projektoSuma: this.state.projektoSuma,
-            //nuolaida: this.state.nuolaida,
             busena: this.state.busena,
             pradziosData: this.state.pradziosData,
             pabaigosData: this.state.pabaigosData
@@ -104,8 +89,6 @@ export default class CreateProject extends Component {
         //     aprasymas: '',
         //     prjPavadinimas: '',
         //     imone: '',
-        //     projektoSuma: 0,
-        //     nuolaida: 0,
         //     busena: 'Pradėtas'
         // })
 
@@ -128,12 +111,8 @@ export default class CreateProject extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <label>Pavadinimas: </label>
-                    <input type="text"
-                        required
-                        className="form-control"
-                        value={this.state.prjPavadinimas}
-                        onChange={this.onChangePavadinimas}
-                    />
+                    <input type="text" required className="form-control"
+                        value={this.state.prjPavadinimas} onChange={this.onChangePavadinimas}/>
 
                     <label>Aprašymas: </label>
                     <textarea className="form-control" value={this.state.aprasymas} onChange={this.onChangeAprasymas} />
@@ -143,32 +122,10 @@ export default class CreateProject extends Component {
                         onChange={this.onChangeImone}>
                         {
                             this.state.imones.map(function ([_id, pavadinimas]) {
-                                return <option
-                                    key={_id}
-                                    value={_id}>{pavadinimas}
-                                </option>;
+                                return <option key={_id} value={_id}>{pavadinimas} </option>;
                             })
                         }
                     </select>
-
-                    {/* <div className="form-group">
-                        <label>Projekto suma: </label>
-                        <input type="text"
-                            required
-                            className="form-control"
-                            value={this.state.projektoSuma}
-                            onChange={this.onChangeProjektoSuma}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label>Nuolaida: </label>
-                        <input type="text"
-                            required
-                            className="form-control"
-                            value={this.state.nuolaida}
-                            onChange={this.onChangeNuolaida}
-                        />
-                    </div> */}
 
                     <Row>
                         <Col>

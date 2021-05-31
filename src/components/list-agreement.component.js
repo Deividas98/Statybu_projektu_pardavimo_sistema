@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import {Button} from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 //ne atskiram faile nes mazas komponentas
 const Agreement = props => (
@@ -12,7 +12,7 @@ const Agreement = props => (
     <td>{props.agreement.sutartiesNumeris}</td>
     <td>{props.agreement.tipas}</td>
     <td>
-      <Link to={"/editagr/"+props.agreement._id}>Redaguoti</Link> | <Button variant="danger" onClick={() => { props.deleteAgreement(props.agreement._id) }}>Ištrinti</Button>
+      <Link to={"/editagr/" + props.agreement._id}>Redaguoti</Link> | <Button variant="danger" onClick={() => { props.deleteAgreement(props.agreement._id) }}>Ištrinti</Button>
     </td>
   </tr>
 )
@@ -22,15 +22,15 @@ export default class AgreementsList extends Component {
     super(props);
 
     this.deleteAgreement = this.deleteAgreement.bind(this)
-
-    this.state = {agreements: []};
+    this.sorting = this.sorting.bind(this)
+    this.state = { agreements: [], sorted: false  };
   }
 
   componentDidMount() {
     axios.get('http://localhost:5000/agreements/agrwlookup')
       .then(response => {
         this.setState({ agreements: response.data })
-     // console.log(this.state.agreements);
+        // console.log(this.state.agreements);
       })
       .catch((error) => {
         console.log(error);
@@ -38,20 +38,44 @@ export default class AgreementsList extends Component {
   }
 
   deleteAgreement(id) {
-    if (window.confirm('Ar tikrai norite pašalinti šį įrašą?')){
-    axios.delete('http://localhost:5000/agreements/'+id)
-      .then(response => { console.log(response.data)});
+    if (window.confirm('Ar tikrai norite pašalinti šį įrašą?')) {
+      axios.delete('http://localhost:5000/agreements/' + id)
+        .then(response => { console.log(response.data) });
 
-    this.setState({
+      this.setState({
         agreements: this.state.agreements.filter(el => el._id !== id)
-    })
-  }
+      })
+    }
   }
 
   agreementList() {
     return this.state.agreements.map(currentagreement => {
-      return <Agreement agreement={currentagreement} deleteAgreement={this.deleteAgreement} key={currentagreement._id}/>;
+      return <Agreement agreement={currentagreement} deleteAgreement={this.deleteAgreement} key={currentagreement._id} />;
     })
+  }
+
+  sorting() {
+    this.setState(({ sorted }) => ({ sorted: !sorted }))
+    if (this.state.sorted) {
+      axios.get('http://localhost:5000/agreements/agrwlookup')
+      .then(response => {
+        this.setState({ agreements: response.data })
+        // console.log(this.state.agreements);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    }
+    else {
+      axios.get('http://localhost:5000/agreements/listagrsort')
+      .then(response => {
+        this.setState({ agreements: response.data })
+        // console.log(this.state.agreements);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    }
   }
 
   render() {
@@ -66,10 +90,11 @@ export default class AgreementsList extends Component {
               <th>Projektas</th>
               <th>Sutarties numeris</th>
               <th>Tipas</th>
+              <th><Button variant="info" onClick={this.sorting}>Rūšiuoti</Button></th>
             </tr>
           </thead>
           <tbody>
-            { this.agreementList() }
+            {this.agreementList()}
           </tbody>
         </table>
       </div>

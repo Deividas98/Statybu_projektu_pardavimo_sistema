@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 //ne atskiram faile nes mazas komponentas
@@ -7,8 +6,6 @@ const Resource = props => (
   <tr>
     <td>{props.resource.pavadinimas}</td>
     <td>{props.resource.kiekis}</td>
-    {/* <td><Link to={"/edittask/"+props.resource._id}>Redaguoti</Link> </td>  */}
-    {/*kolkas paslepti, nes nepriklauso naudotojui redauoti istekliu*/}
   </tr>
 )
 

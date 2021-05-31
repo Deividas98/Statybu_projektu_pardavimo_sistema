@@ -19,19 +19,19 @@ export default class Login extends Component {
   }
 
   render() {
-    const register = () => {
-      Axios({
-        method: "POST",
-        data: {
-          username: this.state.registerUsername,//registerUsername,
-          password: this.state.registerPassword,//registerPassword,
-          role: "EmptyRole"
-        },
-        withCredentials: true,
-        url: "http://localhost:5000/register",
-      }).then((res) => console.log(res))
-        .catch(error => console.log(error));
-    };
+    // const register = () => {
+    //   Axios({
+    //     method: "POST",
+    //     data: {
+    //       username: this.state.registerUsername,
+    //       password: this.state.registerPassword,
+    //       role: "EmptyRole"
+    //     },
+    //     withCredentials: true,
+    //     url: "http://localhost:5000/register",
+    //   }).then((res) => console.log(res))
+    //     .catch(error => console.log(error));
+    // };
     const login = () => {
       Axios({
         method: "POST",
@@ -44,8 +44,7 @@ export default class Login extends Component {
         url: "http://localhost:5000/login",
       }).then(function (response) {
         console.log(response);
-        if (response.data === 'Successfully Authenticated' /*res.status == 200*/) {//AR SAUGU TAIP NEPRALEISTI??????? papildyti lyginima pagal statusa
-          //console.log("perjungti i kita langa");
+        if (response.data === 'Successfully Authenticated' /*res.status == 200*/) {// papildyti lyginima pagal statusa
           window.location = "/main"
         }
         //else    window.location = "/"
@@ -68,7 +67,7 @@ export default class Login extends Component {
 
     return (
       <div className="loginForm">
-        <span>
+        <span className='loginFormv3'>
           <img src={projectLogo} alt="Logo" height="120px" width="120px" />
           <Form>
             {/* <Form.Group controlId="formRegistracija" classname="loginForm2">
@@ -101,28 +100,7 @@ export default class Login extends Component {
                 <Button variant="primary" type="button" onClick={login}>Prisijungti</Button>
               </Row>
             </Form.Group>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-<br></br>
-
-
+            
             {/* <Form.Group controlId="formEsamasNaudotojas">
               <h1>Gauti naudotoją</h1>
               <Button variant="primary" type="button" onClick={getUser}>Gauti naudotoją</Button>

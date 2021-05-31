@@ -39,9 +39,6 @@ export default class Navbar2 extends Component {
           <Link to="/istekliai" className='navbarbutton'>Ištekliai 
           <img src={resourcelogo} style={{ height: "20px", width: "20px" }} alt='logo'/></Link>
           </li>
-          {/* <li style = {{marginLeft: "30px"}} >
-          <Link to="/user" className="nav-link">Create User</Link>
-          </li> */}
         </ul>
         </div>
       </nav>

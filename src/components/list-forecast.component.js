@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
-import {Button} from 'react-bootstrap';
 
 //ne atskiram faile nes mazas komponentas
-const Forecast= props => (
+const Forecast = props => (
   <tr>
     <td>{props.task.periodoPradzia}</td>
     <td>{props.task.periodoPabaiga}</td>
@@ -12,15 +10,11 @@ const Forecast= props => (
   </tr>
 )
 
-/*const Projektai = Object.keys(products).map(key =>
-  <option value={key}>{products[key]}</option>
-)*/
-
 export default class ForecastsList extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {forecasts: []};
+    this.state = { forecasts: [] };
   }
 
   componentDidMount() {
@@ -36,7 +30,7 @@ export default class ForecastsList extends Component {
 
   forecastList() {
     return this.state.forecasts.map(currentforecast => {
-      return <Forecast forecast={currentforecast} key={currentforecast._id}/>;
+      return <Forecast forecast={currentforecast} key={currentforecast._id} />;
     })
   }
 
@@ -53,10 +47,9 @@ export default class ForecastsList extends Component {
             </tr>
           </thead>
           <tbody>
-            { this.forecastList() }
+            {this.forecastList()}
           </tbody>
         </table>
-        
       </div>
     )
   }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import {Button} from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 //ne atskiram faile nes mazas komponentas
 const Product = props => (
@@ -11,15 +11,14 @@ const Product = props => (
     <td>{props.product.projektas}</td>
     <td>{props.product.suma}</td>
     <td>{props.product.kiekis}</td>
-{/* <td>{props.product.kaina}</td> */}
-<td>{props.product.plotasm2}</td>
-<td>{props.product.pajamos}</td>
-<td>{props.product.ebitda}</td>
-<td>{props.product.m2kaina}</td>
-<td>{props.product.ebitdaProc}</td>
-<td>{props.product.statusas}</td>
+    <td>{props.product.plotasm2}</td>
+    <td>{props.product.pajamos}</td>
+    <td>{props.product.ebitda}</td>
+    <td>{props.product.m2kaina}</td>
+    <td>{props.product.ebitdaProc}</td>
+    <td>{props.product.statusas}</td>
     <td>
-      <Link to={"/edit/"+props.product._id}>Redaguoti</Link> | <Button variant="danger" onClick={() => { props.deleteProduct(props.product._id, props.product.custom) }}>Ištrinti</Button> 
+      <Link to={"/edit/" + props.product._id}>Redaguoti</Link> | <Button variant="danger" onClick={() => { props.deleteProduct(props.product._id, props.product.custom) }}>Ištrinti</Button>
     </td>
   </tr>
 )
@@ -29,7 +28,8 @@ export default class ProductsList extends Component {
     super(props);
 
     this.deleteProduct = this.deleteProduct.bind(this)
-    this.state = {products: [], toProject: []};
+    this.sorting = this.sorting.bind(this)
+    this.state = { products: [], toProject: [], sorted: false  };
   }
 
   componentDidMount() {
@@ -43,18 +43,19 @@ export default class ProductsList extends Component {
       })
   }
 
-  deleteProduct(id,prj) {
-console.log( prj);
+  deleteProduct(id, prj) {
+    console.log(prj);
 
-    axios.delete('http://localhost:5000/products/'+id)
-      .then(async response => { console.log(response.data);
+    axios.delete('http://localhost:5000/products/' + id)
+      .then(async response => {
+        console.log(response.data);
         try {
           const response = await axios.get('http://localhost:5000/products/sumProducts/' + prj);
           if (response.data.length > 0) {
             //console.log(response.data._id);
-            this.setState({ toProject: response.data});
+            this.setState({ toProject: response.data });
             const projektasApsk = {
-//patikrinti ar netuscia kategorija!!!
+              //patikrinti ar netuscia kategorija!!!
               apskSuma: ((this.state.toProject[0].Pateikta[0] === undefined) ? 0 : this.state.toProject[0].Pateikta[0].sumSuma),
               apskBendrasPlotasm2: ((this.state.toProject[0].Pateikta[0] === undefined) ? 0 : this.state.toProject[0].Pateikta[0].sumBendrasPlotasm2),
               apskPajamos: ((this.state.toProject[0].Pateikta[0] === undefined) ? 0 : this.state.toProject[0].Pateikta[0].sumPajamos),
@@ -76,7 +77,7 @@ console.log( prj);
               pralaimetaBendrasKiekis: ((this.state.toProject[0].Pralaimeta[0] === undefined) ? 0 : this.state.toProject[0].Pralaimeta[0].sumBendrasKiekis),
               pralaimetaEbitdaProc: ((this.state.toProject[0].Pralaimeta[0] === undefined) ? 0 : this.state.toProject[0].Pralaimeta[0].sumEbitdaProc)
             };
-            console.log(projektasApsk); //gauna gerai
+            console.log(projektasApsk);
             axios.post('http://localhost:5000/projects/updateest/' + prj, projektasApsk)
               .then(res_1 => console.log(res_1.data));
           }
@@ -86,15 +87,39 @@ console.log( prj);
       });
 
     this.setState({
-        products: this.state.products.filter(el => el._id !== id)
+      products: this.state.products.filter(el => el._id !== id)
     })
   }
 
   productList() {
     console.log(this.state.products.projektas);
     return this.state.products.map(currentproduct => {
-      return <Product product={currentproduct} deleteProduct={this.deleteProduct} key={currentproduct._id}/>;
+      return <Product product={currentproduct} deleteProduct={this.deleteProduct} key={currentproduct._id} />;
     })
+  }
+
+  sorting() {
+    this.setState(({ sorted }) => ({ sorted: !sorted }))
+    if (this.state.sorted) {
+      axios.get('http://localhost:5000/products/getProjects')
+      .then(response => {
+        this.setState({ products: response.data })
+        //console.log(this.state.products);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    }
+    else {
+      axios.get('http://localhost:5000/products/listproductssort')
+      .then(response => {
+        this.setState({ products: response.data })
+        //console.log(this.state.products);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    }
   }
 
   render() {
@@ -109,19 +134,19 @@ console.log( prj);
               <th>Projektas</th>
               <th>Suma</th>
               <th>Kiekis</th>
-              {/* <th>Kaina</th> */}
               <th>Plotas m2</th>
               <th>Pajamos</th>
               <th>EBITDA</th>
               <th>m2 kaina</th>
               <th>EBITDA, %</th>
               <th>Statusas</th>
+              <th><Button variant="info" onClick={this.sorting}>Rūšiuoti</Button></th>
             </tr>
           </thead>
           <tbody>
-            { this.productList() }
+            {this.productList()}
           </tbody>
-        </table>  
+        </table>
       </div>
     )
   }

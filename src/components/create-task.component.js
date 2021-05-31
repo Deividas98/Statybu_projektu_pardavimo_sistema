@@ -71,7 +71,6 @@ export default class CreateTasks extends Component {
 
     onChangePabaigosData(pabaigosData) {
         this.setState({ pabaigosData: pabaigosData })
-        //console.log(this.state.pabaigosData)
     }
 
     onChangeSkirta(e) {
@@ -117,7 +116,6 @@ export default class CreateTasks extends Component {
         // window.location = '/main';
         this.setState({ visibleAlert: true })
         setTimeout(() => { this.setState({ visibleAlert: false }) }, 3000);
-
     }
 
     render() {

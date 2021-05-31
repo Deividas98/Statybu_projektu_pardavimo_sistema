@@ -111,11 +111,13 @@
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
- /* display: block;
-  margin: 50px auto;
-  overflow: hidden;
-  position: absolute;*/
-  
+  height: 735px;
+}
+
+.loginFormv3{
+  display: inline-block;
+  width: 900px;
+  margin-top: 50px;
 }
 
 .loginForm2v{

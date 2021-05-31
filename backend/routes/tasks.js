@@ -30,10 +30,40 @@ router.route('/alltaskslookup').get((req, res) => {
       }
     },
    { "$unwind": '$naudotojas' },
-    { "$project": { "tema": 1, "pradziosData": 1, "pabaigosData": 1, "skirta": "$projektas.pavadinimas", "atlieka": "$naudotojas.username", "komentaras": 1, "statusas": 1} }
+    { "$project": { "tema": 1, "pradziosData": {"$dateToString": { "format": "%Y-%m-%d", "date": "$pradziosData"}}, "pabaigosData": {"$dateToString": { "format": "%Y-%m-%d", "date": "$pabaigosData"}}, "skirta": "$projektas.pavadinimas", "atlieka": "$naudotojas.username", "komentaras": 1, "statusas": 1} }
     //gal dar itraukti laiko parametra
   ]
   )
+    .then(tasks => res.json(tasks))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/listtasksort').get((req, res) => {
+  Task.aggregate([
+    {
+      "$lookup":
+      {
+        "from": "projects",
+        "localField": "skirta",
+        "foreignField": "_id",
+        "as": "projektas"
+      }
+    },
+    { "$unwind": '$projektas' },
+    {
+      "$lookup":
+      {
+        "from": "users",
+        "localField": "atlieka",
+        "foreignField": "_id",
+        "as": "naudotojas"
+      }
+    },
+   { "$unwind": '$naudotojas' },
+    { "$project": { "tema": 1, "pradziosData": {"$dateToString": { "format": "%Y-%m-%d", "date": "$pradziosData"}}, "pabaigosData": {"$dateToString": { "format": "%Y-%m-%d", "date": "$pabaigosData"}}, "skirta": "$projektas.pavadinimas", "atlieka": "$naudotojas.username", "komentaras": 1, "statusas": 1} }
+    //gal dar itraukti laiko parametra
+  ]
+  ).sort({"pabaigosData": 1})
     .then(tasks => res.json(tasks))
     .catch(err => res.status(400).json('Error: ' + err));
 });

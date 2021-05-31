@@ -14,7 +14,7 @@ const taskSchema = new Schema({
     type: Date
   },
   skirta: {
-    type: mongoose.Schema.Types.ObjectId,//String,  naudojant id neprisideda irasas is ui
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'Project'
   },
@@ -28,7 +28,7 @@ const taskSchema = new Schema({
     required: true
   },
   komentaras: {
-    type: String//,
+    type: String
   },
   komentaruSarasas: {
     type: String

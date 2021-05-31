@@ -9,19 +9,11 @@ class Timer extends React.Component {
     this.stopTimer = this.stopTimer.bind(this)
     this.resetTimer = this.resetTimer.bind(this)
     this.state = {
-      time: Date.parse(props.laikas2),//0,//props.laikas2,//0,
+      time: Date.parse(props.laikas2),
       start: 0,
       isOn: false
     }
   }
-
-  // componentDidUpdate(prevProps){
-  //   this.setState({time: prevProps.laikas2})
-  //   }
-
-  // componentDidMount(){
-  //   this.setState({time: this.props.laikas2})
-  // }
 
   startTimer() {
     this.setState({
@@ -60,9 +52,6 @@ sendData = () => {
       <div>
         <label>Laikas: {ms(this.state.time) /*this.state.time*/}</label> 
         {/* atejo: {this.props.laikas2, Date.parse(this.props.laikas2)} */}
-        {/* <button onClick={this.startTimer}>start</button>
-         <button onClick={this.stopTimer}>stop</button>
-         <button onClick={this.resetTimer}>reset</button> */}
         {start}
         {resume}
         {stop}
@@ -71,5 +60,4 @@ sendData = () => {
     );
   }
 }
-//module.exports = Timer
 export default Timer;

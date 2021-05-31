@@ -8,28 +8,9 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-/*router.route('/agrwlookup').get((req, res) => {
-  Agreement.aggregate([
-          {
-            "$lookup":
-              {
-                "from": "accounts",
-                "localField": "imone",
-                "foreignField": "_id",
-                "as": "imone"
-              }  
-         },
-         {"$unwind":'$imone'},
-         {"$project": { "subjektas": 1, "pradziosData": 1, "skirta": "$imone.pavadinimas", "pabaigosData": 1, "komentaras": 1}}
-  ]  
-  )
-    .then(agreements => res.json(agreements))
-    .catch(err => res.status(400).json('Error: ' + err));
-});*/
-
 //gauti projekto prognozes FIND BY THEN AGREGATE!!!
 router.route('/projfore/:id').get((req, res) => {
-  Forecast.find({"projektas" : req.params.id}, { "periodoPradzia": {"$dateToString": {"date":"$periodoPradzia","timezone":"Europe/Vilnius"}}, "periodoPabaiga": {"$dateToString": {"date":"$periodoPabaiga","timezone":"Europe/Vilnius"}}, "isdalintaSuma":1})
+  Forecast.find({"projektas" : req.params.id}, { "periodoPradzia": {"$dateToString": {"format": "%Y-%m-%d", "date":"$periodoPradzia","timezone":"Europe/Vilnius"}}, "periodoPabaiga": {"$dateToString": {"format": "%Y-%m-%d", "date":"$periodoPabaiga","timezone":"Europe/Vilnius"}}, "isdalintaSuma":1})
   .sort({"periodoPradzia": 1})
       .then(forecasts => res.json(forecasts))
       .catch(err => res.status(400).json('Error: ' + err));
@@ -75,7 +56,7 @@ router.route('/dltfore/:projektas').delete((req, res) => {
 
 router.route('/getforetime').get((req, res) => {
   Forecast.aggregate([
-         {"$project": { "projektas": 1, "periodoPradzia": {"$dateToString": {"date":"$periodoPradzia","timezone":"Europe/Vilnius"}}, "periodoPabaiga": {"$dateToString": {"date":"$periodoPabaiga","timezone":"Europe/Vilnius"}}, "isdalintaSuma":1}}
+         {"$project": { "projektas": 1, "periodoPradzia": {"$dateToString": {"format": "%Y-%m-%d", "date":"$periodoPradzia","timezone":"Europe/Vilnius"}}, "periodoPabaiga": {"$dateToString": {"format": "%Y-%m-%d", "date":"$periodoPabaiga","timezone":"Europe/Vilnius"}}, "isdalintaSuma":1}}
   ])
     .then(products => res.json(products))
     .catch(err => res.status(400).json('Error: ' + err));

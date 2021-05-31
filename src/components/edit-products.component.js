@@ -6,7 +6,6 @@ import { Col, Row } from 'react-bootstrap';
 export default class EditProduct extends Component {
   constructor(props) {
     super(props);
-
     this.onChangeAprasymas = this.onChangeAprasymas.bind(this);
     this.onChangePavadinimas = this.onChangePavadinimas.bind(this);
     this.onChangeProjektas = this.onChangeProjektas.bind(this);
@@ -20,11 +19,10 @@ export default class EditProduct extends Component {
 
     this.state = {
       aprasymas: '',
-      pavadinimas: '',
+      prodPavadinimas: '',
       suma: 0,
       kiekis: 0,
       kaina: 0,
-      //date: new Date(),
       plotasm2: 0,
       pajamos: 0,
       statusas: '',
@@ -44,7 +42,7 @@ export default class EditProduct extends Component {
     axios.get('http://localhost:5000/products/' + this.props.match.params.id)
       .then(response => {
         this.setState({
-          pavadinimas: response.data.pavadinimas,
+          pavadinimas: response.data.prodPavadinimas,
           aprasymas: response.data.aprasymas,
           suma: response.data.suma,
           kiekis: response.data.kiekis,
@@ -76,7 +74,7 @@ export default class EditProduct extends Component {
 
   onChangePavadinimas(e) {
     this.setState({
-      pavadinimas: e.target.value
+      prodPavadinimas: e.target.value
     })
   }
 
@@ -136,13 +134,11 @@ export default class EditProduct extends Component {
     else if (this.state.statusas === "Juodraštis") { this.setState({ rakintiForma: false }) }
   };
 
-
   onSubmit(e) {
     e.preventDefault();
-
     const produktas = {
       aprasymas: this.state.aprasymas,
-      pavadinimas: this.state.pavadinimas,
+      pavadinimas: this.state.prodPavadinimas,
       projektas: this.state.projektas,
       suma: this.state.suma,
       kiekis: this.state.kiekis,
@@ -160,7 +156,7 @@ export default class EditProduct extends Component {
         console.log(res.data); //);
 
         try {
-          const response = await axios.get('http://localhost:5000/products/sumProducts/' + this.state.projektas /*+ '/' + this.state.statusas*/);
+          const response = await axios.get('http://localhost:5000/products/sumProducts/' + this.state.projektas);
           if (response.data.length > 0) {
             //console.log(response.data._id);
             this.setState({
@@ -190,14 +186,13 @@ export default class EditProduct extends Component {
               pralaimetaEbitdaProc: ((this.state.toProject[0].Pralaimeta[0] === undefined) ? 0 : this.state.toProject[0].Pralaimeta[0].sumEbitdaProc)
             };
             console.log(projektasApsk); //gauna gerai
-            axios.post('http://localhost:5000/projects/updateest/' + this.state.projektas /*this.props.match.params.id*/, projektasApsk)
+            axios.post('http://localhost:5000/projects/updateest/' + this.state.projektas, projektasApsk)
               .then(res_1 => console.log(res_1.data));
           }
         } catch (error) {
           console.log(error);
         }
       });
-
     // window.location = '/main';
   }
 
@@ -213,7 +208,7 @@ export default class EditProduct extends Component {
             <Col>
               <div className="form-group">
                 <label>Pavadinimas: </label>
-                <input type="text" required className="form-control" value={this.state.pavadinimas} onChange={this.onChangePavadinimas}
+                <input type="text" required className="form-control" value={this.state.prodPavadinimas} onChange={this.onChangePavadinimas}
                   disabled={this.state.rakintiForma} />
               </div>
             </Col>
@@ -275,7 +270,7 @@ export default class EditProduct extends Component {
             <Col>
               <div className="form-group">
                 <label>Statusas: </label>
-                <select //ref="userInput"
+                <select
                   required
                   className="form-control"
                   value={this.state.statusas}
@@ -320,11 +315,6 @@ export default class EditProduct extends Component {
             </Col>
             <Col></Col>
           </Row>
-          {/* <div className="form-group">
-            <label>Kaina: </label>
-            <input type="text" required className="form-control" value={this.state.kaina} onChange={this.onChangeKaina}
-            disabled={this.state.rakintiForma}/>
-          </div> */}
 
           <div className="form-group">
             <label>Aprašymas: </label>

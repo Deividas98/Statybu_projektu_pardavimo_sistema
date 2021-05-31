@@ -28,6 +28,26 @@ router.route('/getProjects').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/listproductssort').get((req, res) => {
+  Product.aggregate([
+          {
+            "$lookup":
+              {
+                "from": "projects",
+                "localField": "projektas",
+                "foreignField": "_id",
+                "as": "projektas"
+              }  
+         },
+         {"$unwind":'$projektas'},
+         {"$project": { "pavadinimas": 1, "aprasymas": 1, "projektas": "$projektas.pavadinimas",
+         "plotasm2":1, "suma": 1, "kiekis": 1, "ebitdaProc":1, "ebitda":1, "pajamos":1, "m2kaina":1, "statusas": 1, "custom": "$projektas._id"}}
+  ]  
+  ).sort({"statusas": 1})
+    .then(products => res.json(products))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 let projektoPajamos = 0;
 var ObjectID = require('mongodb').ObjectID;
 router.route('/sumProducts/:projektas').get((req, res) => {
@@ -81,11 +101,6 @@ router.route('/sumProducts/:projektas').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-function printTheDocToFile(doc) {
-  //fs.writeFile(`/Users/Deividas/Desktop/doc_${doc._id}.txt`, doc, 'utf8');
-  return doc;
-}
-
 // router.route('/sumProducts').get( async function(req, res, next) {
 //   Product.aggregate([
 //     {"$match":
@@ -108,7 +123,7 @@ function printTheDocToFile(doc) {
 
 //gauti sutartis pagal susijusias imones
 router.route('/projprod/:id').get((req, res) => {
-  Product.find({"projektas" : req.params.id/*"60856a05a142774d008c3e7c"*/})
+  Product.find({"projektas" : req.params.id})
       .then(products => res.json(products))
       .catch(err => res.status(400).json('Error: ' + err));
   });

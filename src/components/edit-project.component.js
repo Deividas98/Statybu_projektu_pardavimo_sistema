@@ -46,8 +46,6 @@ export default class EditProject extends Component {
     this.onChangePavadinimas = this.onChangePavadinimas.bind(this);
     this.onChangeAprasymas = this.onChangeAprasymas.bind(this);
     this.onChangeImone = this.onChangeImone.bind(this);
-    //this.onChangeProjektoSuma = this.onChangeProjektoSuma.bind(this);
-    //this.onChangeNuolaida = this.onChangeNuolaida.bind(this);
     this.onChangeBusena = this.onChangeBusena.bind(this);
     this.onChangePradziosData = this.onChangePradziosData.bind(this);
     this.onChangePabaigosData = this.onChangePabaigosData.bind(this);
@@ -58,7 +56,6 @@ export default class EditProject extends Component {
     this.onLockProject = this.onLockProject.bind(this);
     this.onChangePelnasSuNuol = this.onChangePelnasSuNuol.bind(this);
 
-    //nauja
     //this.onChangeGrynPelnasSuNuol = this.onChangeGrynPelnasSuNuol.bind(this);
     //this.onChangeNuolaidaProc = this.onChangeNuolaidaProc.bind(this);
     //this.onChangeGrynPelnasProc = this.onChangeGrynPelnasProc.bind(this);
@@ -72,18 +69,13 @@ export default class EditProject extends Component {
       grynasisPelnas: 0,
       visibleAlert: false,
 
-
       projPavadinimas: '',
       aprasymas: '',
-      // imone: '',
-      //projektoSuma: '',
-      //nuolaida: '',
       busena: '',
       grynasisPelnasSuNuolaida: 0,
       lojalumas: '',
       pradziosData: new Date(),
       pabaigosData: new Date(),
-      //date: new Date(), pataisyti
       projektai: [],
       ProjectId: '',
       tasks: [],
@@ -95,8 +87,6 @@ export default class EditProject extends Component {
       resursuKiekis: 0, previousResursuKiekis: 0, resKiekis: 0, reikalingasResursuKiekis: 0,
       lockProject: false,
       taskCount: 0,
-
-      // mokesciai: 0,
 
       apskSuma: 0,
       apskBendrasPlotasm2: 0,
@@ -130,8 +120,6 @@ export default class EditProject extends Component {
           projPavadinimas: response.data.pavadinimas,
           aprasymas: response.data.aprasymas,
           imone: response.data.imone,
-          // projektoSuma: response.data.projektoSuma,
-          // nuolaida: response.data.nuolaida,
           busena: response.data.busena,
           statusas: response.data.statusas,
           resursuKiekis: response.data.resursuKiekis,
@@ -140,9 +128,6 @@ export default class EditProject extends Component {
           pradziosData: new Date(response.data.pradziosData),
           pabaigosData: new Date(response.data.pabaigosData),
 
-          //mokesciai: response.data.mokesciai,
-
-          //nauja
           grynasisPelnasSuNuolaida: Number(response.data.grynasisPelnasSuNuolaida),
           nuolaidaProc: Number(response.data.nuolaidaProc),
           grynasisPelnasProc: (Number(response.data.laimetaPajamos) - Number(response.data.laimetaSuma)) / Number(response.data.laimetaPajamos) * 100,
@@ -210,7 +195,6 @@ export default class EditProject extends Component {
       .catch((error) => {
         console.log(error);
       })
-
 
     axios.get('http://localhost:5000/products/projprod/' + this.props.match.params.id)
       .then(response => {
@@ -316,8 +300,8 @@ export default class EditProject extends Component {
 
       }
     }
-    //resusrsu skaiciavimas
 
+    //resusrsu skaiciavimas
     axios.delete('http://localhost:5000/forecasts/dltfore/' + this.props.match.params.id)
       .then(response => { console.log(response.data) });
 
@@ -325,15 +309,13 @@ export default class EditProject extends Component {
       pavadinimas: this.state.projPavadinimas,
       aprasymas: this.state.aprasymas,
       imone: this.state.imone,
-      //projektoSuma: this.state.projektoSuma,
-      //nuolaida: this.state.nuolaida,
       busena: this.state.busena,
       pradziosData: this.state.pradziosData,
       pabaigosData: this.state.pabaigosData,
-      statusas: this.state.statusas,//nauja!!!
-      resursuKiekis: this.state.resursuKiekis,//nauja!!!
-      grynasisPelnasSuNuolaida: this.state.grynasisPelnasSuNuolaida,//nauja!!!
-      //nauja!!!
+      statusas: this.state.statusas,
+      resursuKiekis: this.state.resursuKiekis,
+      grynasisPelnasSuNuolaida: this.state.grynasisPelnasSuNuolaida,
+
       //nuolaidaProc: Number(response.data.nuolaidaProc), nznar reikia
       grynasisPelnasProc: (Number(this.state.laimetaPajamos) - Number(this.state.laimetaSuma)) / Number(this.state.laimetaPajamos) * 100,
       grynasisPelnas: Number(this.state.laimetaPajamos) - Number(this.state.laimetaSuma),
@@ -406,8 +388,6 @@ export default class EditProject extends Component {
       }
     }
 
-
-    //atkomentuoti!!
     axios.post('http://localhost:5000/projects/updateprj/' + this.props.match.params.id, projektas)
       .then(res => console.log(res.data));
 
@@ -438,15 +418,13 @@ export default class EditProject extends Component {
       pavadinimas: this.state.projPavadinimas,
       aprasymas: this.state.aprasymas,
       imone: this.state.imone,
-      //projektoSuma: this.state.projektoSuma,
-      //nuolaida: this.state.nuolaida,
       busena: this.state.busena,
       pradziosData: this.state.pradziosData,
       pabaigosData: this.state.pabaigosData,
-      statusas: this.state.statusas,//nauja!!!
-      resursuKiekis: this.state.resursuKiekis,//nauja!!!
-      grynasisPelnasSuNuolaida: this.state.grynasisPelnasSuNuolaida,//nauja!!!
-      //nauja!!!
+      statusas: this.state.statusas,
+      resursuKiekis: 0,//this.state.resursuKiekis,
+      grynasisPelnasSuNuolaida: this.state.grynasisPelnasSuNuolaida,
+
       //nuolaidaProc: Number(response.data.nuolaidaProc), nznar reikia
       grynasisPelnasProc: (Number(this.state.laimetaPajamos) - Number(this.state.laimetaSuma)) / Number(this.state.laimetaPajamos) * 100,
       grynasisPelnas: Number(this.state.laimetaPajamos) - Number(this.state.laimetaSuma),
@@ -454,6 +432,12 @@ export default class EditProject extends Component {
     console.log(projektas);
     axios.post('http://localhost:5000/projects/updateprj/' + this.props.match.params.id, projektas)
       .then(res => console.log(res.data));
+
+      const resursas = { kiekis: Number(this.state.resKiekis) + Number(this.state.resursuKiekis) }
+        console.log("resrez2");
+        console.log(resursas);
+        axios.post('http://localhost:5000/resources/plusres', resursas)
+          .then(res => console.log(res.data));
   }
 
   productList() {
@@ -504,7 +488,6 @@ export default class EditProject extends Component {
         </Modal>
 
         <span style={{ right: "40%", fontSize: "200%" }}>Redaguoti projektą</span>
-        {/* <Button style={{float: "right"}}>Užbaigti projektą</Button> */}
         <fieldset disabled={this.state.lockProject}>
           <form className='form-tab' onSubmit={this.onSubmit}>
             <Row>
@@ -520,8 +503,10 @@ export default class EditProject extends Component {
                 </div>
               </Col>
               <Col>
+              <div data-toggle="tooltip" title="Reikalingas 1 keltuvas 100-ui produktų">
                 <label>Reikalingas resursų kiekis:</label>
                 <input type="text" required className="form-control" value={this.state.reikalingasResursuKiekis} disabled={true} />
+                </div>
               </Col>
             </Row>
             <Row>
@@ -570,12 +555,14 @@ export default class EditProject extends Component {
                 </select>
               </Col>
               <Col>
+              <div data-toggle="tooltip" title="nuolaida, %: Bronza: 0.01; Sidabras: 0.02; Auksas: 0.03">
                 <label>Grynasis pelnas su nuolaida: </label>
                 <div class="input-group mb-3">
                   <input type="text" required className="form-control" value={this.state.grynasisPelnasSuNuolaida} disabled={true} />
                   <div class="input-group-append">
                     <span class="input-group-text">€</span>
                   </div>
+                </div>
                 </div>
               </Col>
               <Col>
@@ -612,15 +599,6 @@ export default class EditProject extends Component {
               <label>Aprašymas: </label>
               <textarea className="form-control" value={this.state.aprasymas} onChange={this.onChangeAprasymas} />
             </div>
-
-            {/* <div>
-              <label>Projekto suma: </label>
-              <input type="text" required className="form-control" value={this.state.projektoSuma} onChange={this.onChangeProjektoSuma} />
-            </div>
-            <div>
-              <label>Nuolaida: </label>
-              <input type="text" required className="form-control" value={this.state.nuolaida} onChange={this.onChangeNuolaida} />
-            </div> */}
 
             <input style={{ margin: "10px" }} type="submit" value="Išsaugoti" className="btn btn-primary" />
             {this.state.lockProject === false ?

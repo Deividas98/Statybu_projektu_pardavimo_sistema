@@ -3,8 +3,7 @@ import '../App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Navbar, Nav } from 'react-bootstrap';
 import sysLogo from '../projectlogo.PNG';
-/*import ContactTable from '../ContactTable';
-import ProductTable from '../ProductTable';*/
+//import ProductTable from '../ProductTable';
 
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Navbar2 from "./navbar.component"
@@ -38,13 +37,8 @@ export default class MainMenu extends Component {
       productShow: false,
       projectShow: false,
       table: 'projectTable',
-      data: null,//,
-      //logino komponentai
-      /* registerUsername: "",
-     loginUsername: "",
-      loginPassword: "",
       data: null,
-      role: "EmptyRole"*/
+      role: ""
     }
   }
 
@@ -66,27 +60,20 @@ export default class MainMenu extends Component {
     })
   }
 
+  componentDidMount(){
+    Axios({ method: "GET", withCredentials: true, url: "http://localhost:5000/user", })
+    .then(response => {
+      this.setState({role: response.data.role});
+      console.log(response.data.role);
+    }).catch(err => { console.log(err); })
+  }
+
   render() {
     let taskModalClose = () => { this.setState({ taskShow: false }) };
     let accountModalClose = () => { this.setState({ accountShow: false }) };
     let agreementModalClose = () => { this.setState({ agreementShow: false }) };
     let projectModalClose = () => { this.setState({ projectShow: false }) };
     let productModalClose = () => { this.setState({ productShow: false }) };
-
-    const getUser = /*async*/ () => {
-      console.log("apsk");
-          /*await*/  Axios({
-        method: "GET",
-        withCredentials: true,
-        url: "http://localhost:5000/user",
-      }).then(response => {
-        //this.setState({data: res.data});
-        console.log(response.data.role);
-        //console.log("role: " + res.data.role);
-      }).catch(err => {
-        console.log(err);
-      })
-    };
 
     return (
       <div>
@@ -96,26 +83,19 @@ export default class MainMenu extends Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link onClick={() => this.setState({ taskShow: true })} >Pridėti užduotį</Nav.Link>
+              {this.state.role === 'Vadovas' ? (<Nav.Link onClick={() => this.setState({ taskShow: true })} >Pridėti užduotį</Nav.Link>) : (<></>)}
               <Nav.Link onClick={() => this.setState({ accountShow: true })} >Pridėti įmonę</Nav.Link>
               <Nav.Link onClick={() => this.setState({ productShow: true })} >Pridėti produktą</Nav.Link>
               <Nav.Link onClick={() => this.setState({ projectShow: true })} >Pridėti projektą</Nav.Link>
-              <Nav.Link onClick={() => this.setState({ agreementShow: true })} >Pridėti sutartį</Nav.Link>
-              {/* <Nav.Link onClick={() => this.setState({ contactModalShow: true })} href="/">Add Contact</Nav.Link> */}
-              {/* <Nav.Link onClick={() => this.sort()} href="#link">Sort</Nav.Link> */}
-              {/* dar grizti cia */}
-
-              {/* palikti sita komentara
-              <Nav.Link href="#link">About</Nav.Link>*/}
+              {this.state.role === 'Vadovas' ? (<Nav.Link onClick={() => this.setState({ agreementShow: true })} >Pridėti sutartį</Nav.Link>) : (<></>)}
+            </Nav>
+            <Nav className="ml-auto">
+            <Nav.Link onClick={()=> window.location = "/" } >Atsijungti</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
 
         <div className="splitright">
-
-          {/* dar grizti */}
-          {/* <button onClick={getUser}>getuser</button> */}
-          {/*baltas kairys kampas yra del situ komponentu*/}
           <div>
             <Router>
               <Navbar2 />

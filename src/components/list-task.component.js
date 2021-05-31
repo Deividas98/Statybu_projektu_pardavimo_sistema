@@ -8,9 +8,9 @@ const Task = props => (
   <tr>
     <td>{props.task.tema}</td>
     <td>{props.task.pradziosData}</td>
+    <td>{props.task.pabaigosData}</td>
     <td>{props.task.skirta}</td>
     <td>{props.task.atlieka}</td>
-    <td>{props.task.pabaigosData}</td>
     <td>{props.task.komentaras}</td>
 
     <td>
@@ -24,7 +24,8 @@ export default class TasksList extends Component {
     super(props);
 
     this.deleteTask = this.deleteTask.bind(this)
-    this.state = {tasks: []};
+    this.sorting = this.sorting.bind(this)
+    this.state = {tasks: [], sorted: false };
   }
 
   componentDidMount() {
@@ -55,6 +56,28 @@ export default class TasksList extends Component {
     })
   }
 
+  sorting() {
+    this.setState(({ sorted }) => ({ sorted: !sorted }))
+    if (this.state.sorted) {
+      axios.get('http://localhost:5000/tasks/listtasksort')
+      .then(response => {
+        this.setState({ tasks: response.data })
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    }
+    else {
+      axios.get('http://localhost:5000/tasks/alltaskslookup')
+      .then(response => {
+        this.setState({ tasks: response.data })
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    }
+  }
+
   render() {
     return (
       <div>
@@ -63,11 +86,12 @@ export default class TasksList extends Component {
           <thead className="thead-light">
             <tr>
               <th>Tema</th>
-              <th>Pradžios Data</th>
+              <th>Pradžios data</th>
+              <th>Pabaigos data</th>
               <th>Skirta projektui</th>
               <th>Atlieka</th>
-              <th>Pabaigos Data</th>
               <th>Komentaras</th>  
+              <th><Button variant="info" onClick={this.sorting}>Rūšiuoti</Button></th>
             </tr>
           </thead>
           <tbody>

@@ -8,6 +8,12 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/sortbyname').get((req, res) => {
+  Account.find().sort({"pavadinimas": 1})
+    .then(accounts => res.json(accounts))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('/addacc').post((req, res) => {
   console.log(req.body);
   const pavadinimas = req.body.pavadinimas;
@@ -58,7 +64,6 @@ router.route('/updateacc/:id').post((req, res) => {
         account.kontaktinisAsmuo = req.body.kontaktinisAsmuo;
         account.svetaine = req.body.svetaine;
         account.lojalumas = req.body.lojalumas;
-
         account.save()
         .then(() => res.json('Account updated!'))
         .catch(err => res.status(400).json('Error: ' + err));

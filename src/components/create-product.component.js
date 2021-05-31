@@ -169,9 +169,8 @@ export default class CreateProducts extends Component {
         </Modal.Header>
         <Modal.Body>
 
-          {/* PATAISYTI!!!!! */}
           <label>Pavadinimas:</label>
-          <input type="text" required className="form-control" value={this.state.pavadinimas}
+          <input type="text" required className="form-control" value={this.state.ProdPavadinimas}
             onChange={this.onChangePavadinimas} />
 
           <label>Aprašymas: </label>
@@ -189,17 +188,6 @@ export default class CreateProducts extends Component {
               })
             }
           </select>
-
-          {/* <div className="form-group"> 
-          <label>Kaina: </label>
-          <input  type="text"
-              required
-              className="form-control"
-              value={this.state.kaina}
-              onChange={this.onChangeKaina}
-              />
-        </div> */}
-
           <Row>
             <Col>
               <label>Parduotų prekių kaina:</label>

@@ -2,14 +2,10 @@ import './App.css';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Navbar } from 'react-bootstrap';
-
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-/*import EditProduct from "./components/edit-products.component";
-import CreateProject from "./components/create-project.component";
-import TasksList from "./components/list-task.component";*/
+//import EditProduct from "./components/edit-products.component";
 //import Login from "./components/login";
-//import Axios from "axios";
 import MainMenu from "./components/main-menu.component";
 import Login from "./components/login.component";
 
@@ -19,11 +15,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      /*deps2: [], contactModalShow: false,
-      table: 'projectTable',*/
       //logino komponentai
-      /* registerUsername: "",
-     loginUsername: "",
+      /*loginUsername: "",
       role: "EmptyRole",*/
       userRole: 'tuscias',
       showMainMenu: false,
@@ -68,16 +61,6 @@ class App extends React.Component {
   }
 
   render() {
-    /*
-     let testcomponentas;
-
-     } else if (this.state.table == 'productTable') {
-       testcomponentas = <ProductTable />
-     } else {
-       testcomponentas = <ContactTable />
-     }*/
-
-
     console.log("prisijunge: " + this.props.userRole);
 
     const LoginContainer = () => (
@@ -87,17 +70,13 @@ class App extends React.Component {
       </div>
     )
 
-
     const DefaultContainer = () => (
       <div>
 
-        <div /*className="container"*/>
+        <div>
           <Navbar />
           <Route path="/main" component={MainMenu} />
-         {/* laikinai!!!} <Route path="/uzduotys" exact component={TasksList} />
-          <Route path="/list" component={ProductsList} />
-          <Route path="/edit/:id" component={EditProduct} />
-          <Route path="/create" component={CreateProduct} />*/}
+          {/* laikinai!!!} <Route path="/uzduotys" exact component={TasksList} />*/}
         </div>
       </div>
     )
